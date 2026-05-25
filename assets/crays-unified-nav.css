@@ -1,0 +1,762 @@
+:root {
+  --crays-nav-ink: #07111d;
+  --crays-nav-slate: #314052;
+  --crays-nav-red: #f31349;
+  --crays-nav-paper: #fffdfa;
+}
+
+.crays-unified-header {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: clamp(14px, 2vw, 28px);
+  min-height: 74px;
+  padding: 10px max(30px, calc((100vw - 1240px) / 2));
+  border-bottom: 1px solid rgba(8, 28, 46, 0.08);
+  background: rgba(255, 253, 250, 0.93);
+  box-shadow: 0 14px 30px rgba(8, 28, 46, 0.035);
+  backdrop-filter: blur(18px);
+}
+
+.crays-unified-brand {
+  display: inline-flex;
+  align-items: center;
+  width: 174px;
+  min-width: 174px;
+}
+
+.crays-unified-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.crays-unified-nav {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.25vw, 20px);
+  min-width: 0;
+  flex-wrap: nowrap;
+  color: var(--crays-nav-slate);
+  font-family: Montserrat, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.crays-unified-nav a,
+.crays-unified-dropdown-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--crays-nav-slate);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.crays-unified-nav a::after,
+.crays-unified-dropdown-toggle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -12px;
+  width: 100%;
+  height: 2px;
+  background: var(--crays-nav-red);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.crays-unified-dropdown-toggle {
+  gap: 9px;
+}
+
+.crays-nav-chevron {
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.18s ease;
+}
+
+.crays-unified-dropdown:hover .crays-nav-chevron,
+.crays-unified-dropdown:focus-within .crays-nav-chevron {
+  transform: translateY(1px) rotate(225deg);
+}
+
+.crays-unified-nav a:hover,
+.crays-unified-nav a[aria-current="page"],
+.crays-unified-dropdown:hover .crays-unified-dropdown-toggle,
+.crays-unified-dropdown:focus-within .crays-unified-dropdown-toggle,
+.crays-unified-dropdown-toggle[data-current="true"] {
+  color: var(--crays-nav-ink);
+}
+
+.crays-unified-nav a:hover::after,
+.crays-unified-nav a[aria-current="page"]::after,
+.crays-unified-dropdown:hover .crays-unified-dropdown-toggle::after,
+.crays-unified-dropdown:focus-within .crays-unified-dropdown-toggle::after,
+.crays-unified-dropdown-toggle[data-current="true"]::after {
+  transform: scaleX(1);
+}
+
+.crays-unified-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.crays-unified-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: 50%;
+  z-index: 10000;
+  display: grid;
+  min-width: 226px;
+  padding: 10px;
+  border: 1px solid rgba(8, 28, 46, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 253, 250, 0.98);
+  box-shadow: 0 24px 52px rgba(8, 28, 46, 0.14);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.crays-unified-dropdown:hover .crays-unified-dropdown-menu,
+.crays-unified-dropdown:focus-within .crays-unified-dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.crays-unified-dropdown-menu a {
+  justify-content: flex-start;
+  min-height: 0;
+  padding: 11px 12px;
+  border-radius: 9px;
+  color: #32475b;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.crays-unified-dropdown-menu a::after {
+  display: none;
+}
+
+.crays-unified-dropdown-menu a:hover,
+.crays-unified-dropdown-menu a:focus-visible,
+.crays-unified-dropdown-menu a[aria-current="page"] {
+  background: #fff1f5;
+  color: var(--crays-nav-red);
+}
+
+.crays-unified-cta {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  min-width: 175px;
+  padding: 0 28px;
+  border: 1px solid var(--crays-nav-red);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffffff 0%, #fff6f8 100%);
+  color: var(--crays-nav-ink);
+  box-shadow: 0 12px 28px rgba(243, 18, 72, 0.12);
+  font-family: Montserrat, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.crays-unified-cta:hover,
+.crays-unified-cta:focus-visible {
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, #ff2b62 0%, var(--crays-nav-red) 100%);
+  color: #ffffff;
+  box-shadow: 0 18px 42px rgba(243, 18, 72, 0.24);
+}
+
+.crays-unified-toggle {
+  display: none;
+}
+
+.crays-fund-home-header {
+  min-height: 74px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  padding: 10px clamp(22px, 3.8vw, 72px) 10px 18px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 28px rgba(8, 28, 46, 0.04);
+}
+
+.crays-fund-home-header .crays-unified-brand {
+  width: 174px;
+  min-width: 174px;
+}
+
+.crays-fund-home-header .crays-unified-nav {
+  justify-self: start;
+  margin-left: clamp(14px, 2.5vw, 42px);
+  gap: clamp(12px, 1.25vw, 20px);
+}
+
+.crays-fund-home-header .crays-unified-nav a,
+.crays-fund-home-header .crays-unified-dropdown-toggle {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.crays-fund-home-header .crays-unified-cta {
+  min-height: 54px;
+  min-width: 175px;
+  padding: 0 28px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.crays-fund-home-header + main .club-hero {
+  min-height: calc(100svh - 74px);
+}
+
+.booking-header {
+  position: sticky;
+  top: 0;
+  z-index: 930;
+  display: grid;
+  grid-template-columns: minmax(160px, 260px) minmax(280px, 1fr) auto;
+  align-items: center;
+  gap: clamp(18px, 3vw, 40px);
+  min-height: 88px;
+  padding: 12px 26px 12px 30px;
+  border-bottom: 1px solid rgba(7, 18, 29, 0.08);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 12px 34px rgba(7, 18, 29, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.booking-header-brand {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+}
+
+.booking-header-brand img {
+  display: block;
+  width: clamp(158px, 13vw, 220px);
+  height: auto;
+}
+
+.booking-header-utility {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.booking-utility-button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(7, 18, 29, 0.12);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #07121d;
+  padding: 0 17px;
+  box-shadow: 0 10px 26px rgba(7, 18, 29, 0.06);
+  font-size: 12px;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.booking-utility-phone {
+  border-color: rgba(243, 19, 73, 0.42);
+}
+
+.booking-utility-button strong {
+  color: #f31349;
+  font-size: 11px;
+}
+
+.booking-header-actions {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.booking-header-globe,
+.booking-account-menu-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(7, 18, 29, 0.12);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #07121d;
+  box-shadow: 0 10px 26px rgba(7, 18, 29, 0.08);
+  cursor: pointer;
+}
+
+.booking-header-globe {
+  width: 48px;
+  padding: 0;
+}
+
+.booking-header-globe svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.booking-header-menu {
+  position: relative;
+}
+
+.booking-account-menu-button {
+  gap: 12px;
+  min-width: 94px;
+  padding: 0 12px 0 15px;
+}
+
+.booking-account-menu-icon {
+  display: grid;
+  gap: 4px;
+  width: 17px;
+}
+
+.booking-account-menu-icon span {
+  display: block;
+  height: 2px;
+  border-radius: 999px;
+  background: #07121d;
+}
+
+.booking-header-avatar {
+  display: inline-block;
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 36%, #07121d 0 16%, transparent 17%),
+    radial-gradient(circle at 50% 84%, #07121d 0 34%, transparent 35%),
+    rgba(7, 18, 29, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(7, 18, 29, 0.1);
+}
+
+.booking-header-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 1200;
+  width: 292px;
+  overflow: hidden;
+  border: 1px solid rgba(7, 18, 29, 0.12);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(7, 18, 29, 0.18);
+}
+
+.booking-header-dropdown[hidden] {
+  display: none;
+}
+
+.booking-header-dropdown a {
+  display: block;
+  padding: 15px 18px;
+  border-bottom: 1px solid rgba(7, 18, 29, 0.08);
+  color: #07121d;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.booking-header-dropdown a:last-child {
+  border-bottom: 0;
+}
+
+.booking-header-dropdown a:hover,
+.booking-header-dropdown a:focus {
+  background: #f7f9fb;
+}
+
+.booking-header-dropdown a strong,
+.booking-header-dropdown a span {
+  display: block;
+}
+
+.booking-header-dropdown a span {
+  margin-top: 4px;
+  color: #667587;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.booking-account-dropdown-divider {
+  display: block;
+  height: 1px;
+  background: rgba(7, 18, 29, 0.09);
+}
+
+.navbar10_component > .navbar10_container {
+  display: none !important;
+}
+
+.navbar10_component {
+  display: contents !important;
+}
+
+.crays-footer-fund {
+  display: none !important;
+}
+
+.crays-unified-footer {
+  padding: 56px 0 44px;
+  border-top: 1px solid rgba(8, 28, 46, 0.08);
+  background: var(--crays-nav-paper);
+  color: var(--crays-nav-ink);
+  box-shadow: inset 0 24px 44px rgba(8, 28, 46, 0.035);
+  font-family: Montserrat, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.crays-unified-footer-shell {
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.crays-unified-footer-top,
+.crays-unified-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.crays-unified-footer-top {
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(8, 28, 46, 0.1);
+}
+
+.crays-unified-footer-brand {
+  display: inline-flex;
+  width: 124px;
+  max-width: 44vw;
+}
+
+.crays-unified-footer-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.crays-unified-footer-nav,
+.crays-unified-footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.crays-unified-footer-nav a {
+  color: var(--crays-nav-slate);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.crays-unified-footer-bottom {
+  padding-top: 22px;
+}
+
+.crays-unified-footer-legal a,
+.crays-unified-footer-credit {
+  color: #516174;
+  font-size: 14px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.crays-unified-footer-nav a:hover,
+.crays-unified-footer-legal a:hover {
+  color: var(--crays-nav-red);
+}
+
+.crays-unified-footer-social {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.crays-unified-footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: #061724;
+  box-shadow: 0 10px 22px rgba(5, 15, 28, 0.12);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.crays-unified-footer-social a:hover,
+.crays-unified-footer-social a:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(243, 18, 72, 0.7);
+  box-shadow: 0 16px 34px rgba(243, 18, 72, 0.18);
+}
+
+.crays-unified-footer-social img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.crays-unified-footer-credit {
+  padding-top: 24px;
+}
+
+@media (max-width: 1120px) {
+  .booking-header {
+    grid-template-columns: minmax(130px, 1fr) auto;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .booking-header-utility {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .booking-header-actions {
+    align-self: center;
+    min-height: 58px;
+    margin: 0;
+    border-radius: 24px;
+    padding: 7px 9px;
+  }
+
+  .crays-unified-header {
+    grid-template-columns: auto 1fr auto;
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .crays-unified-nav {
+    gap: 12px;
+  }
+
+  .crays-unified-nav a,
+  .crays-unified-dropdown-toggle {
+    font-size: 12.25px;
+  }
+
+  .crays-unified-brand,
+  .crays-fund-home-header .crays-unified-brand {
+    width: 154px;
+    min-width: 154px;
+  }
+
+  .crays-unified-cta,
+  .crays-fund-home-header .crays-unified-cta {
+    min-width: 154px;
+    padding: 0 18px;
+    font-size: 12.5px;
+  }
+
+  .crays-fund-home-header .crays-unified-nav {
+    margin-left: 10px;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 1020px) {
+  .booking-header {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .booking-header-brand img {
+    width: 148px;
+  }
+
+  .booking-header-utility {
+    grid-column: 1 / -1;
+    gap: 8px;
+  }
+
+  .booking-utility-button {
+    width: auto;
+    min-height: 38px;
+    justify-content: center;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .booking-header-actions {
+    justify-self: end;
+    min-height: 48px;
+    border-radius: 999px;
+  }
+
+  .booking-header-globe {
+    width: 40px;
+    min-height: 40px;
+  }
+
+  .booking-account-menu-button {
+    min-height: 40px;
+    min-width: 84px;
+  }
+
+  .booking-header-dropdown {
+    right: 0;
+    width: min(292px, calc(100vw - 24px));
+  }
+
+  .crays-unified-header {
+    grid-template-columns: 1fr auto;
+    min-height: 74px;
+    padding: 12px 22px;
+  }
+
+  .crays-unified-toggle {
+    justify-self: end;
+    display: grid;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 11px;
+    border: 0;
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(8, 28, 46, 0.12);
+  }
+
+  .crays-unified-toggle span {
+    height: 2px;
+    background: var(--crays-nav-ink);
+  }
+
+  .crays-unified-nav {
+    display: none;
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px solid rgba(8, 28, 46, 0.08);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 18px 42px rgba(8, 28, 46, 0.1);
+  }
+
+  .crays-unified-nav.is-open {
+    display: flex;
+  }
+
+  .crays-unified-nav a,
+  .crays-unified-dropdown-toggle {
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 0;
+    padding: 12px 14px;
+  }
+
+  .crays-unified-nav a::after,
+  .crays-unified-dropdown-toggle::after {
+    display: none;
+  }
+
+  .crays-unified-dropdown {
+    display: block;
+  }
+
+  .crays-unified-dropdown-menu {
+    position: static;
+    min-width: 0;
+    margin: 0 0 10px;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: none;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .crays-unified-dropdown:hover .crays-unified-dropdown-menu,
+  .crays-unified-dropdown:focus-within .crays-unified-dropdown-menu {
+    transform: none;
+  }
+
+  .crays-unified-cta {
+    display: none;
+  }
+
+  .crays-fund-home-header {
+    padding: 12px 22px;
+  }
+
+  .crays-fund-home-header .crays-unified-brand {
+    width: 148px;
+    min-width: 148px;
+  }
+
+  .crays-fund-home-header .crays-unified-nav {
+    margin-left: 0;
+    gap: 0;
+  }
+
+  .crays-unified-footer-top,
+  .crays-unified-footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .crays-unified-footer-nav,
+  .crays-unified-footer-legal {
+    gap: 16px;
+  }
+}

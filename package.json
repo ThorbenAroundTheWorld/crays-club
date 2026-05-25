@@ -1,0 +1,11 @@
+{
+  "name": "crays-club",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "i18n": "node scripts/build-crays-i18n.mjs",
+    "mirror": "node scripts/mirror-craysclub.mjs",
+    "seo": "node scripts/localize-external-crays-images.mjs && node scripts/seo-assets-and-metadata.mjs --assets-only && node scripts/build-crays-i18n.mjs && node scripts/seo-assets-and-metadata.mjs"
+  }
+}

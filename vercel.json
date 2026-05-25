@@ -1,0 +1,403 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/en",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/clubs/search",
+      "destination": "/:lang/search",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/stays",
+      "destination": "/:lang/search",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/sign-in",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/login",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/wish-list",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/cart",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/booking-request",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/booking-requests",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/watch-list",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/watchlist",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/wishlist",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/shopping-cart",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/checkout",
+      "destination": "/:lang/account",
+      "permanent": false
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/legal/terms-conditions",
+      "destination": "/:lang/legal/terms-and-conditions",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/about-us/team",
+      "destination": "/:lang/team",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/about-us/vision",
+      "destination": "/:lang/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/about-us/digital-nomads",
+      "destination": "/:lang/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/about-us/remote-working",
+      "destination": "/:lang/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/about-us/subscription-living",
+      "destination": "/:lang/become-a-member",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/community-life/sustainable-living",
+      "destination": "/:lang/become-a-member",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/community-life/work",
+      "destination": "/:lang/community-life",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/community-life/live",
+      "destination": "/:lang/community-life",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/community-life/play",
+      "destination": "/:lang/community-life",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/community-life/global-citizen",
+      "destination": "/:lang/community-life",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/work-with-us/business-clients",
+      "destination": "/:lang/become-a-member",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(en|de|es|ca|fr|pt|it)/work-with-us/socialmedia",
+      "destination": "/:lang/become-a-member",
+      "permanent": true
+    },
+    {
+      "source": "/clubs/search",
+      "destination": "/search",
+      "permanent": false
+    },
+    {
+      "source": "/clubs/search/",
+      "destination": "/search",
+      "permanent": false
+    },
+    {
+      "source": "/stays",
+      "destination": "/search",
+      "permanent": false
+    },
+    {
+      "source": "/stays/",
+      "destination": "/search",
+      "permanent": false
+    },
+    {
+      "source": "/sign-in",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/login",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/wish-list",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/cart",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/booking-request",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/booking-requests",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/watch-list",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/watchlist",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/wishlist",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/shopping-cart",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/checkout",
+      "destination": "/account",
+      "permanent": false
+    },
+    {
+      "source": "/legal/terms-conditions",
+      "destination": "/legal/terms-and-conditions",
+      "permanent": true
+    },
+    {
+      "source": "/about-us/team",
+      "destination": "/team",
+      "permanent": true
+    },
+    {
+      "source": "/about-us/vision",
+      "destination": "/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/about-us/digital-nomads",
+      "destination": "/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/about-us/remote-working",
+      "destination": "/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/about-us/subscription-living",
+      "destination": "/become-a-member",
+      "permanent": true
+    },
+    {
+      "source": "/community-life/sustainable-living",
+      "destination": "/become-a-member",
+      "permanent": true
+    },
+    {
+      "source": "/community-life/work",
+      "destination": "/community-life",
+      "permanent": true
+    },
+    {
+      "source": "/community-life/live",
+      "destination": "/community-life",
+      "permanent": true
+    },
+    {
+      "source": "/community-life/play",
+      "destination": "/community-life",
+      "permanent": true
+    },
+    {
+      "source": "/community-life/global-citizen",
+      "destination": "/community-life",
+      "permanent": true
+    },
+    {
+      "source": "/work-with-us/business-clients",
+      "destination": "/become-a-member",
+      "permanent": true
+    },
+    {
+      "source": "/work-with-us/socialmedia",
+      "destination": "/become-a-member",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/villas/:slug",
+      "destination": "/villas/index.html"
+    },
+    {
+      "source": "/villas/:slug/",
+      "destination": "/villas/index.html"
+    },
+    {
+      "source": "/press-room",
+      "has": [
+        {
+          "type": "query",
+          "key": "3c41159b_page",
+          "value": "2"
+        },
+        {
+          "type": "query",
+          "key": "6d9e3cf7_page",
+          "value": "2"
+        }
+      ],
+      "destination": "/__query/press-room/60c8426c96-3c41159b_page=2&6d9e3cf7_page=2/index.html"
+    },
+    {
+      "source": "/press-room",
+      "has": [
+        {
+          "type": "query",
+          "key": "3c41159b_page",
+          "value": "2"
+        },
+        {
+          "type": "query",
+          "key": "6d9e3cf7_page",
+          "value": "1"
+        }
+      ],
+      "destination": "/__query/press-room/67860dbd17-3c41159b_page=2&6d9e3cf7_page=1/index.html"
+    },
+    {
+      "source": "/press-room",
+      "has": [
+        {
+          "type": "query",
+          "key": "3c41159b_page",
+          "value": "1"
+        },
+        {
+          "type": "query",
+          "key": "6d9e3cf7_page",
+          "value": "2"
+        }
+      ],
+      "destination": "/__query/press-room/4dd3b4237f-3c41159b_page=1&6d9e3cf7_page=2/index.html"
+    },
+    {
+      "source": "/press-room",
+      "has": [
+        {
+          "type": "query",
+          "key": "6d9e3cf7_page",
+          "value": "2"
+        }
+      ],
+      "destination": "/__query/press-room/083c5948ad-6d9e3cf7_page=2/index.html"
+    },
+    {
+      "source": "/press-room",
+      "has": [
+        {
+          "type": "query",
+          "key": "3c41159b_page",
+          "value": "2"
+        }
+      ],
+      "destination": "/__query/press-room/3603871c4c-3c41159b_page=2/index.html"
+    },
+    {
+      "source": "/press-room",
+      "has": [
+        {
+          "type": "query",
+          "key": "6d9e3cf7_page",
+          "value": "1"
+        }
+      ],
+      "destination": "/__query/press-room/3b6a599717-6d9e3cf7_page=1/index.html"
+    },
+    {
+      "source": "/press-room",
+      "has": [
+        {
+          "type": "query",
+          "key": "3c41159b_page",
+          "value": "1"
+        }
+      ],
+      "destination": "/__query/press-room/fa26ea29a0-3c41159b_page=1/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ]
+}

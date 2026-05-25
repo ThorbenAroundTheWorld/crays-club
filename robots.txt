@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /__query/
+Disallow: /verification/
+Disallow: /qa-screens/
+
+Sitemap: https://www.craysclub.com/sitemap.xml

@@ -1,0 +1,12 @@
+README.md
+scripts/
+verification/
+qa-screens/
+.codex-logs/
+craysclub-source.html
+sources-*
+extracted-pdf-text/
+CRAYSCLUB_HANDOVER_*.md
+00_CRAYS_CI_GUIDELINES_READ_FIRST.md
+00_CRAYS_WEBSITE_GUIDELINE_READ_FIRST.md
+00_NEXT_CHAT_START_HERE.md

@@ -1,0 +1,4252 @@
+<!doctype html>
+<html lang="en" data-crays-lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crays Villas | Search</title>
+    <meta name="description" content="Search Crays Fund villas with modern filters, map view, dates and guest controls." />
+<meta name="theme-color" content="#07121d" />
+    <link rel="icon" href="/assets/crays-club/crays-mark.svg?v=crays-favicon-2" sizes="any" type="image/svg+xml" />
+    <link rel="shortcut icon" href="/assets/crays-club/crays-mark.svg?v=crays-favicon-2" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/crays-unified-nav.css?v=nav-fit-1" />
+    <style>
+      :root {
+        --ink: #07121d;
+        --text: #27384b;
+        --muted: #667587;
+        --line: rgba(7, 18, 29, 0.12);
+        --soft: #f4f7f9;
+        --paper: #ffffff;
+        --red: #f31349;
+        --shadow: 0 18px 44px rgba(7, 18, 29, 0.11);
+        --header-height: 74px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Montserrat, Arial, sans-serif;
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      .account-menu {
+        position: relative;
+        margin-left: auto;
+      }
+
+      .account-menu-button,
+      .top-filter-button,
+      .utility-button,
+      .search-submit,
+      .pill-button,
+      .modal-primary,
+      .modal-secondary {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .account-menu-button,
+      .top-filter-button,
+      .utility-button,
+      .pill-button,
+      .modal-secondary {
+        border: 1px solid var(--line);
+        background: #ffffff;
+        color: var(--ink);
+      }
+
+      .account-menu-button {
+        gap: 10px;
+        padding: 0 18px;
+      }
+
+      .account-menu-icon {
+        display: grid;
+        gap: 4px;
+        width: 17px;
+      }
+
+      .account-menu-icon span {
+        display: block;
+        height: 2px;
+        border-radius: 999px;
+        background: var(--ink);
+      }
+
+      .account-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        z-index: 1200;
+        width: 250px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 28px 70px rgba(7, 18, 29, 0.18);
+      }
+
+      .account-dropdown a {
+        display: block;
+        padding: 15px 18px;
+        border-bottom: 1px solid rgba(7, 18, 29, 0.08);
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .account-dropdown a:last-child {
+        border-bottom: 0;
+      }
+
+      .account-dropdown a:hover,
+      .account-dropdown a:focus {
+        background: #f7f9fb;
+      }
+
+      .account-dropdown-divider {
+        display: block;
+        height: 1px;
+        background: rgba(7, 18, 29, 0.09);
+      }
+
+      .search-page-header {
+        position: sticky;
+        top: 0;
+        z-index: 930;
+        display: grid;
+        grid-template-columns: minmax(140px, 220px) minmax(280px, 1fr) auto;
+        align-items: center;
+        gap: clamp(18px, 3vw, 40px);
+        min-height: 88px;
+        padding: 12px 26px 12px 30px;
+        border-bottom: 1px solid rgba(7, 18, 29, 0.08);
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 12px 34px rgba(7, 18, 29, 0.06);
+        backdrop-filter: blur(18px);
+      }
+
+      .search-page-brand {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+      }
+
+      .search-page-brand img {
+        width: clamp(132px, 10vw, 176px);
+        height: auto;
+      }
+
+      .search-header-utility {
+        justify-content: center;
+        flex-wrap: wrap;
+        overflow: visible;
+        padding: 0;
+      }
+
+      .search-header-utility .utility-button {
+        min-height: 42px;
+        padding: 0 17px;
+        border-color: rgba(7, 18, 29, 0.12);
+        box-shadow: 0 10px 26px rgba(7, 18, 29, 0.06);
+      }
+
+      .search-header-utility .utility-phone {
+        border-color: rgba(243, 19, 73, 0.42);
+      }
+
+      .search-header-actions {
+        display: flex;
+        align-self: center;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+      }
+
+      .search-header-globe,
+      .search-header-menu-button {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(7, 18, 29, 0.12);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        box-shadow: 0 10px 26px rgba(7, 18, 29, 0.08);
+      }
+
+      .search-header-globe {
+        width: 48px;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .search-header-globe svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+      }
+
+      .search-header-menu {
+        width: auto;
+        margin: 0;
+      }
+
+      .search-header-menu-button {
+        gap: 12px;
+        min-width: 94px;
+        padding: 0 12px 0 15px;
+      }
+
+      .search-header-menu-button .account-menu-icon span {
+        background: var(--ink);
+      }
+
+      .search-header-avatar {
+        display: inline-block;
+        width: 31px;
+        height: 31px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 50% 36%, var(--ink) 0 16%, transparent 17%),
+          radial-gradient(circle at 50% 84%, var(--ink) 0 34%, transparent 35%),
+          rgba(7, 18, 29, 0.06);
+        box-shadow: inset 0 0 0 1px rgba(7, 18, 29, 0.1);
+      }
+
+      .search-header-dropdown {
+        width: 292px;
+      }
+
+      .search-header-dropdown a strong,
+      .search-header-dropdown a span {
+        display: block;
+      }
+
+      .search-header-dropdown a span {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .search-shell {
+        width: min(100% - 48px, 1760px);
+        margin: 0 auto;
+      }
+
+      .search-top {
+        position: sticky;
+        top: 88px;
+        z-index: 850;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(18px);
+      }
+
+      .search-top-inner {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 0;
+      }
+
+      .search-form {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(190px, 1.3fr) minmax(150px, 0.9fr) minmax(150px, 0.9fr) auto;
+        align-items: center;
+        flex: 0 1 760px;
+        width: min(760px, 100%);
+        min-height: 56px;
+        border: 1px solid rgba(7, 18, 29, 0.12);
+        border-radius: 999px;
+        background: #ffffff;
+        box-shadow: 0 8px 28px rgba(7, 18, 29, 0.09);
+      }
+
+      .search-field {
+        display: grid;
+        gap: 3px;
+        min-width: 0;
+        min-height: 54px;
+        align-content: center;
+        border: 0;
+        border-right: 1px solid rgba(7, 18, 29, 0.09);
+        background: transparent;
+        color: var(--ink);
+        padding: 0 18px;
+        text-align: left;
+      }
+
+      .search-field span {
+        color: var(--ink);
+        font-size: 11px;
+        font-weight: 900;
+      }
+
+      .search-field strong,
+      .search-field select {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        outline: 0;
+        font-size: 12.5px;
+        font-weight: 750;
+      }
+
+      .search-field-trigger {
+        cursor: pointer;
+      }
+
+      .search-field-trigger:hover,
+      .search-field-trigger:focus {
+        background: #f7f9fb;
+      }
+
+      .search-submit {
+        width: 46px;
+        height: 46px;
+        min-height: 46px;
+        margin-right: 6px;
+        border: 1px solid var(--red);
+        background: var(--red);
+        color: #ffffff;
+        box-shadow: 0 13px 28px rgba(243, 19, 73, 0.24);
+      }
+
+      .search-submit span {
+        display: none;
+      }
+
+      .search-submit::before {
+        content: "";
+        width: 14px;
+        height: 14px;
+        border: 2px solid currentColor;
+        border-radius: 999px;
+      }
+
+      .search-submit::after {
+        content: "";
+        width: 8px;
+        height: 2px;
+        margin-left: -3px;
+        margin-top: 14px;
+        border-radius: 999px;
+        background: currentColor;
+        transform: rotate(45deg);
+      }
+
+      .top-actions {
+        display: inline-flex;
+        gap: 10px;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .top-filter-button {
+        gap: 9px;
+        min-height: 48px;
+        border-color: rgba(243, 19, 73, 0.36);
+        padding: 0 18px;
+        box-shadow: 0 10px 26px rgba(243, 19, 73, 0.09);
+      }
+
+      .filter-tune-icon {
+        position: relative;
+        width: 18px;
+        height: 16px;
+        display: inline-block;
+      }
+
+      .filter-tune-icon::before,
+      .filter-tune-icon::after,
+      .filter-tune-icon span {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 18px;
+        height: 2px;
+        border-radius: 999px;
+        background: currentColor;
+      }
+
+      .filter-tune-icon::before {
+        top: 1px;
+      }
+
+      .filter-tune-icon span {
+        top: 7px;
+      }
+
+      .filter-tune-icon::after {
+        top: 13px;
+      }
+
+      .filter-tune-icon i {
+        position: absolute;
+        z-index: 1;
+        width: 6px;
+        height: 6px;
+        border: 2px solid currentColor;
+        border-radius: 999px;
+        background: #ffffff;
+      }
+
+      .filter-tune-icon i:nth-child(1) {
+        top: -1px;
+        left: 10px;
+      }
+
+      .filter-tune-icon i:nth-child(2) {
+        top: 5px;
+        left: 3px;
+      }
+
+      .filter-tune-icon i:nth-child(3) {
+        top: 11px;
+        left: 11px;
+      }
+
+      .top-filter-button:hover,
+      .top-filter-button:focus {
+        border-color: var(--red);
+        color: var(--red);
+      }
+
+      .filter-dot {
+        min-width: 20px;
+        min-height: 20px;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 999px;
+        background: var(--red);
+        color: #ffffff;
+        font-size: 11px;
+      }
+
+      .category-row,
+      .search-utility {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .category-row::-webkit-scrollbar,
+      .search-utility::-webkit-scrollbar {
+        display: none;
+      }
+
+      .category-row {
+        align-items: center;
+        padding: 0 0 14px;
+      }
+
+      .category-button,
+      .search-utility a,
+      .search-utility button {
+        display: inline-flex;
+        flex: 0 0 auto;
+        min-height: 38px;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(7, 18, 29, 0.11);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        padding: 0 14px;
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .search-utility button {
+        font: inherit;
+      }
+
+      .category-button.is-active {
+        border-color: var(--red);
+        background: rgba(243, 19, 73, 0.06);
+        color: var(--red);
+      }
+
+      .search-utility {
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 12px 0 0;
+      }
+
+      .search-utility span,
+      .utility-phone strong {
+        color: var(--muted);
+      }
+
+      .utility-phone {
+        border-color: rgba(243, 19, 73, 0.42);
+        background: rgba(243, 19, 73, 0.045);
+      }
+
+      .utility-phone strong {
+        color: var(--red);
+      }
+
+      .utility-phone.is-active {
+        border-color: rgba(243, 19, 73, 0.42);
+        background: rgba(243, 19, 73, 0.055);
+      }
+
+      .utility-phone.is-active strong {
+        color: var(--red);
+      }
+
+      .split-view {
+        display: grid;
+        grid-template-columns: minmax(640px, 55vw) minmax(420px, 1fr);
+        min-height: calc(100vh - 148px);
+        border-top: 1px solid rgba(7, 18, 29, 0.08);
+      }
+
+      .results-pane {
+        padding: 24px 28px 44px 0;
+      }
+
+      .results-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        align-items: end;
+        margin-bottom: 18px;
+      }
+
+      .eyebrow {
+        margin: 0 0 5px;
+        color: var(--red);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .results-head h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(19px, 1.55vw, 26px);
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .results-subline {
+        margin: 7px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .sort-row {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .result-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sort-row select {
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        padding: 0 14px;
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .view-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #ffffff;
+        padding: 3px;
+      }
+
+      .view-toggle button {
+        min-height: 34px;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        padding: 0 11px;
+        font-size: 11px;
+        font-weight: 900;
+      }
+
+      .view-toggle button.is-active {
+        background: var(--ink);
+        color: #ffffff;
+      }
+
+      .active-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .active-filter {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 32px;
+        border: 1px solid rgba(7, 18, 29, 0.12);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        padding: 0 11px;
+        font-size: 11px;
+        font-weight: 850;
+      }
+
+      .active-filter button {
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        padding: 0;
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .villa-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .villa-card {
+        display: grid;
+        grid-template-columns: 270px minmax(0, 1fr) 132px;
+        overflow: hidden;
+        min-height: 210px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(7, 18, 29, 0.055);
+        transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+      }
+
+      .villa-card:hover,
+      .villa-card.is-active {
+        border-color: rgba(243, 19, 73, 0.42);
+        box-shadow: 0 18px 42px rgba(7, 18, 29, 0.12);
+        transform: translateY(-1px);
+      }
+
+      .villa-media {
+        position: relative;
+        display: block;
+        overflow: hidden;
+        min-height: 210px;
+        background: #dfe7ed;
+      }
+
+      .villa-media img {
+        width: 100%;
+        height: 100%;
+        min-height: 210px;
+        object-fit: cover;
+        transition: transform 0.22s ease;
+      }
+
+      .villa-card:hover .villa-media img {
+        transform: scale(1.035);
+      }
+
+      .photo-badge,
+      .save-card {
+        position: absolute;
+        z-index: 2;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(7, 18, 29, 0.78);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 900;
+      }
+
+      .photo-badge {
+        left: 12px;
+        bottom: 12px;
+        padding: 7px 10px;
+      }
+
+      .save-card {
+        top: 12px;
+        right: 12px;
+        min-height: 32px;
+        cursor: pointer;
+        padding: 0 11px;
+      }
+
+      .villa-main {
+        display: grid;
+        align-content: start;
+        gap: 8px;
+        min-width: 0;
+        padding: 18px 18px 16px;
+      }
+
+      .villa-place {
+        color: #3c5064;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .villa-main h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(18px, 1.35vw, 23px);
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .villa-main h2 a:hover,
+      .villa-main h2 a:focus {
+        color: var(--red);
+      }
+
+      .villa-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .villa-copy {
+        margin: 0;
+        color: #405267;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.48;
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .tag-row span {
+        min-height: 25px;
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(7, 18, 29, 0.1);
+        border-radius: 999px;
+        background: #f7fafc;
+        padding: 0 9px;
+        color: #1f3147;
+        font-size: 9.5px;
+        font-weight: 850;
+      }
+
+      .villa-side {
+        display: grid;
+        align-content: center;
+        gap: 8px;
+        border-left: 1px solid rgba(7, 18, 29, 0.08);
+        background: #f8fafc;
+        padding: 13px 12px;
+        text-align: center;
+      }
+
+      .villa-rating {
+        color: var(--red);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .villa-price {
+        color: var(--ink);
+        font-size: 21px;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .villa-price small {
+        display: block;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 850;
+      }
+
+      .villa-view {
+        display: inline-flex;
+        min-height: 40px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #ffffff;
+        padding: 0 15px;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .villa-view:hover,
+      .villa-view:focus {
+        background: var(--red);
+      }
+
+      .villa-list.is-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+      }
+
+      .villa-list.is-grid .villa-card {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+
+      .villa-list.is-grid .villa-media,
+      .villa-list.is-grid .villa-media img {
+        min-height: 138px;
+        aspect-ratio: 16 / 9;
+      }
+
+      .villa-list.is-grid .villa-main {
+        gap: 5px;
+        padding: 12px 13px 10px;
+      }
+
+      .villa-list.is-grid .villa-place {
+        font-size: 9px;
+      }
+
+      .villa-list.is-grid .villa-main h2 {
+        font-size: 16px;
+      }
+
+      .villa-list.is-grid .villa-meta {
+        gap: 5px;
+        font-size: 10px;
+      }
+
+      .villa-list.is-grid .villa-copy {
+        font-size: 11px;
+        line-height: 1.4;
+        -webkit-line-clamp: 1;
+      }
+
+      .villa-list.is-grid .tag-row span {
+        min-height: 22px;
+        padding: 0 7px;
+        font-size: 8.5px;
+      }
+
+      .villa-list.is-grid .tag-row span:nth-child(n + 4),
+      .villa-list.is-grid .villa-rating {
+        display: none;
+      }
+
+      .villa-list.is-grid .villa-side {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        border-left: 0;
+        border-top: 1px solid rgba(7, 18, 29, 0.08);
+        padding: 10px 12px;
+        text-align: left;
+      }
+
+      .villa-list.is-grid .villa-price {
+        font-size: 17px;
+      }
+
+      .villa-list.is-grid .villa-view {
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: 11px;
+      }
+
+      .map-pane {
+        position: sticky;
+        top: 135px;
+        height: calc(100vh - 135px);
+        min-height: 620px;
+        padding: 24px 0 24px 28px;
+      }
+
+      .map-card {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: #dff2f8;
+        box-shadow: var(--shadow);
+      }
+
+      .map-frame {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        opacity: 0.86;
+      }
+
+      .map-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .map-pin {
+        position: absolute;
+        pointer-events: auto;
+        transform: translate(-50%, -50%);
+        min-height: 34px;
+        border: 1px solid rgba(7, 18, 29, 0.16);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        padding: 0 11px;
+        font-size: 12px;
+        font-weight: 900;
+        box-shadow: 0 8px 20px rgba(7, 18, 29, 0.18);
+        cursor: pointer;
+      }
+
+      .map-pin.is-active {
+        background: var(--ink);
+        color: #ffffff;
+      }
+
+      .map-toolbar {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .map-toolbar a,
+      .mobile-map-toggle {
+        display: inline-flex;
+        min-height: 42px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(7, 18, 29, 0.12);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        padding: 0 14px;
+        font-size: 12px;
+        font-weight: 900;
+        box-shadow: 0 8px 22px rgba(7, 18, 29, 0.12);
+      }
+
+      .map-legend {
+        position: absolute;
+        left: 16px;
+        bottom: 16px;
+        max-width: 310px;
+        border: 1px solid rgba(7, 18, 29, 0.1);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--text);
+        padding: 14px;
+        font-size: 12px;
+        font-weight: 750;
+        line-height: 1.45;
+        backdrop-filter: blur(14px);
+      }
+
+      .empty-state {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #ffffff;
+        padding: 26px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .mobile-map-toggle {
+        display: none;
+        border-color: var(--red);
+        background: var(--red);
+        color: #ffffff;
+      }
+
+      .popover {
+        position: absolute;
+        top: calc(100% + 12px);
+        z-index: 1000;
+        width: min(850px, calc(100vw - 32px));
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: #ffffff;
+        box-shadow: 0 28px 72px rgba(7, 18, 29, 0.18);
+        padding: 34px 32px;
+      }
+
+      .date-popover {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .guest-popover {
+        right: 0;
+        width: min(430px, calc(100vw - 32px));
+      }
+
+      .date-mode-toggle {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: min(312px, 100%);
+        margin: 0 auto 26px;
+        padding: 4px;
+        border-radius: 999px;
+        background: #ececec;
+      }
+
+      .date-mode-toggle button {
+        min-height: 36px;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: #222;
+        cursor: pointer;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 760;
+      }
+
+      .date-mode-toggle button.is-active {
+        background: #ffffff;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.16);
+      }
+
+      .date-panel[hidden] {
+        display: none;
+      }
+
+      .date-panel.is-active {
+        display: block;
+      }
+
+      .field-label {
+        display: grid;
+        gap: 8px;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .field-label input,
+      .field-label select,
+      .price-inputs input {
+        width: 100%;
+        min-height: 48px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #ffffff;
+        color: var(--ink);
+        padding: 0 12px;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .calendar-nav {
+        position: absolute;
+        top: 94px;
+        right: 30px;
+        left: 30px;
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+        pointer-events: none;
+      }
+
+      .calendar-nav button,
+      .stepper button {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        cursor: pointer;
+        font-weight: 900;
+        pointer-events: auto;
+      }
+
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 44px;
+        user-select: none;
+      }
+
+      .calendar-month h3 {
+        margin: 0 0 22px;
+        text-align: center;
+        font-size: 17px;
+        font-weight: 800;
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 0;
+      }
+
+      .weekday {
+        display: grid;
+        height: 34px;
+        place-items: center;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 850;
+        text-align: center;
+      }
+
+      .calendar-grid > span {
+        min-height: 44px;
+      }
+
+      .calendar-grid button {
+        position: relative;
+        display: grid;
+        min-height: 44px;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 850;
+        place-items: center;
+        touch-action: none;
+      }
+
+      .calendar-grid button::before {
+        content: "";
+        position: absolute;
+        inset: 4px 0;
+        z-index: -1;
+        background: transparent;
+      }
+
+      .calendar-grid button::after {
+        content: "";
+        position: absolute;
+        inset: 4px;
+        z-index: -1;
+        border-radius: 999px;
+        background: transparent;
+      }
+
+      .calendar-grid button:hover,
+      .calendar-grid button:focus {
+        background: transparent;
+      }
+
+      .calendar-grid button:hover::after,
+      .calendar-grid button:focus::after {
+        background: #f0f0f0;
+      }
+
+      .calendar-grid button.is-range::before,
+      .calendar-grid button.is-preview::before {
+        background: #d6d6d6;
+      }
+
+      .calendar-grid button.is-preview::before {
+        background: #ececec;
+      }
+
+      .calendar-grid button.is-start::before {
+        left: 50%;
+        background: #d6d6d6;
+        border-radius: 999px 0 0 999px;
+      }
+
+      .calendar-grid button.is-end::before {
+        right: 50%;
+        background: #d6d6d6;
+        border-radius: 0 999px 999px 0;
+      }
+
+      .calendar-grid button.is-pending {
+        box-shadow: none;
+      }
+
+      .calendar-grid button.is-start::after,
+      .calendar-grid button.is-end::after,
+      .calendar-grid button.is-pending::after {
+        background: var(--ink);
+      }
+
+      .calendar-grid button.is-start,
+      .calendar-grid button.is-end,
+      .calendar-grid button.is-pending {
+        color: #ffffff;
+      }
+
+      .date-flex-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 28px;
+      }
+
+      .date-flex-pills button,
+      .flex-stay-buttons button,
+      .flex-months-head button {
+        min-height: 36px;
+        border: 1px solid #dedede;
+        border-radius: 999px;
+        background: #ffffff;
+        color: #222;
+        padding: 0 16px;
+        cursor: pointer;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 720;
+      }
+
+      .date-flex-pills button.is-active,
+      .flex-stay-buttons button.is-active {
+        border-color: var(--ink);
+        box-shadow: inset 0 0 0 1px var(--ink);
+      }
+
+      .flex-stay {
+        display: grid;
+        justify-items: center;
+        gap: 16px;
+        margin: 44px 0 58px;
+      }
+
+      .flex-stay h3,
+      .flex-months-head h3 {
+        margin: 0;
+        color: #222;
+        font-size: 20px;
+        line-height: 1.2;
+        font-weight: 800;
+      }
+
+      .flex-stay-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .flex-months-head {
+        display: grid;
+        gap: 18px;
+        justify-items: center;
+        margin-bottom: 20px;
+      }
+
+      .flex-months-head > div {
+        position: absolute;
+        top: 52%;
+        right: 20px;
+        left: 20px;
+        display: flex;
+        justify-content: space-between;
+        pointer-events: none;
+      }
+
+      .flex-months-head button {
+        width: 34px;
+        min-height: 34px;
+        padding: 0;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+        pointer-events: auto;
+      }
+
+      .flex-months {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .flex-month-card {
+        display: grid;
+        min-height: 136px;
+        place-items: center;
+        gap: 8px;
+        border: 1px solid #dedede;
+        border-radius: 14px;
+        background: #ffffff;
+        color: #222;
+        padding: 16px 10px;
+        cursor: pointer;
+        font: inherit;
+      }
+
+      .flex-month-card.is-active {
+        border-color: var(--ink);
+        box-shadow: inset 0 0 0 1px var(--ink);
+      }
+
+      .flex-month-card::before {
+        content: "";
+        width: 28px;
+        height: 28px;
+        border: 2px solid #767676;
+        border-radius: 6px;
+        box-shadow: inset 0 7px 0 rgba(7, 18, 29, 0.06);
+      }
+
+      .flex-month-card strong,
+      .flex-month-card span {
+        display: block;
+        text-align: center;
+      }
+
+      .flex-month-card strong {
+        font-size: 15px;
+        line-height: 1.2;
+        font-weight: 760;
+      }
+
+      .flex-month-card span {
+        font-size: 13px;
+        font-weight: 560;
+      }
+
+      .calendar.is-dragging .calendar-grid button {
+        cursor: grabbing;
+      }
+
+      .guest-row,
+      .modal-counter-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(7, 18, 29, 0.08);
+      }
+
+      .guest-row:last-child,
+      .modal-counter-row:last-child {
+        border-bottom: 0;
+      }
+
+      .guest-row strong,
+      .modal-counter-row strong {
+        display: block;
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .guest-row span,
+      .modal-counter-row span {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .stepper {
+        display: grid;
+        grid-template-columns: 36px 34px 36px;
+        gap: 6px;
+        align-items: center;
+      }
+
+      .stepper output {
+        text-align: center;
+        font-weight: 900;
+      }
+
+      .filter-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: grid;
+        place-items: start center;
+        padding: 46px 20px;
+        background: rgba(7, 18, 29, 0.48);
+      }
+
+      .filter-panel {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        width: min(568px, 100%);
+        max-height: min(860px, calc(100vh - 92px));
+        overflow: hidden;
+        border-radius: 30px;
+        background: #ffffff;
+        box-shadow: 0 38px 92px rgba(7, 18, 29, 0.3);
+      }
+
+      .filter-modal-head,
+      .filter-modal-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        border-bottom: 1px solid rgba(7, 18, 29, 0.09);
+        padding: 18px 24px;
+      }
+
+      .filter-modal-head strong {
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .filter-close {
+        width: 38px;
+        height: 38px;
+        border: 0;
+        border-radius: 999px;
+        background: #f5f7f9;
+        color: var(--ink);
+        cursor: pointer;
+        font-size: 22px;
+      }
+
+      .filter-modal-body {
+        overflow: auto;
+        padding: 8px 24px 22px;
+      }
+
+      .filter-section {
+        padding: 27px 0;
+        border-bottom: 1px solid rgba(7, 18, 29, 0.09);
+      }
+
+      .filter-section:last-child {
+        border-bottom: 0;
+      }
+
+      .filter-section h2 {
+        margin: 0 0 7px;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .filter-section p {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      .recommended-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .recommended-card,
+      .type-option,
+      .amenity-chip {
+        border: 1px solid var(--line);
+        background: #ffffff;
+        color: var(--ink);
+        cursor: pointer;
+      }
+
+      .recommended-card {
+        display: grid;
+        gap: 10px;
+        min-height: 112px;
+        place-items: center;
+        border-radius: 12px;
+        padding: 14px 10px 13px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .recommended-art {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        color: #222222;
+      }
+
+      .recommended-art svg {
+        width: 38px;
+        height: 38px;
+        stroke-width: 1.8;
+      }
+
+      .recommended-card.is-active,
+      .type-option.is-active,
+      .amenity-chip.is-active {
+        border-color: var(--ink);
+        box-shadow: inset 0 0 0 1px var(--ink);
+      }
+
+      .type-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+      }
+
+      .type-option {
+        min-height: 52px;
+        border: 0;
+        border-right: 1px solid var(--line);
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .type-option:last-child {
+        border-right: 0;
+      }
+
+      .price-chart {
+        display: grid;
+        grid-template-columns: repeat(42, 1fr);
+        align-items: end;
+        gap: 3px;
+        height: 86px;
+        margin: 18px 0 14px;
+        border-bottom: 2px solid var(--red);
+      }
+
+      .price-chart span {
+        display: block;
+        min-height: 5px;
+        border-radius: 999px 999px 0 0;
+        background: var(--red);
+      }
+
+      .price-range-controls {
+        position: relative;
+        height: 30px;
+        margin: -26px 0 16px;
+      }
+
+      .price-range-controls input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        margin: 0;
+        appearance: none;
+        background: transparent;
+        pointer-events: none;
+      }
+
+      .price-range-controls input::-webkit-slider-thumb {
+        width: 30px;
+        height: 30px;
+        appearance: none;
+        border: 1px solid rgba(7, 18, 29, 0.18);
+        border-radius: 999px;
+        background: #ffffff;
+        box-shadow: 0 5px 14px rgba(7, 18, 29, 0.16);
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .price-range-controls input::-moz-range-thumb {
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(7, 18, 29, 0.18);
+        border-radius: 999px;
+        background: #ffffff;
+        box-shadow: 0 5px 14px rgba(7, 18, 29, 0.16);
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .price-inputs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .amenity-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .amenity-chip,
+      .filter-check {
+        display: inline-flex;
+        min-height: 42px;
+        align-items: center;
+        border-radius: 999px;
+        padding: 0 14px;
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .filter-groups {
+        display: grid;
+        gap: 0;
+      }
+
+      .filter-group {
+        display: grid;
+        gap: 12px;
+      }
+
+      .filter-group + .filter-group {
+        margin-top: 22px;
+      }
+
+      .filter-group h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .filter-group-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .filter-group-grid.is-checkboxes {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 18px;
+      }
+
+      .amenity-chip {
+        gap: 10px;
+        min-height: 48px;
+        padding: 0 16px;
+        border-color: #dddddd;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 650;
+      }
+
+      .amenity-chip-icon {
+        display: inline-grid;
+        width: 22px;
+        height: 22px;
+        place-items: center;
+        color: var(--ink);
+      }
+
+      .amenity-chip-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke-width: 1.9;
+      }
+
+      .standout-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .standout-card {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 14px;
+        min-height: 94px;
+        align-items: center;
+        border: 1px solid #dddddd;
+        border-radius: 12px;
+        background: #ffffff;
+        padding: 16px;
+        color: #222222;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .standout-card svg {
+        width: 36px;
+        height: 36px;
+        stroke-width: 1.7;
+      }
+
+      .standout-card strong,
+      .standout-card span {
+        display: block;
+      }
+
+      .standout-card strong {
+        font-size: 15px;
+        font-weight: 800;
+      }
+
+      .standout-card span {
+        margin-top: 2px;
+        color: #6a6a6a;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.24;
+      }
+
+      .standout-card.is-active {
+        border-color: #222222;
+        box-shadow: inset 0 0 0 1px #222222;
+      }
+
+      .filter-check {
+        justify-content: flex-start;
+        gap: 12px;
+        min-height: 34px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        padding: 0;
+        color: var(--ink);
+        text-align: left;
+      }
+
+      .filter-check::before {
+        content: "";
+        width: 20px;
+        height: 20px;
+        flex: 0 0 20px;
+        border: 1px solid rgba(7, 18, 29, 0.32);
+        border-radius: 6px;
+        background: #ffffff;
+      }
+
+      .filter-check.is-active::before {
+        border-color: var(--ink);
+        background:
+          linear-gradient(135deg, transparent 0 42%, #ffffff 43% 58%, transparent 59%),
+          var(--ink);
+      }
+
+      .filter-modal-foot {
+        border-top: 1px solid rgba(7, 18, 29, 0.09);
+        border-bottom: 0;
+      }
+
+      .modal-primary {
+        gap: 4px;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #ffffff;
+        padding: 0 22px;
+      }
+
+      .modal-secondary {
+        padding: 0 16px;
+      }
+
+      .search-cms {
+        width: min(100% - 48px, 1760px);
+        margin: 32px auto 70px;
+      }
+
+      .search-cms-section,
+      .search-cms-trust {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 12px 32px rgba(7, 18, 29, 0.05);
+      }
+
+      .search-cms-trust {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-bottom: 14px;
+        overflow: hidden;
+      }
+
+      .search-cms-trust article {
+        display: grid;
+        gap: 6px;
+        min-height: 96px;
+        border-right: 1px solid var(--line);
+        padding: 18px;
+      }
+
+      .search-cms-trust strong {
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .search-cms-trust span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 650;
+        line-height: 1.45;
+      }
+
+      .search-cms-trust article:last-child {
+        border-right: 0;
+      }
+
+      .search-cms-section {
+        margin-top: 14px;
+        padding: clamp(20px, 3vw, 32px);
+      }
+
+      .search-cms-promos,
+      .search-cms-review-grid,
+      .search-cms-editorial-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .search-cms-link-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .search-cms-two-col {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .search-cms-review-grid article,
+      .search-cms-editorial article,
+      .search-cms-faq article {
+        border: 1px solid rgba(7, 18, 29, 0.1);
+        border-radius: 10px;
+        background: #f8fafc;
+        padding: 16px;
+      }
+
+      .search-cms-link-grid a {
+        position: relative;
+        display: grid;
+        min-height: 156px;
+        overflow: hidden;
+        align-content: end;
+        border: 1px solid rgba(7, 18, 29, 0.1);
+        border-radius: 10px;
+        background: #07121d;
+        color: #ffffff;
+        padding: 16px;
+        box-shadow: 0 14px 34px rgba(7, 18, 29, 0.08);
+      }
+
+      .search-cms-link-grid a img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.86;
+        transition: transform 0.28s ease, opacity 0.28s ease;
+      }
+
+      .search-cms-link-grid a::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(7, 18, 29, 0.08) 10%, rgba(7, 18, 29, 0.76) 100%);
+      }
+
+      .search-cms-link-grid a strong,
+      .search-cms-link-grid a span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .search-cms-link-grid a strong {
+        font-size: 15px;
+        line-height: 1.18;
+      }
+
+      .search-cms-link-grid a span {
+        margin-top: 5px;
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .search-cms-link-grid a:hover img,
+      .search-cms-link-grid a:focus img {
+        opacity: 0.98;
+        transform: scale(1.045);
+      }
+
+      .search-cms-promo {
+        display: grid;
+        overflow: hidden;
+        border: 1px solid rgba(7, 18, 29, 0.1);
+        border-radius: 10px;
+        background: #ffffff;
+        box-shadow: 0 12px 30px rgba(7, 18, 29, 0.05);
+      }
+
+      .search-cms-promo img {
+        width: 100%;
+        aspect-ratio: 16 / 8.5;
+        object-fit: cover;
+      }
+
+      .search-cms-card-copy {
+        display: grid;
+        gap: 7px;
+        padding: 16px;
+      }
+
+      .search-cms-card-copy strong,
+      .search-cms-editorial article h3 {
+        color: var(--ink);
+        font-size: 16px;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+
+      .search-cms-head h2,
+      .search-cms-owner h2,
+      .search-cms-explore h2 {
+        margin: 0 0 8px;
+        font-size: 24px;
+      }
+
+      .search-cms-explore .search-cms-link-grid {
+        gap: 16px;
+      }
+
+      .search-cms-explore .search-cms-link-grid a {
+        min-height: clamp(230px, 15.5vw, 285px);
+        border-radius: 12px;
+      }
+
+      .search-cms-explore .search-cms-link-grid a img {
+        object-position: center center;
+      }
+
+      .search-cms-explore .search-cms-link-grid a:nth-child(2) img {
+        object-position: center 44%;
+      }
+
+      .search-cms-explore .search-cms-link-grid a:nth-child(3) img {
+        object-position: center 46%;
+      }
+
+      .search-cms-explore .search-cms-link-grid a:nth-child(4) img {
+        object-position: center 48%;
+      }
+
+      .search-cms-head p,
+      .search-cms-owner p,
+      .search-cms-fund p,
+      .search-cms-review-grid p,
+      .search-cms-editorial p,
+      .search-cms-card-copy span {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 650;
+        line-height: 1.55;
+      }
+
+      .search-cms-owner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.16fr) minmax(420px, 0.84fr);
+        align-items: stretch;
+        gap: clamp(24px, 3vw, 42px);
+        padding: clamp(28px, 4vw, 46px);
+      }
+
+      .search-cms-owner-copy {
+        display: grid;
+        align-content: center;
+        max-width: 880px;
+        gap: 16px;
+      }
+
+      .search-cms-owner-copy h2,
+      .search-cms-fund h2 {
+        margin: 0;
+      }
+
+      .search-cms-owner-summary {
+        max-width: 860px;
+        color: #405064 !important;
+        font-size: 14px !important;
+        line-height: 1.68 !important;
+      }
+
+      .search-cms-owner-benefits {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .search-cms-owner-benefits article {
+        display: grid;
+        gap: 7px;
+        border: 1px solid rgba(7, 18, 29, 0.1);
+        border-radius: 10px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.98) 100%);
+        padding: 14px;
+      }
+
+      .search-cms-owner-benefits strong {
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .search-cms-owner-benefits span {
+        color: var(--muted);
+        font-size: 11.5px;
+        font-weight: 700;
+        line-height: 1.45;
+      }
+
+      .search-cms-owner-points {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 20px;
+        margin: 2px 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .search-cms-owner-points li {
+        position: relative;
+        padding-left: 18px;
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 850;
+        line-height: 1.35;
+      }
+
+      .search-cms-owner-points li::before {
+        content: "";
+        position: absolute;
+        top: 0.55em;
+        left: 0;
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--red);
+      }
+
+      .search-cms-owner-note {
+        max-width: 690px;
+        margin: 0;
+        font-size: 12px !important;
+        opacity: 0.88;
+      }
+
+      .search-cms-owner-note:empty {
+        display: none;
+      }
+
+      .search-cms-owner-media {
+        overflow: hidden;
+        min-height: 100%;
+        margin: 0;
+        border-radius: 10px;
+      }
+
+      .search-cms-owner-media img,
+      .search-cms-fund img,
+      .search-cms-editorial article img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .search-cms-owner-media img {
+        object-position: center center;
+      }
+
+      .search-cms-editorial article {
+        display: grid;
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .search-cms-editorial article img {
+        aspect-ratio: 16 / 9;
+      }
+
+      .search-cms-editorial article div {
+        display: grid;
+        gap: 8px;
+        padding: 16px;
+      }
+
+      .search-cms-editorial article h3,
+      .search-cms-editorial article p {
+        margin: 0;
+      }
+
+      .search-cms-fund {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        align-items: center;
+        gap: 22px;
+        border-color: rgba(7, 18, 29, 0.18);
+        background: linear-gradient(135deg, #07121d 0%, #132a36 58%, #f31349 150%);
+        color: #ffffff;
+      }
+
+      .search-cms-fund > div {
+        display: grid;
+        gap: 13px;
+      }
+
+      .search-cms-fund img {
+        min-height: 240px;
+        border-radius: 10px;
+      }
+
+      .search-cms-fund .villa-eyebrow,
+      .search-cms-fund h2,
+      .search-cms-fund p {
+        color: #ffffff;
+      }
+
+      .search-cms-fund p {
+        max-width: 760px;
+        opacity: 0.84;
+      }
+
+      .search-cms-fund-points {
+        display: grid;
+        gap: 8px;
+        max-width: 760px;
+        margin: 0 0 3px;
+        padding: 0;
+        list-style: none;
+      }
+
+      .search-cms-fund-points li {
+        position: relative;
+        padding-left: 18px;
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 12.5px;
+        font-weight: 800;
+        line-height: 1.45;
+      }
+
+      .search-cms-fund-points li::before {
+        content: "";
+        position: absolute;
+        top: 0.62em;
+        left: 0;
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--red);
+        box-shadow: 0 0 18px rgba(243, 18, 72, 0.55);
+      }
+
+      .search-cms-owner a,
+      .search-cms-fund a,
+      .search-cms-toggle {
+        display: inline-flex;
+        min-height: 42px;
+        align-items: center;
+        border: 1px solid var(--red);
+        border-radius: 999px;
+        background: var(--red);
+        color: #ffffff;
+        padding: 0 16px;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .search-cms-fund a {
+        width: fit-content;
+        border-color: #ffffff;
+        background: #ffffff;
+        color: var(--ink);
+      }
+
+      .search-cms-toggle {
+        margin-top: 16px;
+        cursor: pointer;
+      }
+
+      .search-cms-editorial:not(.is-expanded) .search-cms-editorial-grid article:nth-child(n + 3) {
+        display: none;
+      }
+
+      .search-cms-faq button {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        text-align: left;
+        font-weight: 900;
+      }
+
+      .crays-fund-footer {
+        position: relative;
+        overflow: hidden;
+        color: #ffffff;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+          radial-gradient(circle at 82% 0%, rgba(38, 66, 168, 0.28), transparent 34%),
+          radial-gradient(circle at 8% 4%, rgba(14, 50, 67, 0.5), transparent 36%),
+          linear-gradient(180deg, #061521 0%, #03080c 43%, #000000 100%);
+        background-size: 72px 72px, 72px 72px, auto, auto, auto;
+      }
+
+      .crays-fund-footer-shell {
+        position: relative;
+        z-index: 1;
+        width: min(100% - 48px, 1280px);
+        margin: 0 auto;
+        padding: clamp(50px, 4.6vw, 70px) 0 34px;
+      }
+
+      .crays-fund-footer-manifesto {
+        display: grid;
+        grid-template-columns: minmax(360px, 0.92fr) minmax(0, 1.08fr);
+        gap: clamp(44px, 5vw, 74px);
+        align-items: start;
+        padding-bottom: clamp(40px, 4vw, 54px);
+        border-bottom: 1px solid rgba(243, 18, 72, 0.22);
+      }
+
+      .crays-fund-footer-manifesto > div {
+        min-height: 150px;
+        padding-right: clamp(34px, 4.8vw, 64px);
+        border-right: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .crays-fund-footer-manifesto p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: clamp(18px, 1.22vw, 21px);
+        font-weight: 500;
+        line-height: 1.45;
+      }
+
+      .crays-fund-footer-manifesto > div p {
+        margin-bottom: 14px;
+        color: var(--red);
+        font-size: clamp(20px, 1.45vw, 25px);
+        font-weight: 900;
+        line-height: 1.05;
+      }
+
+      .crays-fund-footer-manifesto h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: clamp(44px, 3.45vw, 58px);
+        font-weight: 900;
+        line-height: 1.02;
+      }
+
+      .crays-fund-footer-manifesto h2 span {
+        white-space: nowrap;
+      }
+
+      .crays-fund-footer-bottom {
+        display: grid;
+        grid-template-columns: minmax(260px, 1fr) auto;
+        gap: 20px clamp(32px, 4vw, 70px);
+        align-items: center;
+        padding-top: 28px;
+      }
+
+      .crays-fund-footer-legal,
+      .crays-fund-footer-social {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 22px;
+        align-items: center;
+      }
+
+      .crays-fund-footer-legal a {
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 13px;
+        font-weight: 750;
+      }
+
+      .crays-fund-footer-social {
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .crays-fund-footer-social a {
+        display: inline-grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 7px;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+      }
+
+      .crays-fund-footer-social img {
+        width: 25px;
+        height: 25px;
+        object-fit: contain;
+      }
+
+      .crays-fund-footer-bottom p {
+        grid-column: 1 / -1;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.72);
+        text-align: center;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .crays-fund-footer-cookie {
+        display: block;
+        margin-top: 8px;
+        color: rgba(255, 255, 255, 0.76);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        font-size: 10px;
+      }
+
+      @media (max-width: 1500px) {
+        .villa-list.is-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 1180px) {
+        .search-page-header {
+          grid-template-columns: minmax(130px, 1fr) auto;
+          gap: 12px;
+          padding: 12px 16px;
+        }
+
+        .search-header-utility {
+          grid-column: 1 / -1;
+          grid-row: 2;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          padding-bottom: 2px;
+        }
+
+        .search-header-actions {
+          align-self: center;
+          min-height: 58px;
+          margin: 0;
+          border-radius: 24px;
+          padding: 7px 9px;
+        }
+
+        .search-top {
+          position: static;
+        }
+
+        .search-top-inner {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .top-actions {
+          justify-content: center;
+        }
+
+        .split-view {
+          grid-template-columns: 1fr;
+        }
+
+        .results-pane {
+          padding-right: 0;
+        }
+
+        .map-pane {
+          display: none;
+          position: static;
+          height: min(72vh, 640px);
+          min-height: 420px;
+          padding: 0 0 24px;
+        }
+
+        .map-pane.is-open {
+          display: block;
+        }
+
+        .mobile-map-toggle {
+          display: inline-flex;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .search-shell,
+        .search-cms {
+          width: min(100% - 24px, 1760px);
+        }
+
+        .search-page-header {
+          grid-template-columns: 1fr auto;
+          align-items: start;
+          gap: 10px;
+          padding: 12px;
+        }
+
+        .search-page-brand img {
+          width: 124px;
+        }
+
+        .search-header-utility {
+          grid-column: 1 / -1;
+          gap: 8px;
+        }
+
+        .search-header-utility .utility-button,
+        .search-utility.search-header-utility a,
+        .search-utility.search-header-utility button {
+          width: auto;
+          min-height: 38px;
+          justify-content: center;
+          padding: 0 12px;
+          font-size: 12px;
+        }
+
+        .search-header-actions {
+          justify-self: end;
+          min-height: 48px;
+          border-radius: 999px;
+        }
+
+        .search-header-globe {
+          width: 40px;
+          min-height: 40px;
+        }
+
+        .account-menu {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin: 10px 0 0;
+        }
+
+        .search-header-menu {
+          width: auto;
+          margin: 0;
+        }
+
+        .search-header-menu-button {
+          min-height: 40px;
+          min-width: 84px;
+        }
+
+        .account-dropdown {
+          right: 50%;
+          transform: translateX(50%);
+        }
+
+        .search-header-dropdown {
+          right: 0;
+          width: min(292px, calc(100vw - 24px));
+          transform: none;
+        }
+
+        .search-top {
+          top: auto;
+        }
+
+        .search-form {
+          flex-basis: 100%;
+          grid-template-columns: 1fr;
+          border-radius: 22px;
+          width: 100%;
+        }
+
+        .search-field {
+          border-right: 0;
+          border-bottom: 1px solid rgba(7, 18, 29, 0.08);
+          padding: 13px 18px;
+        }
+
+        .search-submit {
+          width: calc(100% - 18px);
+          margin: 9px;
+        }
+
+        .search-submit span {
+          display: inline;
+        }
+
+        .search-submit::before,
+        .search-submit::after {
+          display: none;
+        }
+
+        .search-utility {
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          overflow: visible;
+        }
+
+        .search-utility a,
+        .search-utility button {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .top-actions {
+          flex-wrap: wrap;
+        }
+
+        .results-head {
+          grid-template-columns: 1fr;
+        }
+
+        .result-controls {
+          justify-content: flex-start;
+        }
+
+        .villa-card {
+          grid-template-columns: 1fr;
+        }
+
+        .villa-list.is-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .villa-media,
+        .villa-media img {
+          min-height: 255px;
+        }
+
+        .villa-side {
+          grid-template-columns: 1fr;
+          border-left: 0;
+          border-top: 1px solid rgba(7, 18, 29, 0.08);
+        }
+
+        .popover {
+          position: fixed;
+          inset: auto 12px 12px;
+          width: auto;
+          max-height: 82vh;
+          overflow: auto;
+          transform: none;
+        }
+
+        .calendar,
+        .flex-months,
+        .date-controls,
+        .date-exact,
+        .recommended-grid,
+        .type-grid,
+        .price-inputs,
+        .filter-group-grid.is-checkboxes,
+        .search-cms-trust,
+        .search-cms-promos,
+        .search-cms-review-grid,
+        .search-cms-link-grid,
+        .search-cms-editorial-grid,
+        .search-cms-two-col {
+          grid-template-columns: 1fr;
+        }
+
+        .filter-modal {
+          align-items: end;
+          padding: 0;
+        }
+
+        .filter-panel {
+          width: 100%;
+          max-height: 92vh;
+          border-radius: 24px 24px 0 0;
+        }
+
+        .search-cms-owner {
+          align-items: flex-start;
+          grid-template-columns: 1fr;
+        }
+
+        .search-cms-owner-benefits {
+          grid-template-columns: 1fr;
+        }
+
+        .search-cms-owner-points {
+          grid-template-columns: 1fr;
+        }
+
+        .search-cms-fund {
+          align-items: flex-start;
+          grid-template-columns: 1fr;
+        }
+
+        .crays-fund-footer-shell {
+          width: min(100% - 24px, 1320px);
+        }
+
+        .crays-fund-footer-manifesto,
+        .crays-fund-footer-bottom {
+          grid-template-columns: 1fr;
+        }
+
+        .crays-fund-footer-manifesto > div {
+          padding-right: 0;
+          border-right: 0;
+        }
+
+        .crays-fund-footer-manifesto h2 span {
+          white-space: normal;
+        }
+
+        .crays-fund-footer-social,
+        .crays-fund-footer-legal {
+          justify-content: center;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="/assets/crays-club/crays-i18n.css?v=crays-i18n-2" />
+
+
+
+
+
+
+
+    <meta property="og:image" content="https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp" />
+      <link rel="canonical" href="https://www.craysclub.com/en/search" />
+    <link rel="alternate" hreflang="en" href="https://www.craysclub.com/en/search" />
+    <link rel="alternate" hreflang="de" href="https://www.craysclub.com/de/search" />
+    <link rel="alternate" hreflang="es" href="https://www.craysclub.com/es/search" />
+    <link rel="alternate" hreflang="ca" href="https://www.craysclub.com/ca/search" />
+    <link rel="alternate" hreflang="fr" href="https://www.craysclub.com/fr/search" />
+    <link rel="alternate" hreflang="pt" href="https://www.craysclub.com/pt/search" />
+    <link rel="alternate" hreflang="it" href="https://www.craysclub.com/it/search" />
+    <link rel="alternate" hreflang="x-default" href="https://www.craysclub.com/en/search" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="author" content="Crays Clubs" />
+    <meta name="publisher" content="Crays Clubs" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta property="og:url" content="https://www.craysclub.com/en/search" />
+    <meta property="og:image:secure_url" content="https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="348" />
+    <meta property="og:image:height" content="94" />
+    <meta property="og:image:alt" content="Crays Clubs" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Crays Villas | Search" />
+    <meta name="twitter:description" content="Search Crays Fund villas with modern filters, map view, dates and guest controls." />
+    <meta name="twitter:image" content="https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp" />
+    <meta name="twitter:image:alt" content="Crays Clubs" />
+    <link rel="preload" as="image" href="/assets/crays-club/crays-fund-home-logo.webp" fetchpriority="high" data-crays-seo-preload />
+    <script type="application/ld+json" data-crays-seo-json>{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.craysclub.com/#organization","name":"Crays Clubs","alternateName":"Crays","url":"https://www.craysclub.com/en","logo":{"@type":"ImageObject","url":"https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp","width":348,"height":94},"sameAs":["https://www.linkedin.com/company/crays/","https://github.com/CraysCircle","https://x.com/CraysCircle","https://www.instagram.com/crays_circle/","https://www.youtube.com/@CraysCircle"],"contactPoint":{"@type":"ContactPoint","email":"team@craysclub.com","contactType":"customer support","availableLanguage":["English","German","Spanish","Catalan","French","Portuguese","Italian"]}},{"@type":"WebSite","@id":"https://www.craysclub.com/#website","name":"Crays Clubs","url":"https://www.craysclub.com/en","publisher":{"@id":"https://www.craysclub.com/#organization"},"inLanguage":"en","potentialAction":{"@type":"SearchAction","target":"https://www.craysclub.com/en/search?destination={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"CollectionPage","@id":"https://www.craysclub.com/en/search#webpage","url":"https://www.craysclub.com/en/search","name":"Crays Villas | Search","headline":"Crays Villas | Search","description":"Search Crays Fund villas with modern filters, map view, dates and guest controls.","inLanguage":"en","isPartOf":{"@id":"https://www.craysclub.com/#website"},"publisher":{"@id":"https://www.craysclub.com/#organization"},"dateModified":"2026-05-06","primaryImageOfPage":{"@id":"https://www.craysclub.com/en/search#primaryimage"},"breadcrumb":{"@id":"https://www.craysclub.com/en/search#breadcrumb"}},{"@type":"ImageObject","@id":"https://www.craysclub.com/en/search#primaryimage","url":"https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp","contentUrl":"https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp","caption":"Crays Clubs","width":348,"height":94},{"@type":"BreadcrumbList","@id":"https://www.craysclub.com/en/search#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Crays Clubs","item":"https://www.craysclub.com/en"},{"@type":"ListItem","position":2,"name":"Crays Villas | Search","item":"https://www.craysclub.com/en/search"}]}]}</script>
+    <meta name="language" content="en" />
+  </head>
+  <body>
+    <header class="search-page-header" data-search-page-header>
+      <a class="search-page-brand" href="/en/" aria-label="Crays Clubs start page">
+        <img src="/assets/crays-club/crays-fund-home-logo.webp" alt="Crays" width="348" height="94" />
+      </a>
+      <div class="search-utility search-header-utility" data-search-utility aria-label="Crays villa service links"></div>
+      <div class="search-header-actions" aria-label="Crays navigation controls">
+        <button class="search-header-globe" type="button" aria-label="Language selector">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 0 1 0 18M12 3a14.5 14.5 0 0 0 0 18"></path>
+          </svg>
+        </button>
+        <div class="account-menu search-header-menu" data-account-menu>
+          <button class="account-menu-button search-header-menu-button" type="button" data-account-menu-button aria-expanded="false" aria-controls="account-dropdown" aria-label="Open navigation menu">
+            <span class="account-menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="search-header-avatar" aria-hidden="true"></span>
+          </button>
+          <div class="account-dropdown search-header-dropdown" id="account-dropdown" data-account-dropdown hidden>
+            <a href="/en/account"><strong>Account &amp; Booking</strong><span>Login, Wish List, Cart and Booking Request</span></a>
+            <span class="account-dropdown-divider" aria-hidden="true"></span>
+            <a href="/en/about-us">About Us</a>
+            <a href="/en/lifestyle">Lifestyle</a>
+            <a href="/en/hospitality">Hospitality</a>
+            <a href="/en/community-life">Community Life</a>
+            <a href="/en/become-a-member">Become a Member</a>
+            <a href="/en/contact">Contact</a>
+            <span class="account-dropdown-divider" aria-hidden="true"></span>
+            <a href="https://www.crays.org" target="_blank" rel="noreferrer noopener"><strong>Crays Association</strong><span>Explore our Ecosystem Projects</span></a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="search-top" aria-label="Crays Villas search">
+        <div class="search-shell">
+          <div class="search-top-inner">
+            <form class="search-form" data-search-form autocomplete="off">
+              <input type="hidden" name="date_from" value="" data-date-from />
+              <input type="hidden" name="date_to" value="" data-date-to />
+              <input type="hidden" name="guests" value="2" data-guests />
+              <input type="hidden" name="children" value="0" data-children />
+              <input type="hidden" name="pets" value="0" data-pets />
+              <input type="hidden" name="nights" value="7" data-hidden-nights />
+              <input type="hidden" name="range" value="3" data-hidden-range />
+              <input type="hidden" name="date_mode" value="dates" data-date-mode />
+              <input type="hidden" name="flexible_stay" value="week" data-flexible-stay />
+              <input type="hidden" name="flexible_month" value="" data-flexible-month />
+
+              <label class="search-field">
+                <span>Where</span>
+                <select name="destination" data-destination autocomplete="off">
+                  <option value="">Mallorca villas</option>
+                </select>
+              </label>
+
+              <button class="search-field search-field-trigger" type="button" data-date-trigger aria-expanded="false">
+                <span>When</span>
+                <strong data-date-summary>Add dates</strong>
+              </button>
+
+              <button class="search-field search-field-trigger" type="button" data-guests-trigger aria-expanded="false">
+                <span>Who</span>
+                <strong data-guests-summary>2 guests</strong>
+              </button>
+
+              <button class="search-submit" type="submit" aria-label="Search villas"><span>Search</span></button>
+
+              <div class="popover date-popover" data-date-popover hidden>
+                <input type="hidden" data-exact-from />
+                <input type="hidden" data-exact-to />
+                <div class="date-mode-toggle" aria-label="Date mode">
+                  <button class="is-active" type="button" data-date-mode-switch="dates">Dates</button>
+                  <button type="button" data-date-mode-switch="flexible">Flexible</button>
+                </div>
+                <div class="date-panel is-active" data-date-panel="dates">
+                  <div class="calendar-nav">
+                    <button type="button" data-calendar-prev aria-label="Previous month">&lt;</button>
+                    <button type="button" data-calendar-next aria-label="Next month">&gt;</button>
+                  </div>
+                  <div class="calendar" data-calendar></div>
+                  <div class="date-flex-pills" aria-label="Date flexibility">
+                    <button class="is-active" type="button" data-flex-range="0">Exact dates</button>
+                    <button type="button" data-flex-range="1">+/- 1 day</button>
+                    <button type="button" data-flex-range="2">+/- 2 days</button>
+                    <button type="button" data-flex-range="3">+/- 3 days</button>
+                    <button type="button" data-flex-range="7">+/- 7 days</button>
+                    <button type="button" data-flex-range="14">+/- 14 days</button>
+                  </div>
+                </div>
+                <div class="date-panel" data-date-panel="flexible" hidden>
+                  <div class="flex-stay">
+                    <h3>How long would you like to stay?</h3>
+                    <div class="flex-stay-buttons" aria-label="Flexible stay length">
+                      <button type="button" data-flex-stay="weekend">Weekend</button>
+                      <button class="is-active" type="button" data-flex-stay="week">Week</button>
+                      <button type="button" data-flex-stay="month">Month</button>
+                    </div>
+                  </div>
+                  <div class="flex-months-head">
+                    <h3>Go anytime</h3>
+                    <div>
+                      <button type="button" data-flex-prev aria-label="Previous flexible months">&lt;</button>
+                      <button type="button" data-flex-next aria-label="Next flexible months">&gt;</button>
+                    </div>
+                  </div>
+                  <div class="flex-months" data-flex-months aria-label="Flexible travel months"></div>
+                </div>
+              </div>
+
+              <div class="popover guest-popover" data-guests-popover hidden>
+                <div class="guest-row">
+                  <div><strong>Adults</strong><span>Ages 13 or above</span></div>
+                  <div class="stepper" data-stepper="guests"><button type="button" data-step="-1">-</button><output data-step-value>2</output><button type="button" data-step="1">+</button></div>
+                </div>
+                <div class="guest-row">
+                  <div><strong>Children</strong><span>Ages 2-12</span></div>
+                  <div class="stepper" data-stepper="children"><button type="button" data-step="-1">-</button><output data-step-value>0</output><button type="button" data-step="1">+</button></div>
+                </div>
+                <div class="guest-row">
+                  <div><strong>Pets</strong><span>On request where available</span></div>
+                  <div class="stepper" data-stepper="pets"><button type="button" data-step="-1">-</button><output data-step-value>0</output><button type="button" data-step="1">+</button></div>
+                </div>
+              </div>
+            </form>
+
+            <div class="top-actions">
+              <button class="top-filter-button" type="button" data-open-filters>
+                <span class="filter-tune-icon" aria-hidden="true"><i></i><i></i><i></i><span></span></span>
+                Filter <span class="filter-dot" data-filter-count hidden>0</span>
+              </button>
+              <button class="mobile-map-toggle" type="button" data-mobile-map-toggle>Map</button>
+            </div>
+          </div>
+
+          <div class="category-row" aria-label="Crays search categories">
+            <a class="category-button" href="/en/clubs/search">Crays Clubs</a>
+            <a class="category-button" href="/en/search?collection=hotels">Crays Hotels</a>
+            <a class="category-button is-active" href="/en/search">Crays Villas</a>
+            <a class="category-button" href="/en/search?collection=co-working">Crays Co-Working</a>
+            <a class="category-button" href="/en/search?collection=co-living">Crays Co-Living</a>
+            <a class="category-button" href="/en/search?collection=experiences">Experiences</a>
+            <a class="category-button" href="/en/search?collection=services">Services</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="search-shell split-view">
+        <section class="results-pane" aria-label="Crays villa results">
+          <div class="results-head">
+            <div>
+              <p class="eyebrow">Available portfolio</p>
+              <h1><span data-result-count>13</span> Crays Villas on Mallorca</h1>
+              <p class="results-subline" data-result-subline>Fund-owned villas, local Crays support, request-first booking.</p>
+            </div>
+            <div class="result-controls" aria-label="Result display controls">
+              <div class="view-toggle" role="group" aria-label="Result view">
+                <button class="is-active" type="button" data-view-mode="grid" aria-pressed="true">Tiles</button>
+                <button type="button" data-view-mode="list" aria-pressed="false">List</button>
+              </div>
+              <label class="sort-row">Sort
+                <select data-sort>
+                  <option value="recommended">Recommended</option>
+                  <option value="price-desc">Price descending</option>
+                  <option value="price-asc">Price ascending</option>
+                  <option value="capacity-desc">Guests descending</option>
+                  <option value="rating-desc">Rating descending</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="active-filters" data-active-filters></div>
+          <div class="villa-list" data-villa-list></div>
+        </section>
+
+        <aside class="map-pane" data-map-pane aria-label="Crays villa map">
+          <div class="map-card">
+            <iframe class="map-frame" data-map-frame title="Crays Villas Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="map-overlay" data-map-overlay></div>
+            <div class="map-toolbar">
+              <a data-open-map href="https://www.google.com/maps/search/Mallorca+villas" target="_blank" rel="noreferrer noopener">Open Maps</a>
+            </div>
+            <div class="map-legend">Google Maps shows the approximate Crays villa region. Exact addresses are shared after booking confirmation.</div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="search-cms" data-search-cms aria-label="Crays villa search content"></section>
+    </main>
+
+    <div class="filter-modal" data-filter-modal hidden>
+      <section class="filter-panel" role="dialog" aria-modal="true" aria-label="Villa filters">
+        <header class="filter-modal-head">
+          <span></span>
+          <strong>Filters</strong>
+          <button class="filter-close" type="button" data-close-filters aria-label="Close filters">&times;</button>
+        </header>
+        <div class="filter-modal-body">
+          <section class="filter-section">
+            <h2>Recommended for you</h2>
+            <div class="recommended-grid" data-recommended-filters></div>
+          </section>
+          <section class="filter-section">
+            <h2>Type of place</h2>
+            <div class="type-grid" data-type-filter>
+              <button class="type-option is-active" type="button" data-place-type="any">Any type</button>
+              <button class="type-option" type="button" data-place-type="villa">Villa</button>
+              <button class="type-option" type="button" data-place-type="finca">Finca</button>
+              <button class="type-option" type="button" data-place-type="estate">Estate</button>
+            </div>
+          </section>
+          <section class="filter-section">
+            <h2>Price range</h2>
+            <p>Trip price, based on the selected stay length.</p>
+            <div class="price-chart" data-price-chart></div>
+            <div class="price-range-controls" aria-label="Price range controls">
+              <input data-min-price-range type="range" min="0" max="30000" step="100" value="0" aria-label="Minimum price" />
+              <input data-max-price-range type="range" min="0" max="30000" step="100" value="30000" aria-label="Maximum price" />
+            </div>
+            <div class="price-inputs">
+              <label class="field-label">Minimum<input data-min-price type="number" min="0" step="100" placeholder="0" /></label>
+              <label class="field-label">Maximum<input data-max-price type="number" min="0" step="100" placeholder="30000" /></label>
+            </div>
+          </section>
+          <section class="filter-section">
+            <h2>Rooms and beds</h2>
+            <div class="modal-counter-row">
+              <div><strong>Bedrooms</strong><span>Minimum number of bedrooms</span></div>
+              <div class="stepper" data-modal-counter="bedrooms"><button type="button" data-step="-1">-</button><output data-counter-value>0</output><button type="button" data-step="1">+</button></div>
+            </div>
+            <div class="modal-counter-row">
+              <div><strong>Beds</strong><span>Minimum number of beds</span></div>
+              <div class="stepper" data-modal-counter="beds"><button type="button" data-step="-1">-</button><output data-counter-value>0</output><button type="button" data-step="1">+</button></div>
+            </div>
+            <div class="modal-counter-row">
+              <div><strong>Bathrooms</strong><span>Minimum number of bathrooms</span></div>
+              <div class="stepper" data-modal-counter="bathrooms"><button type="button" data-step="-1">-</button><output data-counter-value>0</output><button type="button" data-step="1">+</button></div>
+            </div>
+          </section>
+          <div class="filter-groups" data-filter-groups></div>
+        </div>
+        <footer class="filter-modal-foot">
+          <button class="modal-secondary" type="button" data-clear-filters>Clear all</button>
+          <button class="modal-primary" type="button" data-apply-filters><span>Show</span><span data-modal-count>13</span><span>villas</span></button>
+        </footer>
+      </section>
+    </div>
+
+    <footer class="crays-fund-footer" id="crays-footer" aria-label="Crays footer">
+      <div class="crays-fund-footer-shell">
+        <section class="crays-fund-footer-manifesto" aria-label="Crays way">
+          <div>
+            <p>The Crays way to</p>
+            <h2>explore the<br /><span>world together</span></h2>
+          </div>
+          <p>
+            We are pioneering a new era of investing, living, where freedom, flexibility,
+            and quality are at the core of every experience. We redefine what it means
+            to own, live, and work through Bitcoin-native, tokenized participation
+            models rooted in self-sovereignty and community governance.
+          </p>
+        </section>
+        <section class="crays-fund-footer-bottom" aria-label="Footer links">
+          <nav class="crays-fund-footer-legal" aria-label="Legal links">
+            <a href="/en/legal/imprint">Imprint</a>
+            <a href="/en/legal/terms-and-conditions">Terms and Conditions</a>
+            <a href="/en/legal/data-protection">Data Protection</a>
+            <a href="/en/legal/privacy-policy">Privacy Policy</a>
+          </nav>
+          <nav class="crays-fund-footer-social" aria-label="Crays social links">
+            <a href="https://github.com/crays" target="_blank" rel="noreferrer noopener" aria-label="GitHub"><img src="/assets/crays-club/footer-icons/github.svg" alt="" loading="lazy" /></a>
+            <a href="https://x.com/crays" target="_blank" rel="noreferrer noopener" aria-label="X"><img src="/assets/crays-club/footer-icons/x.svg" alt="" loading="lazy" /></a>
+            <a href="https://opencollective.com/crays" target="_blank" rel="noreferrer noopener" aria-label="Open Collective"><img src="/assets/crays-club/footer-icons/opencollective.svg" alt="" loading="lazy" /></a>
+            <a href="https://www.reddit.com/r/crays" target="_blank" rel="noreferrer noopener" aria-label="Reddit"><img src="/assets/crays-club/footer-icons/reddit.svg" alt="" loading="lazy" /></a>
+            <a href="https://t.me/crays" target="_blank" rel="noreferrer noopener" aria-label="Telegram"><img src="/assets/crays-club/footer-icons/telegram.svg" alt="" loading="lazy" /></a>
+            <a href="https://www.tiktok.com/@crays" target="_blank" rel="noreferrer noopener" aria-label="TikTok"><img src="/assets/crays-club/footer-icons/tiktok.svg" alt="" loading="lazy" /></a>
+            <a href="https://www.youtube.com/@crays" target="_blank" rel="noreferrer noopener" aria-label="YouTube"><img src="/assets/crays-club/footer-icons/youtube.svg" alt="" loading="lazy" /></a>
+            <a href="https://www.linkedin.com/company/crays" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn"><img src="/assets/crays-club/footer-icons/linkedin.svg" alt="" loading="lazy" /></a>
+            <a href="https://www.instagram.com/crays" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><img src="/assets/crays-club/footer-icons/instagram.svg" alt="" loading="lazy" /></a>
+            <a href="https://www.crays.net" target="_blank" rel="noreferrer noopener" aria-label="Crays Network"><img src="/assets/crays-club/footer-icons/discord.svg" alt="" loading="lazy" /></a>
+          </nav>
+          <p>2025 Copyright &copy; and Trademark&trade; by CRAYS<a class="crays-fund-footer-cookie" href="/en/legal/privacy-policy">Cookie Settings</a></p>
+        </section>
+      </div>
+    </footer>
+
+    <script src="/assets/crays-unified-nav.js"></script>
+    <script src="/assets/crays-villas/crays-villa-data.js?v=villa-data-rename-visual-1"></script>
+    <script src="/assets/crays-villas/crays-search-cms-data.js?v=search-cms-footer-filter-3"></script>
+    <script src="/assets/crays-villas/crays-search-cms.js?v=search-cms-footer-filter-3"></script>
+    <script>
+      (function () {
+        var backendBase = (window.CRAYS_BOOKING_BACKEND || localStorage.getItem("craysBookingBackend") || "http://127.0.0.1:8088").replace(/\/+$/, "");
+        var villas = (window.CRAYS_VILLA_DATA || []).map(function (villa) {
+          var copy = Object.assign({}, villa);
+          copy.price = Number(copy.searchPrice || copy.price || 0);
+          copy.rating = Number(copy.rating || 0);
+          copy.tags = copy.tags || [];
+          copy.text = copy.text || copy.intro || "";
+          copy.image = copy.image || "/assets/crays-villas/" + copy.slug + ".jpg";
+          return copy;
+        });
+
+        var allAttributes = ["Kitchen", "Washer", "Free parking", "Wi-Fi", "TV", "Air conditioning", "Hot tub", "Iron", "Dishwasher", "High chair", "Holiday home", "Pool", "BBQ grill", "Flexible arrival", "All inclusive", "Short stay", "Luxury collection", "Landscape view", "Beach nearby", "Waterfront", "Sea view", "Pets allowed", "Allows pets", "Garden or terrace", "Fenced garden or patio", "Playground for children", "Family games", "Whirlpool", "Newly listed holiday home", "Sauna", "EV charger", "Eco stay", "Bicycles available", "Fishing", "Wellness", "Boat available", "Energy-saving house", "Dedicated workspace", "Hair dryer", "Heating", "Dryer", "Crib", "King bed", "Gym", "Breakfast", "Indoor fireplace", "Smoking allowed", "Smoke alarm", "Carbon monoxide alarm", "Instant request", "Self check-in", "Crays favorite", "Luxe", "1+ bathrooms", "Step-free access", "Disabled parking spot", "Wider entrance", "Step-free bedroom access", "Step-free bathroom access", "Shower grab bar", "English", "German", "Spanish", "Catalan"];
+        var recommended = [
+          { label: "Kitchen", value: "Kitchen", icon: "K" },
+          { label: "Washer", value: "Washer", icon: "W" },
+          { label: "Instant request", value: "Instant request", icon: "I" },
+          { label: "1+ bathrooms", value: "1+ bathrooms", icon: "B" }
+        ];
+        var filterGroups = [
+          { title: "Popular", items: [
+            { label: "Free parking", value: "Free parking", icon: "P" },
+            { label: "Wi-Fi", value: "Wi-Fi", icon: "Wi" },
+            { label: "TV", value: "TV", icon: "TV" },
+            { label: "Air conditioning", value: "Air conditioning", icon: "AC" },
+            { label: "Hot tub", value: "Hot tub", icon: "HT" },
+            { label: "Iron", value: "Iron", icon: "Ir" }
+          ] },
+          { title: "Essentials", items: [
+            { label: "Kitchen", value: "Kitchen", icon: "K" },
+            { label: "Washer", value: "Washer", icon: "W" },
+            { label: "Dryer", value: "Dryer", icon: "D" },
+            { label: "Heating", value: "Heating", icon: "H" },
+            { label: "Dedicated workspace", value: "Dedicated workspace", icon: "DW" },
+            { label: "Hair dryer", value: "Hair dryer", icon: "HD" }
+          ] },
+          { title: "Features", items: [
+            { label: "Pool", value: "Pool", icon: "P" },
+            { label: "EV charger", value: "EV charger", icon: "EV" },
+            { label: "Crib", value: "Crib", icon: "Cr" },
+            { label: "King bed", value: "King bed", icon: "KB" },
+            { label: "Gym", value: "Gym", icon: "G" },
+            { label: "BBQ grill", value: "BBQ grill", icon: "BBQ" },
+            { label: "Breakfast", value: "Breakfast", icon: "B" },
+            { label: "Indoor fireplace", value: "Indoor fireplace", icon: "IF" },
+            { label: "Smoking allowed", value: "Smoking allowed", icon: "SA" }
+          ] },
+          { title: "Location", items: [
+            { label: "Waterfront", value: "Waterfront", icon: "Wf" },
+            { label: "Beach nearby", value: "Beach nearby", icon: "Bn" },
+            { label: "Sea view", value: "Sea view", icon: "Sv" },
+            { label: "Golf nearby", value: "Golf nearby", icon: "Gf" }
+          ] },
+          { title: "Safety", items: [
+            { label: "Smoke alarm", value: "Smoke alarm", icon: "Sa" },
+            { label: "Carbon monoxide alarm", value: "Carbon monoxide alarm", icon: "CO" }
+          ] },
+          { title: "Booking options", items: [
+            { label: "Instant request", value: "Instant request", icon: "IR" },
+            { label: "Self check-in", value: "Self check-in", icon: "SC" },
+            { label: "Allows pets", value: "Allows pets", icon: "AP" },
+            { label: "Flexible arrival", value: "Flexible arrival", icon: "FA" }
+          ] },
+          { title: "Standout stays", items: [
+            { label: "Crays favorite", value: "Crays favorite", text: "The most loved Crays villas" },
+            { label: "Luxe", value: "Luxe", text: "Luxury villas with elevated design" }
+          ] },
+          { title: "Property type", items: [
+            { label: "Holiday home", value: "Holiday home", icon: "Home" },
+            { label: "Villa", value: "Villa", icon: "Villa" },
+            { label: "Finca", value: "Finca", icon: "Finca" },
+            { label: "Estate", value: "Estate", icon: "Estate" }
+          ] },
+          { title: "Accessibility features", checkbox: true, items: [
+            { label: "Step-free access", value: "Step-free access" },
+            { label: "Disabled parking spot", value: "Disabled parking spot" },
+            { label: "Wider entrance", value: "Wider entrance" },
+            { label: "Step-free bedroom access", value: "Step-free bedroom access" },
+            { label: "Step-free bathroom access", value: "Step-free bathroom access" },
+            { label: "Shower grab bar", value: "Shower grab bar" }
+          ] },
+          { title: "Host language", checkbox: true, items: [
+            { label: "English", value: "English" },
+            { label: "German", value: "German" },
+            { label: "Spanish", value: "Spanish" },
+            { label: "Catalan", value: "Catalan" }
+          ] }
+        ];
+        var aliases = {
+          "Kitchen": "Holiday home",
+          "Washer": "Washing machine",
+          "Free parking": "Parking",
+          "TV": "",
+          "Hot tub": "Whirlpool",
+          "Iron": "",
+          "Dryer": "",
+          "Heating": "Air conditioning",
+          "Dedicated workspace": "Wi-Fi",
+          "Hair dryer": "",
+          "Crib": "High chair",
+          "King bed": "",
+          "Gym": "Wellness",
+          "BBQ grill": "Barbecue",
+          "Breakfast": "All inclusive",
+          "Indoor fireplace": "",
+          "Smoking allowed": "",
+          "Waterfront": ["Beach nearby", "Sea view"],
+          "Allows pets": "Pets allowed",
+          "Instant request": "",
+          "Self check-in": "Flexible arrival",
+          "Crays favorite": "rating:4.85",
+          "Luxe": "Luxury collection",
+          "New to Crays": "Newly listed holiday home",
+          "Step-free access": "",
+          "Disabled parking spot": "Parking",
+          "Wider entrance": "",
+          "Step-free bedroom access": "",
+          "Step-free bathroom access": "",
+          "Shower grab bar": "",
+          "English": "",
+          "German": "",
+          "Spanish": "",
+          "Catalan": ""
+        };
+
+        var viewModeStorageKey = "craysVillaViewModeDefaultTiles";
+
+        function initialViewMode() {
+          var saved = localStorage.getItem(viewModeStorageKey);
+          return saved === "list" || saved === "grid" ? saved : "grid";
+        }
+
+        var state = {
+          type: "any",
+          filters: new Set(),
+          bedrooms: 0,
+          beds: 0,
+          bathrooms: 0,
+          minPrice: 0,
+          maxPrice: 0,
+          activeSlug: "",
+          viewMode: initialViewMode()
+        };
+
+        var form = document.querySelector("[data-search-form]");
+        var destination = document.querySelector("[data-destination]");
+        var list = document.querySelector("[data-villa-list]");
+        var resultCount = document.querySelector("[data-result-count]");
+        var subline = document.querySelector("[data-result-subline]");
+        var sort = document.querySelector("[data-sort]");
+        var viewButtons = document.querySelectorAll("[data-view-mode]");
+        var activeFilters = document.querySelector("[data-active-filters]");
+        var dateFromInput = document.querySelector("[data-date-from]");
+        var dateToInput = document.querySelector("[data-date-to]");
+        var dateModeInput = document.querySelector("[data-date-mode]");
+        var flexibleStayInput = document.querySelector("[data-flexible-stay]");
+        var flexibleMonthInput = document.querySelector("[data-flexible-month]");
+        var guestsInput = document.querySelector("[data-guests]");
+        var childrenInput = document.querySelector("[data-children]");
+        var petsInput = document.querySelector("[data-pets]");
+        var hiddenNights = document.querySelector("[data-hidden-nights]");
+        var hiddenRange = document.querySelector("[data-hidden-range]");
+        var dateSummary = document.querySelector("[data-date-summary]");
+        var guestsSummary = document.querySelector("[data-guests-summary]");
+        var dateTrigger = document.querySelector("[data-date-trigger]");
+        var guestsTrigger = document.querySelector("[data-guests-trigger]");
+        var datePopover = document.querySelector("[data-date-popover]");
+        var guestsPopover = document.querySelector("[data-guests-popover]");
+        var nightsSelect = document.querySelector("[data-nights]");
+        var rangeSelect = document.querySelector("[data-range]");
+        var calendar = document.querySelector("[data-calendar]");
+        var exactFrom = document.querySelector("[data-exact-from]");
+        var exactTo = document.querySelector("[data-exact-to]");
+        var mapPane = document.querySelector("[data-map-pane]");
+        var mapFrame = document.querySelector("[data-map-frame]");
+        var mapOverlay = document.querySelector("[data-map-overlay]");
+        var openMap = document.querySelector("[data-open-map]");
+        var filterModal = document.querySelector("[data-filter-modal]");
+        var filterCount = document.querySelector("[data-filter-count]");
+        var modalCount = document.querySelector("[data-modal-count]");
+        var minPrice = document.querySelector("[data-min-price]");
+        var maxPrice = document.querySelector("[data-max-price]");
+        var minPriceRange = document.querySelector("[data-min-price-range]");
+        var maxPriceRange = document.querySelector("[data-max-price-range]");
+        var maxVillaPrice = Math.max.apply(null, villas.map(function (villa) { return Number(villa.price || 0); }).concat([30000]));
+        var calendarMonth = new Date(2026, 5, 1);
+        var flexibleMonthStart = new Date(2026, 4, 1);
+        var calendarDrag = {
+          active: false,
+          start: "",
+          end: "",
+          moved: false
+        };
+        var calendarPendingStart = "";
+        var calendarHoverDate = "";
+        var suppressCalendarClick = false;
+
+        function escapeHtml(value) {
+          return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char];
+          });
+        }
+
+        function money(value) {
+          return new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(value) + " &euro;";
+        }
+
+        function filterIcon(value) {
+          var key = filterSlug(value || "");
+          var icons = {
+            "kitchen": '<path d="M6 3v18M10 3v7a4 4 0 0 1-4 4M16 3v18M18 3v18M16 10h4"></path>',
+            "washer": '<rect x="4" y="4" width="16" height="16" rx="3"></rect><circle cx="12" cy="13" r="4"></circle><path d="M8 7h.01M11 7h5"></path>',
+            "crays-favorite": '<path d="M8 20c-1-4 1-7 4-8 3 1 5 4 4 8M7 12c-2-2-2-5 1-7M17 12c2-2 2-5-1-7M12 12c-2-2-2-5 0-8 2 3 2 6 0 8"></path>',
+            "1-bathrooms": '<path d="M7 11V7a5 5 0 0 1 10 0v4"></path><path d="M5 11h14v3a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5v-3z"></path><path d="M9 21v-2M15 21v-2"></path>',
+            "free-parking": '<circle cx="12" cy="12" r="9"></circle><path d="M10 16V8h3a2.5 2.5 0 0 1 0 5h-3"></path>',
+            "wi-fi": '<path d="M5 10a10 10 0 0 1 14 0M8 13a6 6 0 0 1 8 0M11 16a2 2 0 0 1 2 0"></path><circle cx="12" cy="19" r="1"></circle>',
+            "tv": '<rect x="4" y="6" width="16" height="11" rx="2"></rect><path d="M9 21h6M12 17v4"></path>',
+            "air-conditioning": '<path d="M12 3v18M5 7l14 10M19 7 5 17"></path><path d="M8 4l4 4 4-4M8 20l4-4 4 4"></path>',
+            "hot-tub": '<path d="M5 12h14v4a4 4 0 0 1-4 4h-6a4 4 0 0 1-4-4v-4z"></path><path d="M8 8c0-2 2-2 2-4M12 8c0-2 2-2 2-4M16 8c0-2 2-2 2-4"></path>',
+            "iron": '<path d="M4 14h14a2 2 0 0 1 2 2v2H4v-4z"></path><path d="M6 14V8h8l3 6"></path>',
+            "dryer": '<rect x="4" y="4" width="16" height="16" rx="3"></rect><circle cx="12" cy="13" r="4"></circle><path d="M8 7h8"></path>',
+            "heating": '<path d="M10 14.5V5a2 2 0 1 1 4 0v9.5a4 4 0 1 1-4 0z"></path><path d="M12 8v8"></path>',
+            "dedicated-workspace": '<path d="M4 15h16M6 15v4M18 15v4M7 5h10v10H7z"></path>',
+            "hair-dryer": '<path d="M4 9h10a3 3 0 0 1 0 6H4V9z"></path><path d="M14 12h6M8 15l-2 5"></path>',
+            "pool": '<path d="M3 17c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"></path><path d="M3 21c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1M8 13V5h8v8M8 8h8"></path>',
+            "ev-charger": '<path d="M7 3h8v18H7z"></path><path d="M15 8h2a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2M10 8h2l-2 4h2"></path>',
+            "crib": '<path d="M4 9h16v8H4zM7 9V5M17 9V5M7 17v3M17 17v3M4 13h16"></path>',
+            "king-bed": '<path d="M4 12h16v7M4 19V7h6a3 3 0 0 1 3 3v2M13 12V7h3a4 4 0 0 1 4 4v1"></path>',
+            "gym": '<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"></path>',
+            "bbq-grill": '<path d="M6 10h12a6 6 0 0 1-12 0z"></path><path d="M9 16l-3 5M15 16l3 5M8 21h8M9 5c0 2-2 2-2 4M13 5c0 2-2 2-2 4M17 5c0 2-2 2-2 4"></path>',
+            "breakfast": '<path d="M5 8h10v4a5 5 0 0 1-5 5 5 5 0 0 1-5-5V8z"></path><path d="M15 10h2a2 2 0 0 1 0 4h-2M4 20h13"></path>',
+            "indoor-fireplace": '<path d="M5 21V7h14v14"></path><path d="M9 21v-5a3 3 0 0 1 6 0v5"></path><path d="M12 16c-2-2 2-3 0-6 4 3 4 7 0 8"></path>',
+            "smoking-allowed": '<path d="M3 16h12v3H3zM17 16h2v3h-2zM7 10c3 0 3-4 0-4M13 10c3 0 3-4 0-4"></path>',
+            "waterfront": '<path d="M4 6h16M6 6v10M18 6v10"></path><path d="M3 18c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1M3 21c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"></path>',
+            "beach-nearby": '<path d="M12 3v18M5 10c4-5 10-5 14 0M5 10c3-1 5-1 7 0M12 10c2-1 4-1 7 0"></path>',
+            "sea-view": '<path d="M3 17c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"></path><circle cx="17" cy="7" r="2"></circle><path d="M4 13l4-4 4 4 3-3 5 5"></path>',
+            "golf-nearby": '<path d="M6 21V4l10 3-10 3"></path><circle cx="17" cy="18" r="2"></circle>',
+            "smoke-alarm": '<circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2"></circle><path d="M8 4 6 2M16 4l2-2"></path>',
+            "carbon-monoxide-alarm": '<rect x="5" y="5" width="14" height="14" rx="3"></rect><circle cx="12" cy="12" r="3"></circle><path d="M9 9 7 7M15 15l2 2"></path>',
+            "instant-request": '<path d="m13 2-8 12h7l-1 8 8-12h-7l1-8z"></path>',
+            "self-check-in": '<path d="M7 11V7a5 5 0 0 1 10 0v4"></path><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M12 15v2"></path>',
+            "allows-pets": '<circle cx="8" cy="8" r="2"></circle><circle cx="16" cy="8" r="2"></circle><circle cx="7" cy="14" r="2"></circle><circle cx="17" cy="14" r="2"></circle><path d="M9 17c1-2 5-2 6 0 1 2-1 4-3 4s-4-2-3-4z"></path>',
+            "villa": '<path d="M3 12 12 4l9 8"></path><path d="M5 10v10h14V10M9 20v-6h6v6"></path>',
+            "finca": '<path d="M4 20V9l8-5 8 5v11"></path><path d="M8 20v-7h8v7M4 13h16"></path>',
+            "estate": '<path d="M4 20h16M6 20V8l6-4 6 4v12M9 20v-6h6v6"></path>',
+            "crays-favorite": '<path d="M8 20c-1-4 1-7 4-8 3 1 5 4 4 8M7 12c-2-2-2-5 1-7M17 12c2-2 2-5-1-7M12 12c-2-2-2-5 0-8 2 3 2 6 0 8"></path>',
+            "luxe": '<path d="M12 3 3 8l9 13 9-13-9-5z"></path><path d="M3 8h18M8 8l4 13 4-13"></path>'
+          };
+          var path = icons[key] || '<circle cx="12" cy="12" r="8"></circle><path d="M12 8v8M8 12h8"></path>';
+          return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>';
+        }
+
+        function readJson(key, fallback) {
+          try {
+            var value = localStorage.getItem(key);
+            return value ? JSON.parse(value) : fallback;
+          } catch (error) {
+            return fallback;
+          }
+        }
+
+        function writeJson(key, value) {
+          try {
+            localStorage.setItem(key, JSON.stringify(value));
+          } catch (error) {}
+        }
+
+        function pad(value) {
+          return String(value).padStart(2, "0");
+        }
+
+        function toISO(date) {
+          return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate());
+        }
+
+        function parseISO(value) {
+          var parts = String(value || "").split("-").map(Number);
+          return new Date(parts[0] || 2026, (parts[1] || 6) - 1, parts[2] || 26);
+        }
+
+        function addDays(date, days) {
+          var next = new Date(date.getTime());
+          next.setDate(next.getDate() + Number(days || 0));
+          return next;
+        }
+
+        function nightsBetween(start, end) {
+          return Math.max(1, Math.round((parseISO(end).getTime() - parseISO(start).getTime()) / 86400000));
+        }
+
+        function hasDateRange() {
+          return Boolean(dateFromInput.value && dateToInput.value);
+        }
+
+        function monthISO(date) {
+          return date.getFullYear() + "-" + pad(date.getMonth() + 1);
+        }
+
+        function parseMonth(value) {
+          var parts = String(value || "").split("-").map(Number);
+          return new Date(parts[0] || 2026, (parts[1] || 5) - 1, 1);
+        }
+
+        function stayDays(stay) {
+          return stay === "weekend" ? 2 : stay === "month" ? 28 : 7;
+        }
+
+        function stayLabel(stay) {
+          return stay === "weekend" ? "weekend" : stay === "month" ? "month" : "week";
+        }
+
+        function selectedDateMode() {
+          return dateModeInput && dateModeInput.value === "flexible" ? "flexible" : "dates";
+        }
+
+        function normalizeDateRange(startIso, endIso, requireCheckout) {
+          var start = parseISO(startIso);
+          var end = parseISO(endIso || startIso);
+          if (end.getTime() < start.getTime()) {
+            var swap = start;
+            start = end;
+            end = swap;
+          }
+          if (requireCheckout !== false && toISO(start) === toISO(end)) end = addDays(start, 1);
+          return {
+            start: toISO(start),
+            end: toISO(end)
+          };
+        }
+
+        function syncNightsSelect(days) {
+          if (hiddenNights) hiddenNights.value = String(days);
+          if (!nightsSelect) return;
+          var value = String(days);
+          var exists = Array.from(nightsSelect.options).some(function (option) { return option.value === value; });
+          var custom = nightsSelect.querySelector("[data-custom-nights]");
+          if (!exists) {
+            if (custom) custom.remove();
+            custom = document.createElement("option");
+            custom.value = value;
+            custom.textContent = days + " nights";
+            custom.setAttribute("data-custom-nights", "true");
+            nightsSelect.appendChild(custom);
+          }
+          nightsSelect.value = value;
+        }
+
+        function shortDate(value) {
+          return parseISO(value).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+        }
+
+        function shortMonth(value) {
+          return parseMonth(value).toLocaleDateString("en-GB", { month: "short" });
+        }
+
+        function firstFlexibleStart(monthValue, stay) {
+          var date = parseMonth(monthValue);
+          if (stay === "weekend") {
+            while (date.getDay() !== 5) date.setDate(date.getDate() + 1);
+          }
+          return date;
+        }
+
+        function tagText(villa) {
+          return ((villa.tags || []).join(" ") + " " + (villa.type || "") + " " + (villa.pets || "") + " " + (villa.place || "")).toLowerCase();
+        }
+
+        function hasFilter(villa, filter) {
+          var alias = aliases[filter] || filter;
+          if (alias === "rating:4.85") return Number(villa.rating || 0) >= 4.85;
+          if (filter === "1+ bathrooms") return Number(villa.bathrooms || 0) >= 1;
+          if (!alias) return true;
+          var haystack = tagText(villa);
+          return (Array.isArray(alias) ? alias : [alias]).some(function (candidate) {
+            return !candidate || haystack.indexOf(String(candidate).toLowerCase()) !== -1;
+          });
+        }
+
+        function googleMapQuery(villa) {
+          var map = villa && villa.map || {};
+          if (map.latitude && map.longitude) return map.latitude + "," + map.longitude;
+          return map.label || "Mallorca";
+        }
+
+        function googleMapEmbed() {
+          return "https://www.google.com/maps?q=" + encodeURIComponent("Mallorca, Spain") + "&z=9&output=embed";
+        }
+
+        function googleMapUrl(villa) {
+          return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(villa ? googleMapQuery(villa) : "Mallorca villas");
+        }
+
+        function detailUrl(villa) {
+          var url = new URL("/villas/" + villa.slug, window.location.origin);
+          ["date_from", "date_to", "guests", "children", "pets", "nights", "range"].forEach(function (key) {
+            var value = form.elements[key] && form.elements[key].value;
+            if (value && !(key === "children" && value === "0") && !(key === "pets" && value === "0")) url.searchParams.set(key, value);
+          });
+          if (selectedDateMode() === "flexible") {
+            url.searchParams.set("date_mode", "flexible");
+            if (flexibleStayInput.value) url.searchParams.set("flexible_stay", flexibleStayInput.value);
+            if (flexibleMonthInput.value) url.searchParams.set("flexible_month", flexibleMonthInput.value);
+          }
+          return url.pathname + url.search;
+        }
+
+        function backendSearchUrl() {
+          var url = new URL("/index.php", backendBase + "/");
+          url.searchParams.set("id_category", "7");
+          url.searchParams.set("controller", "category");
+          url.searchParams.set("id_lang", "1");
+          if (hasDateRange()) {
+            url.searchParams.set("date_from", dateFromInput.value);
+            url.searchParams.set("date_to", dateToInput.value);
+          }
+          if (selectedDateMode() === "flexible") {
+            url.searchParams.set("date_mode", "flexible");
+            url.searchParams.set("flexible_stay", flexibleStayInput.value || "week");
+            if (flexibleMonthInput.value) url.searchParams.set("flexible_month", flexibleMonthInput.value);
+            if (hiddenNights.value) url.searchParams.set("nights", hiddenNights.value);
+            if (hiddenRange.value) url.searchParams.set("range", hiddenRange.value);
+          }
+          url.searchParams.set("occupancy[0][adults]", guestsInput.value);
+          url.searchParams.set("occupancy[0][children]", childrenInput.value);
+          url.searchParams.set("pets", petsInput.value);
+          if (state.type !== "any") url.searchParams.set("type_of_place", state.type);
+          if (state.bedrooms) url.searchParams.set("bedrooms", state.bedrooms);
+          if (state.beds) url.searchParams.set("beds", state.beds);
+          if (state.bathrooms) url.searchParams.set("bathrooms", state.bathrooms);
+          if (state.minPrice) url.searchParams.set("min_price", state.minPrice);
+          if (state.maxPrice) url.searchParams.set("max_price", state.maxPrice);
+          url.searchParams.set("filters", Array.from(state.filters).join(","));
+          url.searchParams.set("attribute_slugs", Array.from(state.filters).map(filterSlug).join(","));
+          return url.toString();
+        }
+
+        function setDates(from, nights) {
+          var days = Number(nights || hiddenNights.value || 7);
+          if (!from) {
+            dateFromInput.value = "";
+            dateToInput.value = "";
+            hiddenNights.value = "";
+            exactFrom.value = "";
+            exactTo.value = "";
+            syncNightsSelect(days);
+            calendarDrag.active = false;
+            calendarPendingStart = "";
+            calendarHoverDate = "";
+            updateSummaries();
+            renderCalendar();
+            return;
+          }
+          dateModeInput.value = "dates";
+          var start = parseISO(from);
+          dateFromInput.value = toISO(start);
+          dateToInput.value = toISO(addDays(start, days));
+          hiddenNights.value = String(days);
+          exactFrom.value = dateFromInput.value;
+          exactTo.value = dateToInput.value;
+          syncNightsSelect(days);
+          calendarDrag.active = false;
+          calendarPendingStart = "";
+          calendarHoverDate = "";
+          updateSummaries();
+          renderCalendar();
+        }
+
+        function setDateRange(from, to) {
+          var range = normalizeDateRange(from, to, true);
+          var days = nightsBetween(range.start, range.end);
+          dateModeInput.value = "dates";
+          dateFromInput.value = range.start;
+          dateToInput.value = range.end;
+          hiddenNights.value = String(days);
+          if (!hiddenRange.value) hiddenRange.value = "0";
+          flexibleMonthInput.value = "";
+          exactFrom.value = dateFromInput.value;
+          exactTo.value = dateToInput.value;
+          syncNightsSelect(days);
+          calendarDrag.active = false;
+          calendarDrag.start = "";
+          calendarDrag.end = "";
+          calendarDrag.moved = false;
+          calendarPendingStart = "";
+          calendarHoverDate = "";
+          updateSummaries();
+          syncDateModeUI();
+          renderCalendar();
+        }
+
+        function updateSummaries() {
+          if (selectedDateMode() === "flexible") {
+            var stay = flexibleStayInput.value || "week";
+            var monthValue = flexibleMonthInput.value;
+            dateSummary.textContent = monthValue ? "Any " + stayLabel(stay) + " in " + shortMonth(monthValue) : "Any " + stayLabel(stay);
+            exactFrom.value = dateFromInput.value || "";
+            exactTo.value = dateToInput.value || "";
+          } else
+          if (!hasDateRange()) {
+            dateSummary.textContent = "Add dates";
+            exactFrom.value = "";
+            exactTo.value = "";
+          } else {
+          var nights = nightsBetween(dateFromInput.value, dateToInput.value);
+          dateSummary.textContent = shortDate(dateFromInput.value) + " - " + nights + " nights";
+          }
+          var adults = Number(guestsInput.value || 2);
+          var children = Number(childrenInput.value || 0);
+          var pets = Number(petsInput.value || 0);
+          var total = adults + children;
+          guestsSummary.textContent = total + " guest" + (total === 1 ? "" : "s") + (pets ? " - " + pets + " pet" + (pets === 1 ? "" : "s") : "");
+        }
+
+        function closePopovers() {
+          datePopover.hidden = true;
+          guestsPopover.hidden = true;
+          dateTrigger.setAttribute("aria-expanded", "false");
+          guestsTrigger.setAttribute("aria-expanded", "false");
+        }
+
+        function togglePopover(popover, trigger) {
+          var willOpen = popover.hidden;
+          closePopovers();
+          popover.hidden = !willOpen;
+          trigger.setAttribute("aria-expanded", willOpen ? "true" : "false");
+          if (popover === datePopover && willOpen) renderFlexibleMonths();
+        }
+
+        function setDateMode(mode) {
+          dateModeInput.value = mode === "flexible" ? "flexible" : "dates";
+          calendarPendingStart = "";
+          calendarHoverDate = "";
+          calendarDrag.active = false;
+          if (selectedDateMode() === "flexible") {
+            applyFlexibleSelection();
+          } else {
+            flexibleMonthInput.value = "";
+            if (!hasDateRange()) {
+              hiddenNights.value = "";
+              hiddenRange.value = "";
+            }
+            updateSummaries();
+          }
+          syncDateModeUI();
+          renderCalendar();
+          renderFlexibleMonths();
+          updateUrl();
+          render();
+        }
+
+        function syncDateModeUI() {
+          var mode = selectedDateMode();
+          document.querySelectorAll("[data-date-mode-switch]").forEach(function (button) {
+            button.classList.toggle("is-active", button.getAttribute("data-date-mode-switch") === mode);
+          });
+          document.querySelectorAll("[data-date-panel]").forEach(function (panel) {
+            var active = panel.getAttribute("data-date-panel") === mode;
+            panel.hidden = !active;
+            panel.classList.toggle("is-active", active);
+          });
+          document.querySelectorAll("[data-flex-range]").forEach(function (button) {
+            button.classList.toggle("is-active", (hiddenRange.value || "0") === button.getAttribute("data-flex-range"));
+          });
+          document.querySelectorAll("[data-flex-stay]").forEach(function (button) {
+            button.classList.toggle("is-active", (flexibleStayInput.value || "week") === button.getAttribute("data-flex-stay"));
+          });
+        }
+
+        function applyFlexibleSelection() {
+          var stay = flexibleStayInput.value || "week";
+          var monthValue = flexibleMonthInput.value;
+          var days = stayDays(stay);
+          hiddenNights.value = String(days);
+          hiddenRange.value = stay === "month" ? "30" : "14";
+          if (monthValue) {
+            var start = firstFlexibleStart(monthValue, stay);
+            dateFromInput.value = toISO(start);
+            dateToInput.value = toISO(addDays(start, days));
+          } else {
+            dateFromInput.value = "";
+            dateToInput.value = "";
+          }
+          updateSummaries();
+        }
+
+        function renderFlexibleMonths() {
+          var holder = document.querySelector("[data-flex-months]");
+          if (!holder) return;
+          holder.innerHTML = Array.from({ length: 6 }).map(function (_, index) {
+            var current = new Date(flexibleMonthStart.getFullYear(), flexibleMonthStart.getMonth() + index, 1);
+            var value = monthISO(current);
+            var active = flexibleMonthInput.value === value;
+            return '<button class="flex-month-card' + (active ? " is-active" : "") + '" type="button" data-flex-month="' + value + '"><strong>' + current.toLocaleDateString("en-GB", { month: "long" }) + '</strong><span>' + current.getFullYear() + "</span></button>";
+          }).join("");
+        }
+
+        function renderCalendar() {
+          var hasSelectedRange = hasDateRange();
+          var selectedStart = hasSelectedRange ? parseISO(dateFromInput.value) : null;
+          var selectedEnd = hasSelectedRange ? parseISO(dateToInput.value) : null;
+          var previewRange = null;
+          var previewIsDraft = false;
+          if (calendarDrag.active) {
+            previewRange = normalizeDateRange(calendarDrag.start, calendarDrag.end, false);
+            previewIsDraft = true;
+          } else if (calendarPendingStart) {
+            previewRange = normalizeDateRange(calendarPendingStart, calendarHoverDate || calendarPendingStart, false);
+            previewIsDraft = true;
+          }
+          var previewStart = previewRange ? parseISO(previewRange.start) : selectedStart;
+          var previewEnd = previewRange ? parseISO(previewRange.end) : selectedEnd;
+          var hasVisibleRange = Boolean(previewStart && previewEnd);
+          var hasDistinctEnd = hasVisibleRange && toISO(previewStart) !== toISO(previewEnd);
+          calendar.classList.toggle("is-dragging", calendarDrag.active);
+          calendar.innerHTML = [0, 1].map(function (offset) {
+            var month = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + offset, 1);
+            var first = new Date(month.getFullYear(), month.getMonth(), 1);
+            var last = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+            var leading = (first.getDay() + 6) % 7;
+            var html = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(function (day) { return '<div class="weekday">' + day + '</div>'; }).join("");
+            for (var blank = 0; blank < leading; blank += 1) html += "<span></span>";
+            for (var dayNumber = 1; dayNumber <= last.getDate(); dayNumber += 1) {
+              var date = new Date(month.getFullYear(), month.getMonth(), dayNumber);
+              var iso = toISO(date);
+              var classes = [];
+              if (hasVisibleRange && iso === toISO(previewStart)) classes.push("is-start");
+              if (hasDistinctEnd && iso === toISO(previewEnd)) classes.push("is-end");
+              if (calendarPendingStart && iso === calendarPendingStart) classes.push("is-pending");
+              if (hasDistinctEnd && date.getTime() > previewStart.getTime() && date.getTime() < previewEnd.getTime()) classes.push(previewIsDraft ? "is-preview" : "is-range");
+              html += '<button type="button" class="' + classes.join(" ") + '" data-calendar-day="' + iso + '" aria-label="' + iso + '">' + dayNumber + "</button>";
+            }
+            return '<div class="calendar-month"><h3>' + month.toLocaleDateString("en-GB", { month: "long", year: "numeric" }) + '</h3><div class="calendar-grid">' + html + "</div></div>";
+          }).join("");
+        }
+
+        function optionCount(label) {
+          return villas.filter(function (villa) { return hasFilter(villa, label); }).length || villas.length;
+        }
+
+        function filterSlug(label) {
+          return String(label || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        }
+
+        function filterFromSlug(slug) {
+          var value = String(slug || "").toLowerCase();
+          return allAttributes.find(function (name) { return filterSlug(name) === value; }) || "";
+        }
+
+        function renderFilterControls() {
+          document.querySelector("[data-recommended-filters]").innerHTML = recommended.map(function (item) {
+            return '<button class="recommended-card" type="button" data-modal-filter="' + escapeHtml(item.value) + '"><span class="recommended-art">' + filterIcon(item.value) + '</span><span>' + escapeHtml(item.label) + '</span></button>';
+          }).join("");
+          function groupMarkup(group) {
+            var buttons = group.items.map(function (item) {
+              if (group.checkbox) {
+                return '<button class="filter-check" type="button" data-modal-filter="' + escapeHtml(item.value) + '">' + escapeHtml(item.label) + '</button>';
+              }
+              if (group.title === "Standout stays") {
+                return '<button class="standout-card" type="button" data-modal-filter="' + escapeHtml(item.value) + '">' + filterIcon(item.value) + '<span><strong>' + escapeHtml(item.label) + '</strong><span>' + escapeHtml(item.text || "") + '</span></span></button>';
+              }
+              return '<button class="amenity-chip" type="button" data-modal-filter="' + escapeHtml(item.value) + '"><span class="amenity-chip-icon">' + filterIcon(item.value) + '</span>' + escapeHtml(item.label) + '</button>';
+            }).join("");
+            return '<section class="filter-group"><h3>' + escapeHtml(group.title) + '</h3><div class="' + (group.title === "Standout stays" ? "standout-grid" : "filter-group-grid" + (group.checkbox ? " is-checkboxes" : "")) + '">' + buttons + '</div></section>';
+          }
+          var filterSections = [
+            { title: "Amenities", groups: ["Popular", "Essentials", "Features", "Location", "Safety"] },
+            { title: "Booking options", groups: ["Booking options"] },
+            { title: "Standout stays", groups: ["Standout stays"] },
+            { title: "Property type", groups: ["Property type"] },
+            { title: "Accessibility features", groups: ["Accessibility features"] },
+            { title: "Host language", groups: ["Host language"] }
+          ];
+          document.querySelector("[data-filter-groups]").innerHTML = filterSections.map(function (section) {
+            var groups = filterGroups.filter(function (group) { return section.groups.indexOf(group.title) !== -1; });
+            return '<section class="filter-section"><h2>' + escapeHtml(section.title) + '</h2>' + groups.map(groupMarkup).join("") + '</section>';
+          }).join("");
+          var bars = [3, 4, 4, 5, 5, 7, 9, 13, 18, 24, 30, 35, 40, 47, 56, 66, 74, 82, 88, 80, 70, 64, 60, 55, 49, 43, 39, 36, 34, 31, 28, 25, 22, 19, 17, 15, 13, 11, 10, 9, 8, 7];
+          document.querySelector("[data-price-chart]").innerHTML = bars.map(function (height) {
+            return '<span style="height:' + height + '%"></span>';
+          }).join("");
+          [minPriceRange, maxPriceRange].forEach(function (input) {
+            if (!input) return;
+            input.max = String(Math.ceil(maxVillaPrice / 100) * 100);
+          });
+          if (maxPriceRange) maxPriceRange.value = String(Math.ceil(maxVillaPrice / 100) * 100);
+          syncFilterControls();
+        }
+
+        function syncFilterControls() {
+          document.querySelectorAll("[data-modal-filter]").forEach(function (button) {
+            button.classList.toggle("is-active", state.filters.has(button.getAttribute("data-modal-filter")));
+          });
+          document.querySelectorAll("[data-place-type]").forEach(function (button) {
+            button.classList.toggle("is-active", button.getAttribute("data-place-type") === state.type);
+          });
+          document.querySelector('[data-modal-counter="bedrooms"] [data-counter-value]').textContent = state.bedrooms;
+          document.querySelector('[data-modal-counter="beds"] [data-counter-value]').textContent = state.beds;
+          document.querySelector('[data-modal-counter="bathrooms"] [data-counter-value]').textContent = state.bathrooms;
+          minPrice.value = state.minPrice || "";
+          maxPrice.value = state.maxPrice || "";
+          if (minPriceRange) minPriceRange.value = String(state.minPrice || 0);
+          if (maxPriceRange) maxPriceRange.value = String(state.maxPrice || Math.ceil(maxVillaPrice / 100) * 100);
+        }
+
+        function activeFilterNumber() {
+          var total = state.filters.size;
+          if (state.type !== "any") total += 1;
+          if (state.bedrooms) total += 1;
+          if (state.beds) total += 1;
+          if (state.bathrooms) total += 1;
+          if (state.minPrice || state.maxPrice) total += 1;
+          return total;
+        }
+
+        function setupDestinations() {
+          var places = Array.from(new Set(villas.map(function (villa) { return villa.place; }))).sort();
+          destination.innerHTML = '<option value="">Mallorca villas</option>' + places.map(function (place) {
+            return '<option value="' + escapeHtml(place) + '">' + escapeHtml(place) + '</option>';
+          }).join("");
+        }
+
+        function applyUrlState() {
+          var params = new URLSearchParams(window.location.search);
+          var places = Array.from(new Set(villas.map(function (villa) { return villa.place; })));
+          var rawDestination = (params.get("destination") || "").replace(/-/g, " ").toLowerCase();
+          var match = rawDestination ? places.find(function (place) { return place.toLowerCase() === rawDestination || place.toLowerCase().indexOf(rawDestination) !== -1; }) || "" : "";
+          destination.value = match;
+          dateFromInput.value = params.get("date_from") || params.get("checkin") || "";
+          dateToInput.value = params.get("date_to") || params.get("checkout") || "";
+          dateModeInput.value = params.get("date_mode") === "flexible" ? "flexible" : "dates";
+          flexibleStayInput.value = params.get("flexible_stay") || "week";
+          flexibleMonthInput.value = params.get("flexible_month") || "";
+          guestsInput.value = params.get("guests") || params.get("adult") || "2";
+          childrenInput.value = params.get("children") || params.get("child") || "0";
+          petsInput.value = params.get("pets") || "0";
+          state.type = params.get("type") || params.get("type_of_place") || "any";
+          if (!["any", "villa", "finca", "estate"].includes(state.type)) state.type = "any";
+          state.bedrooms = Number(params.get("bedrooms") || 0);
+          state.beds = Number(params.get("beds") || 0);
+          state.bathrooms = Number(params.get("bathrooms") || 0);
+          state.minPrice = Number(params.get("min_price") || 0);
+          state.maxPrice = Number(params.get("max_price") || 0);
+          state.filters.clear();
+          (params.get("filters") || "").split(",").forEach(function (label) {
+            if (label) state.filters.add(label);
+          });
+          (params.get("attributes") || params.get("attribute") || "").split(",").forEach(function (slug) {
+            var label = filterFromSlug(slug);
+            if (label) state.filters.add(label);
+          });
+          if (selectedDateMode() === "flexible" && flexibleMonthInput.value && !hasDateRange()) {
+            applyFlexibleSelection();
+          }
+          var selectedNights = hasDateRange() ? nightsBetween(dateFromInput.value, dateToInput.value) : Number(params.get("nights") || 7);
+          hiddenNights.value = hasDateRange() || selectedDateMode() === "flexible" ? String(selectedNights) : "";
+          hiddenRange.value = selectedDateMode() === "flexible" ? params.get("range") || hiddenRange.value || "14" : hasDateRange() ? params.get("range") || "0" : "";
+          syncNightsSelect(Number(selectedNights || 7));
+          exactFrom.value = dateFromInput.value;
+          exactTo.value = dateToInput.value;
+          updateSummaries();
+          syncDateModeUI();
+          renderCalendar();
+          renderFlexibleMonths();
+        }
+
+        function typeMatches(villa) {
+          if (state.type === "any") return true;
+          var haystack = (villa.type + " " + villa.name + " " + villa.tags.join(" ")).toLowerCase();
+          return haystack.indexOf(state.type) !== -1;
+        }
+
+        function currentResults() {
+          var place = (destination.value || "").toLowerCase();
+          var guests = Number(guestsInput.value || 0) + Number(childrenInput.value || 0);
+          var results = villas.filter(function (villa) {
+            if (place && villa.place.toLowerCase() !== place) return false;
+            if (guests && villa.guests < guests) return false;
+            if (state.minPrice && villa.price < state.minPrice) return false;
+            if (state.maxPrice && villa.price > state.maxPrice) return false;
+            if (state.bedrooms && villa.bedrooms < state.bedrooms) return false;
+            if (state.beds && (villa.beds || villa.bedrooms || 0) < state.beds) return false;
+            if (state.bathrooms && villa.bathrooms < state.bathrooms) return false;
+            if (!typeMatches(villa)) return false;
+            return Array.from(state.filters).every(function (filter) { return hasFilter(villa, filter); });
+          });
+          if (sort.value === "price-desc") results.sort(function (a, b) { return b.price - a.price; });
+          if (sort.value === "price-asc") results.sort(function (a, b) { return a.price - b.price; });
+          if (sort.value === "capacity-desc") results.sort(function (a, b) { return b.guests - a.guests; });
+          if (sort.value === "rating-desc") results.sort(function (a, b) { return b.rating - a.rating; });
+          return results;
+        }
+
+        function saveVilla(villa) {
+          var stored = readJson("craysWishList", []);
+          var legacy = readJson("craysWatchList", []);
+          var slugs = Array.from(new Set([].concat(stored || [], legacy || [], [villa.slug]).filter(Boolean)));
+          writeJson("craysWishList", slugs);
+          writeJson("craysWatchList", slugs);
+        }
+
+        function mapPosition(villa) {
+          var lat = villa.map && Number(villa.map.latitude) || 39.6;
+          var lng = villa.map && Number(villa.map.longitude) || 3.0;
+          var left = ((lng - 2.32) / (3.55 - 2.32)) * 100;
+          var top = (1 - ((lat - 39.23) / (40.02 - 39.23))) * 100;
+          return {
+            left: Math.max(8, Math.min(92, left)),
+            top: Math.max(10, Math.min(90, top))
+          };
+        }
+
+        function renderMap(results) {
+          mapFrame.src = googleMapEmbed();
+          var active = results.find(function (villa) { return villa.slug === state.activeSlug; }) || results[0] || villas[0];
+          openMap.href = googleMapUrl(active);
+          mapOverlay.innerHTML = results.map(function (villa) {
+            var pos = mapPosition(villa);
+            return '<button class="map-pin' + (villa.slug === state.activeSlug ? " is-active" : "") + '" type="button" data-map-slug="' + escapeHtml(villa.slug) + '" style="left:' + pos.left + '%;top:' + pos.top + '%">' + money(villa.price) + '</button>';
+          }).join("");
+        }
+
+        function renderActiveFilters() {
+          var chips = [];
+          if (state.type !== "any") chips.push({ key: "type", label: state.type.charAt(0).toUpperCase() + state.type.slice(1) });
+          if (state.bedrooms) chips.push({ key: "bedrooms", label: state.bedrooms + "+ bedrooms" });
+          if (state.beds) chips.push({ key: "beds", label: state.beds + "+ beds" });
+          if (state.bathrooms) chips.push({ key: "bathrooms", label: state.bathrooms + "+ bathrooms" });
+          if (state.minPrice || state.maxPrice) chips.push({ key: "price", label: (state.minPrice ? money(state.minPrice) : "0") + " - " + (state.maxPrice ? money(state.maxPrice) : "open") });
+          Array.from(state.filters).forEach(function (filter) { chips.push({ key: filter, label: filter }); });
+          activeFilters.innerHTML = chips.map(function (chip) {
+            return '<span class="active-filter">' + escapeHtml(chip.label) + '<button type="button" data-remove-filter="' + escapeHtml(chip.key) + '">x</button></span>';
+          }).join("");
+          var total = activeFilterNumber();
+          filterCount.hidden = !total;
+          filterCount.textContent = total;
+        }
+
+        function renderCards(results) {
+          list.classList.toggle("is-grid", state.viewMode === "grid");
+          viewButtons.forEach(function (button) {
+            var active = button.getAttribute("data-view-mode") === state.viewMode;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", active ? "true" : "false");
+          });
+          if (!results.length) {
+            list.innerHTML = '<div class="empty-state">No villa matches the current filters. Clear a filter or search all Mallorca villas.</div>';
+            return;
+          }
+          list.innerHTML = results.map(function (villa) {
+            var href = detailUrl(villa);
+            var tags = villa.tags.slice(0, 4).map(function (tag) { return '<span>' + escapeHtml(tag) + '</span>'; }).join("");
+            return '<article class="villa-card' + (villa.slug === state.activeSlug ? " is-active" : "") + '" data-villa-card="' + escapeHtml(villa.slug) + '">' +
+              '<a class="villa-media" href="' + href + '"><img src="' + escapeHtml(villa.image) + '" alt="' + escapeHtml(villa.name) + '" loading="lazy" /><span class="photo-badge">View photos</span></a>' +
+              '<button class="save-card" type="button" data-save-villa="' + escapeHtml(villa.slug) + '">Save</button>' +
+              '<div class="villa-main"><span class="villa-place">' + escapeHtml(villa.place) + '</span><h2><a href="' + href + '">' + escapeHtml(villa.name) + '</a></h2><div class="villa-meta"><span>' + villa.guests + ' guests</span><span>' + villa.bedrooms + ' bedrooms</span><span>' + villa.bathrooms + ' baths</span></div><p class="villa-copy">' + escapeHtml(villa.text) + '</p><div class="tag-row">' + tags + '</div></div>' +
+              '<aside class="villa-side"><div class="villa-rating">5 stars ' + villa.rating.toFixed(1) + ' / 5</div><div class="villa-price">' + money(villa.price) + '<small>per stay</small></div><a class="villa-view" href="' + href + '">View villa</a></aside>' +
+            '</article>';
+          }).join("");
+        }
+
+        function render() {
+          var results = currentResults();
+          if (!state.activeSlug && results[0]) state.activeSlug = results[0].slug;
+          if (results.length && !results.some(function (villa) { return villa.slug === state.activeSlug; })) state.activeSlug = results[0].slug;
+          resultCount.textContent = results.length;
+          modalCount.textContent = results.length;
+          var guestTotal = Number(guestsInput.value) + Number(childrenInput.value);
+          var dateLine = selectedDateMode() === "flexible" ? dateSummary.textContent : hasDateRange() ? shortDate(dateFromInput.value) + " - " + shortDate(dateToInput.value) : "Mallorca villas";
+          subline.textContent = dateLine + " - " + guestTotal + " guests";
+          renderActiveFilters();
+          renderCards(results);
+          renderMap(results);
+          syncFilterControls();
+          window.CRAYS_BACKEND_SEARCH_URL = backendSearchUrl;
+        }
+
+        function updateUrl() {
+          var url = new URL(window.location.href);
+          [
+            ["destination", destination.value],
+            ["date_from", dateFromInput.value],
+            ["date_to", dateToInput.value],
+            ["guests", guestsInput.value],
+            ["children", childrenInput.value],
+            ["pets", petsInput.value],
+            ["nights", hasDateRange() || selectedDateMode() === "flexible" ? hiddenNights.value : ""],
+            ["range", hasDateRange() || selectedDateMode() === "flexible" ? hiddenRange.value : ""],
+            ["date_mode", selectedDateMode() === "flexible" ? "flexible" : ""],
+            ["flexible_stay", selectedDateMode() === "flexible" ? flexibleStayInput.value : ""],
+            ["flexible_month", selectedDateMode() === "flexible" ? flexibleMonthInput.value : ""],
+            ["type", state.type !== "any" ? state.type : ""],
+            ["bedrooms", state.bedrooms || ""],
+            ["beds", state.beds || ""],
+            ["bathrooms", state.bathrooms || ""],
+            ["min_price", state.minPrice || ""],
+            ["max_price", state.maxPrice || ""],
+            ["attributes", Array.from(state.filters).map(filterSlug).join(",")]
+          ].forEach(function (item) {
+            if (item[1] && !(item[0] === "destination" && !item[1]) && !(item[0] === "children" && item[1] === "0") && !(item[0] === "pets" && item[1] === "0")) url.searchParams.set(item[0], item[1]);
+            else url.searchParams.delete(item[0]);
+          });
+          url.searchParams.delete("attribute");
+          url.searchParams.delete("filters");
+          window.history.replaceState({}, "", url);
+        }
+
+        setupDestinations();
+        renderFilterControls();
+        applyUrlState();
+        render();
+
+        document.querySelector("[data-account-menu-button]").addEventListener("click", function () {
+          var dropdown = document.querySelector("[data-account-dropdown]");
+          var open = dropdown.hidden;
+          dropdown.hidden = !open;
+          this.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          updateUrl();
+          render();
+          closePopovers();
+        });
+
+        destination.addEventListener("change", function () {
+          updateUrl();
+          render();
+        });
+
+        sort.addEventListener("change", render);
+        viewButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            state.viewMode = button.getAttribute("data-view-mode") || "grid";
+            localStorage.setItem(viewModeStorageKey, state.viewMode);
+            render();
+          });
+        });
+        dateTrigger.addEventListener("click", function (event) {
+          event.stopPropagation();
+          togglePopover(datePopover, dateTrigger);
+        });
+        guestsTrigger.addEventListener("click", function (event) {
+          event.stopPropagation();
+          togglePopover(guestsPopover, guestsTrigger);
+        });
+        datePopover.addEventListener("click", function (event) { event.stopPropagation(); });
+        guestsPopover.addEventListener("click", function (event) { event.stopPropagation(); });
+        document.querySelectorAll("[data-date-mode-switch]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            setDateMode(button.getAttribute("data-date-mode-switch") || "dates");
+          });
+        });
+        document.querySelectorAll("[data-flex-range]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            hiddenRange.value = button.getAttribute("data-flex-range") || "0";
+            dateModeInput.value = "dates";
+            syncDateModeUI();
+            updateSummaries();
+            updateUrl();
+            render();
+          });
+        });
+        document.querySelectorAll("[data-flex-stay]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            flexibleStayInput.value = button.getAttribute("data-flex-stay") || "week";
+            dateModeInput.value = "flexible";
+            applyFlexibleSelection();
+            syncDateModeUI();
+            renderFlexibleMonths();
+            updateUrl();
+            render();
+          });
+        });
+        document.querySelector("[data-flex-months]").addEventListener("click", function (event) {
+          var button = event.target.closest("[data-flex-month]");
+          if (!button) return;
+          flexibleMonthInput.value = button.getAttribute("data-flex-month") || "";
+          dateModeInput.value = "flexible";
+          applyFlexibleSelection();
+          syncDateModeUI();
+          renderFlexibleMonths();
+          updateUrl();
+          render();
+        });
+        document.querySelector("[data-flex-prev]").addEventListener("click", function () {
+          flexibleMonthStart = new Date(flexibleMonthStart.getFullYear(), flexibleMonthStart.getMonth() - 6, 1);
+          renderFlexibleMonths();
+        });
+        document.querySelector("[data-flex-next]").addEventListener("click", function () {
+          flexibleMonthStart = new Date(flexibleMonthStart.getFullYear(), flexibleMonthStart.getMonth() + 6, 1);
+          renderFlexibleMonths();
+        });
+        document.querySelector("[data-calendar-prev]").addEventListener("click", function () { calendarMonth.setMonth(calendarMonth.getMonth() - 1); renderCalendar(); });
+        document.querySelector("[data-calendar-next]").addEventListener("click", function () { calendarMonth.setMonth(calendarMonth.getMonth() + 1); renderCalendar(); });
+        function calendarDayFromEvent(event) {
+          var day = event.target.closest("[data-calendar-day]");
+          return day ? day.getAttribute("data-calendar-day") : "";
+        }
+
+        function calendarDayAtPoint(event) {
+          if (typeof document.elementFromPoint !== "function") return "";
+          var target = document.elementFromPoint(event.clientX, event.clientY);
+          var day = target && target.closest ? target.closest("[data-calendar-day]") : null;
+          return day && calendar.contains(day) ? day.getAttribute("data-calendar-day") : "";
+        }
+
+        function finishCalendarDrag(event) {
+          if (!calendarDrag.active) return;
+          var iso = event ? calendarDayAtPoint(event) : "";
+          if (iso && iso !== calendarDrag.end) {
+            calendarDrag.end = iso;
+            calendarDrag.moved = true;
+          }
+          var start = calendarDrag.start;
+          var end = calendarDrag.end;
+          var shouldCommit = calendarDrag.moved || start !== end;
+          calendarDrag.active = false;
+          calendarDrag.start = "";
+          calendarDrag.end = "";
+          calendarDrag.moved = false;
+          if (!shouldCommit) return;
+          suppressCalendarClick = true;
+          setDateRange(start, end);
+          updateUrl();
+          render();
+        }
+
+        function beginCalendarDrag(event) {
+          if (event.button && event.button !== 0) return;
+          var iso = calendarDayFromEvent(event);
+          if (!iso) return;
+          calendarDrag.active = true;
+          calendarDrag.start = iso;
+          calendarDrag.end = iso;
+          calendarDrag.moved = false;
+        }
+
+        function updateCalendarDragFromPointer(event) {
+          if (!calendarDrag.active) return;
+          var iso = calendarDayAtPoint(event);
+          if (!iso || iso === calendarDrag.end) return;
+          event.preventDefault();
+          calendarDrag.end = iso;
+          calendarDrag.moved = true;
+          renderCalendar();
+        }
+
+        calendar.addEventListener("pointerdown", beginCalendarDrag);
+        calendar.addEventListener("mousedown", beginCalendarDrag);
+        document.addEventListener("pointermove", updateCalendarDragFromPointer);
+        document.addEventListener("mousemove", updateCalendarDragFromPointer);
+        document.addEventListener("pointerup", finishCalendarDrag);
+        document.addEventListener("mouseup", finishCalendarDrag);
+        document.addEventListener("pointercancel", function () {
+          calendarDrag.active = false;
+          calendarDrag.start = "";
+          calendarDrag.end = "";
+          calendarDrag.moved = false;
+          renderCalendar();
+        });
+
+        calendar.addEventListener("pointerover", function (event) {
+          if (calendarDrag.active || !calendarPendingStart) return;
+          var iso = calendarDayFromEvent(event);
+          if (!iso || iso === calendarHoverDate) return;
+          calendarHoverDate = iso;
+          renderCalendar();
+        });
+
+        calendar.addEventListener("pointerleave", function () {
+          if (!calendarPendingStart || calendarDrag.active) return;
+          calendarHoverDate = "";
+          renderCalendar();
+        });
+
+        calendar.addEventListener("click", function (event) {
+          var iso = calendarDayFromEvent(event);
+          if (!iso) return;
+          event.stopPropagation();
+          if (suppressCalendarClick) {
+            suppressCalendarClick = false;
+            return;
+          }
+          if (!calendarPendingStart) {
+            calendarPendingStart = iso;
+            calendarHoverDate = iso;
+            renderCalendar();
+            return;
+          }
+          setDateRange(calendarPendingStart, iso);
+          updateUrl();
+          render();
+        });
+        document.querySelectorAll("[data-stepper]").forEach(function (stepper) {
+          var field = stepper.getAttribute("data-stepper");
+          var input = field === "guests" ? guestsInput : field === "children" ? childrenInput : petsInput;
+          var output = stepper.querySelector("[data-step-value]");
+          function sync() {
+            output.textContent = input.value;
+            stepper.querySelector('[data-step="-1"]').disabled = Number(input.value) <= (field === "guests" ? 1 : 0);
+          }
+          stepper.addEventListener("click", function (event) {
+            var button = event.target.closest("[data-step]");
+            if (!button) return;
+            var min = field === "guests" ? 1 : 0;
+            input.value = String(Math.max(min, Math.min(24, Number(input.value || min) + Number(button.getAttribute("data-step")))));
+            sync();
+            updateSummaries();
+            render();
+          });
+          sync();
+        });
+
+        document.querySelector("[data-open-filters]").addEventListener("click", function () {
+          filterModal.hidden = false;
+          document.body.classList.add("modal-open");
+          syncFilterControls();
+        });
+        document.querySelector("[data-close-filters]").addEventListener("click", function () {
+          filterModal.hidden = true;
+          document.body.classList.remove("modal-open");
+        });
+        document.querySelector("[data-apply-filters]").addEventListener("click", function () {
+          filterModal.hidden = true;
+          document.body.classList.remove("modal-open");
+          render();
+        });
+        document.querySelector("[data-clear-filters]").addEventListener("click", function () {
+          state.filters.clear();
+          state.type = "any";
+          state.bedrooms = 0;
+          state.beds = 0;
+          state.bathrooms = 0;
+          state.minPrice = 0;
+          state.maxPrice = 0;
+          updateUrl();
+          render();
+        });
+        filterModal.addEventListener("click", function (event) {
+          if (event.target === filterModal) {
+            filterModal.hidden = true;
+            document.body.classList.remove("modal-open");
+          }
+          var filterButton = event.target.closest("[data-modal-filter]");
+          if (filterButton) {
+            var value = filterButton.getAttribute("data-modal-filter");
+            if (state.filters.has(value)) state.filters.delete(value);
+            else state.filters.add(value);
+            updateUrl();
+            render();
+          }
+          var typeButton = event.target.closest("[data-place-type]");
+          if (typeButton) {
+            state.type = typeButton.getAttribute("data-place-type");
+            updateUrl();
+            render();
+          }
+          var counterButton = event.target.closest("[data-modal-counter] [data-step]");
+          if (counterButton) {
+            var counter = counterButton.closest("[data-modal-counter]").getAttribute("data-modal-counter");
+            var next = Math.max(0, Math.min(12, Number(state[counter] || 0) + Number(counterButton.getAttribute("data-step"))));
+            state[counter] = next;
+            updateUrl();
+            render();
+          }
+        });
+        minPrice.addEventListener("input", function () { state.minPrice = Number(minPrice.value || 0); updateUrl(); render(); });
+        maxPrice.addEventListener("input", function () { state.maxPrice = Number(maxPrice.value || 0); updateUrl(); render(); });
+        minPriceRange.addEventListener("input", function () {
+          state.minPrice = Math.min(Number(minPriceRange.value || 0), Number(maxPriceRange.value || 0));
+          updateUrl();
+          render();
+        });
+        maxPriceRange.addEventListener("input", function () {
+          var maxValue = Number(maxPriceRange.value || 0);
+          state.maxPrice = maxValue >= Math.ceil(maxVillaPrice / 100) * 100 ? 0 : Math.max(maxValue, Number(minPriceRange.value || 0));
+          updateUrl();
+          render();
+        });
+        activeFilters.addEventListener("click", function (event) {
+          var remove = event.target.closest("[data-remove-filter]");
+          if (!remove) return;
+          var key = remove.getAttribute("data-remove-filter");
+          if (key === "type") state.type = "any";
+          else if (key === "bedrooms") state.bedrooms = 0;
+          else if (key === "beds") state.beds = 0;
+          else if (key === "bathrooms") state.bathrooms = 0;
+          else if (key === "price") { state.minPrice = 0; state.maxPrice = 0; }
+          else state.filters.delete(key);
+          updateUrl();
+          render();
+        });
+
+        list.addEventListener("click", function (event) {
+          var save = event.target.closest("[data-save-villa]");
+          if (!save) return;
+          var villa = villas.find(function (item) { return item.slug === save.getAttribute("data-save-villa"); });
+          if (!villa) return;
+          saveVilla(villa);
+          save.textContent = "Saved";
+        });
+        list.addEventListener("mouseover", function (event) {
+          var card = event.target.closest("[data-villa-card]");
+          if (!card) return;
+          state.activeSlug = card.getAttribute("data-villa-card");
+          renderMap(currentResults());
+          document.querySelectorAll("[data-villa-card]").forEach(function (node) { node.classList.toggle("is-active", node === card); });
+        });
+        mapOverlay.addEventListener("click", function (event) {
+          var pin = event.target.closest("[data-map-slug]");
+          if (!pin) return;
+          state.activeSlug = pin.getAttribute("data-map-slug");
+          render();
+          var card = document.querySelector('[data-villa-card="' + state.activeSlug + '"]');
+          if (card) card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        });
+        document.querySelector("[data-mobile-map-toggle]").addEventListener("click", function () {
+          mapPane.classList.toggle("is-open");
+          this.textContent = mapPane.classList.contains("is-open") ? "Hide map" : "Map";
+        });
+        document.addEventListener("click", function (event) {
+          if (!form.contains(event.target)) closePopovers();
+          if (!document.querySelector("[data-account-menu]").contains(event.target)) {
+            document.querySelector("[data-account-dropdown]").hidden = true;
+            document.querySelector("[data-account-menu-button]").setAttribute("aria-expanded", "false");
+          }
+        });
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            closePopovers();
+            filterModal.hidden = true;
+            document.body.classList.remove("modal-open");
+          }
+        });
+      })();
+    </script>
+      <script src="/assets/crays-club/crays-i18n.js?v=crays-i18n-2" defer></script>
+  </body>
+</html>

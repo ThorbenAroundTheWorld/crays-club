@@ -1,0 +1,1963 @@
+import fs from "node:fs";
+import path from "node:path";
+
+const root = process.cwd();
+const version = "crays-i18n-2";
+const baseUrl = "https://www.craysclub.com";
+const languageCodes = ["en", "de", "es", "ca", "fr", "pt", "it"];
+const languages = [
+  { code: "en", label: "English", native: "English", flag: "🇬🇧" },
+  { code: "de", label: "Deutsch", native: "Deutsch", flag: "🇩🇪" },
+  { code: "es", label: "Español", native: "Español", flag: "🇪🇸" },
+  { code: "ca", label: "Català", native: "Català", flag: "🇪🇸" },
+  { code: "fr", label: "Français", native: "Français", flag: "🇫🇷" },
+  { code: "pt", label: "Português", native: "Português", flag: "🇵🇹" },
+  { code: "it", label: "Italiano", native: "Italiano", flag: "🇮🇹" }
+];
+
+const translations = {
+  de: {
+    "Crays Clubs | Social Living for Explorer": "Crays Clubs | Social Living für Explorer",
+    "About Us | Crays Clubs": "Über uns | Crays Clubs",
+    "Community Life | Crays Clubs": "Community Life | Crays Clubs",
+    "Become a Member | Crays Clubs": "Mitglied werden | Crays Clubs",
+    "Contact | Crays Clubs": "Kontakt | Crays Clubs",
+    "Account & Booking | Crays Villas": "Account & Booking | Crays Villas",
+    "Crays Villas | Search": "Crays Villas | Suche",
+    "Crays Villas | Property": "Crays Villas | Villa",
+    "Imprint | Crays Clubs": "Impressum | Crays Clubs",
+    "Terms and Conditions | Crays Clubs": "AGB | Crays Clubs",
+    "Privacy Policy | Crays Clubs": "Datenschutzerklärung | Crays Clubs",
+    "Data Protection | Crays Clubs": "Datenschutz | Crays Clubs",
+    "Account & Booking": "Account & Booking",
+    "Login, Wish List, Cart and Booking Request": "Login, Wish List, Warenkorb und Buchungsanfrage",
+    "About Us": "Über uns",
+    "Lifestyle": "Lifestyle",
+    "Hospitality": "Hospitality",
+    "Community Life": "Community Life",
+    "Become a Member": "Mitglied werden",
+    "Contact": "Kontakt",
+    "Crays Association": "Crays Association",
+    "Explore our Ecosystem Projects": "Unsere Ecosystem-Projekte entdecken",
+    "Explore Crays stays": "Crays Stays entdecken",
+    "Villas, clubs, co-living, experiences and services": "Villas, Clubs, Co-Living, Experiences und Services",
+    "Team": "Team",
+    "Beta Login": "Beta Login",
+    "Start Project Intake": "Projekt einreichen",
+    "Hospitality Brand Alliance": "Hospitality Brand Alliance",
+    "A New Era of": "Eine neue Ära von",
+    "Work, Live, and Play": "Work, Live und Play",
+    "Connect with friends, colleagues, and business partners in one place.": "Freunde, Kolleginnen und Business-Partner an einem Ort treffen.",
+    "Crays Clubs are phygital work-live-play spaces for creators, founders, and nomads.": "Crays Clubs sind phygitale Work-Live-Play-Orte für Creators, Founder und Nomads.",
+    "Join our community of builders & makers.": "Werde Teil unserer Community aus Builders & Makers.",
+    "Explore Association": "Association entdecken",
+    "Explore Community": "Community entdecken",
+    "Crays Club Berlin": "Crays Club Berlin",
+    "Your living room in the city.": "Dein Wohnzimmer in der Stadt.",
+    "Berlin Flagship": "Berlin Flagship",
+    "Work, lounge, living and health under one Crays roof.": "Work, Lounge, Living und Health unter einem Crays Dach.",
+    "The Berlin concept brings club workspaces, social hospitality and stay-ready living into one city base.": "Das Berlin-Konzept verbindet Club-Workspaces, Social Hospitality und stay-ready Living in einer City Base.",
+    "Guest Layer": "Guest Layer",
+    "One Crays profile for discovery, access and local matching.": "Ein Crays Profil für Discovery, Access und lokales Matching.",
+    "Guest Journey": "Guest Journey",
+    "One club flow from arrival to afterwork.": "Ein Club Flow von Arrival bis Afterwork.",
+    "Arrive & Belong": "Ankommen & dazugehören",
+    "Work Without Friction": "Arbeiten ohne Reibung",
+    "Lounge, Eat & Shop": "Lounge, Eat & Shop",
+    "Create & Present": "Create & Present",
+    "Recover & Stay": "Recover & Stay",
+    "Match & Return": "Match & Return",
+    "The Club Mix": "Der Club Mix",
+    "Work, lounge, living and health in one guest-facing space.": "Work, Lounge, Living und Health in einem Space für Guests.",
+    "Co-Working": "Co-Working",
+    "Lounge": "Lounge",
+    "Living": "Living",
+    "Health": "Health",
+    "Lifestyle Culture": "Lifestyle Culture",
+    "Crays is where strangers become stories.": "Bei Crays werden Fremde zu Geschichten.",
+    "Who It Is For": "Für wen es gemacht ist",
+    "Built for guests who arrive ready to live.": "Für Guests, die ankommen und direkt leben wollen.",
+    "Hotel guests and international business travelers": "Hotelgäste und internationale Business Travelers",
+    "Entrepreneurs, founders and innovative startup teams": "Entrepreneurs, Founder und innovative Startup-Teams",
+    "Digital nomads, freelancers, remote workers and creators": "Digital Nomads, Freelancer, Remote Worker und Creators",
+    "Lifestyle brands, product launches and private events": "Lifestyle Brands, Product Launches und private Events",
+    "More Information": "Mehr erfahren",
+    "In-Venue Web5": "In-Venue Web5",
+    "Digital community, but rooted in the room.": "Digitale Community, aber im Raum verankert.",
+    "Guest discovery": "Guest Discovery",
+    "Local messaging": "Local Messaging",
+    "Dynamic rewards": "Dynamic Rewards",
+    "Global profile": "Globales Profil",
+    "Founding Member & VIP Access": "Founding Member & VIP Access",
+    "Private access for guests who shape the first club generation.": "Privater Zugang für Guests, die die erste Club-Generation prägen.",
+    "VIP entrance and selected VIP areas": "VIP Entrance und ausgewählte VIP Areas",
+    "Free use of selected Crays spaces": "Freie Nutzung ausgewählter Crays Spaces",
+    "Exclusive membership NFT concept": "Exklusives Membership-NFT-Konzept",
+    "Global Club Vision": "Global Club Vision",
+    "Berlin first. Then the Crays living rooms travel with the guests.": "Berlin zuerst. Danach reisen die Crays Living Rooms mit den Guests.",
+    "Airports": "Airports",
+    "City Trips": "City Trips",
+    "Pool Clubs": "Pool Clubs",
+    "Beach Life": "Beach Life",
+    "We build the real-world layer for people who move.": "Wir bauen den Real-World Layer für Menschen in Bewegung.",
+    "Crays connects living, working, travel and community into one recognizable system for creators, founders, business travelers and global citizens who need freedom without losing structure.": "Crays verbindet Living, Work, Travel und Community zu einem klaren System für Creators, Founder, Business Travelers und Global Citizens, die Freiheit mit Struktur brauchen.",
+    "Explore the model": "Modell entdecken",
+    "Place": "Place",
+    "People": "People",
+    "Technology": "Technology",
+    "Belonging": "Belonging",
+    "One Crays layer": "Ein Crays Layer",
+    "homes, lounges, workspaces, events and digital access.": "Homes, Lounges, Workspaces, Events und Digital Access.",
+    "The Idea": "Die Idee",
+    "Freedom only works when the basics are already handled.": "Freiheit funktioniert erst, wenn die Basics stehen.",
+    "Real places first.": "Real places first.",
+    "What We Believe": "Woran wir glauben",
+    "Three shifts define the world Crays is built for.": "Drei Shifts prägen die Welt, für die Crays gebaut ist.",
+    "Living becomes a lifestyle brand": "Living wird zur Lifestyle Brand",
+    "Digital nomads are no longer a niche": "Digital Nomads sind keine Nische mehr",
+    "Remote work changes real estate": "Remote Work verändert Real Estate",
+    "Vision": "Vision",
+    "A global village made of real rooms, not just online networks.": "Ein Global Village aus echten Räumen, nicht nur aus Online Networks.",
+    "Brand": "Brand",
+    "A shared identity across living, working and travel.": "Eine gemeinsame Identity über Living, Work und Travel.",
+    "Digital Nomads": "Digital Nomads",
+    "The mobile workforce is the signal, not the exception.": "Die mobile Workforce ist das Signal, nicht die Ausnahme.",
+    "Choose the office": "Office frei wählen",
+    "Keep routines": "Routinen behalten",
+    "Meet real people": "Echte Menschen treffen",
+    "Live with variety": "Mit Vielfalt leben",
+    "Remote Working": "Remote Working",
+    "Remote work works best when people still have somewhere to arrive.": "Remote Work funktioniert besser, wenn Menschen einen Ort zum Ankommen haben.",
+    "The Crays Flow": "Der Crays Flow",
+    "Arrive, work, live and belong in one connected layer.": "Ankommen, arbeiten, leben und dazugehören in einem verbundenen Layer.",
+    "Arrival": "Arrival",
+    "Work and live": "Work and live",
+    "Belong": "Belong",
+    "The Short Version": "Kurz gesagt",
+    "Crays is building places where global citizens can belong before they settle.": "Crays baut Orte, an denen Global Citizens dazugehören können, bevor sie sich festlegen.",
+    "Explore Team": "Team entdecken",
+    "Crays Lifestyle": "Crays Lifestyle",
+    "The real-world operating layer for people who move.": "Der Real-World Operating Layer für Menschen in Bewegung.",
+    "Explore stays": "Stays entdecken",
+    "Talk to Crays": "Mit Crays sprechen",
+    "Member": "Member",
+    "Identity": "Identity",
+    "Venue": "Venue",
+    "Super Node": "Super Node",
+    "Value": "Value",
+    "Payments": "Payments",
+    "Layer Map": "Layer Map",
+    "Daily Rhythm": "Daily Rhythm",
+    "Crays Doors": "Crays Doors",
+    "Build With Us": "Build With Us",
+    "Not another lifestyle page. A live map of the Crays ecosystem.": "Keine weitere Lifestyle-Seite. Eine Live Map des Crays Ecosystem.",
+    "Association": "Association",
+    "Builders, makers, governance and shared brand IP.": "Builders, Makers, Governance und gemeinsame Brand IP.",
+    "Fund": "Fund",
+    "Real estate, wealth, villa infrastructure and portfolio logic.": "Real Estate, Wealth, Villa-Infrastruktur und Portfolio Logic.",
+    "World": "World",
+    "Web5 hospitality, Nostr app, Super Nodes and payments.": "Web5 Hospitality, Nostr App, Super Nodes und Payments.",
+    "Club": "Club",
+    "Work, live, play, events, lounges and real rooms.": "Work, Live, Play, Events, Lounges und echte Räume.",
+    "Morning": "Morning",
+    "Work signal": "Work Signal",
+    "Midday": "Midday",
+    "Club base": "Club Base",
+    "Evening": "Evening",
+    "Hosted culture": "Hosted Culture",
+    "Night": "Night",
+    "Venue graph": "Venue Graph",
+    "Outcome": "Outcome",
+    "Less platform noise. More real activity.": "Weniger Platform Noise. Mehr echte Aktivität.",
+    "From Feed To Room": "From Feed To Room",
+    "The interface should disappear into the place.": "Das Interface soll im Ort verschwinden.",
+    "Arrive": "Arrive",
+    "Match": "Match",
+    "Settle": "Settle",
+    "Choose the door that creates real movement.": "Wähle den Door, der echte Bewegung schafft.",
+    "Enter the lifestyle layer": "In den Lifestyle Layer eintreten",
+    "Villas": "Villas",
+    "Book or request a stay": "Stay buchen oder anfragen",
+    "Bring Crays to a room": "Crays in einen Raum bringen",
+    "Capital": "Capital",
+    "Understand the asset layer": "Den Asset Layer verstehen",
+    "Hospitality Alliance": "Hospitality Alliance",
+    "Product": "Product",
+    "Ownership": "Ownership",
+    "Responsibility": "Responsibility",
+    "Work, live, play and belong in one Crays layer.": "Work, Live, Play und Belonging in einem Crays Layer.",
+    "Hospitality": "Hospitality",
+    "Crays Hospitality": "Crays Hospitality",
+    "Hospitality as the real-world layer of Crays.": "Hospitality als Real-World Layer von Crays.",
+    "One guest journey": "Eine Guest Journey",
+    "Arrive, meet, work, dine, stay, pay and reconnect through Crays.": "Ankommen, treffen, arbeiten, essen, bleiben, zahlen und reconnecten durch Crays.",
+    "Anchor": "Anchor",
+    "Crays Clubs": "Crays Clubs",
+    "Social living rooms for cities, hotels and destination venues.": "Social Living Rooms für Städte, Hotels und Destination Venues.",
+    "Daily ritual": "Daily Ritual",
+    "Crays Coffee": "Crays Coffee",
+    "Access": "Access",
+    "Crays Circle": "Crays Circle",
+    "Upside": "Upside",
+    "Partner Layer": "Partner Layer",
+    "The Crays engine": "Die Crays Engine",
+    "Not another hotel brand. A social operating system for places.": "Keine weitere Hotelbrand. Ein Social Operating System für Orte.",
+    "Premium rooms, lounges, desks, terraces, pools and event spaces.": "Premium Rooms, Lounges, Desks, Terrassen, Pools und Event Spaces.",
+    "Members, founders, travelers, creators, owners and local partners.": "Members, Founder, Travelers, Creators, Owners und lokale Partner.",
+    "Profiles, bookings, access, payments, CRM, AI and local network effects.": "Profile, Bookings, Access, Payments, CRM, AI und lokale Network Effects.",
+    "Participation": "Participation",
+    "Club, coffee, culture": "Club, Coffee, Culture",
+    "Crays Community Life": "Crays Community Life",
+    "A real-world circle for people who build, move and belong.": "Ein Real-World Circle für Menschen, die bauen, reisen und dazugehören.",
+    "Real places": "Echte Orte",
+    "Useful people": "Nützliche Menschen",
+    "Hosted rhythm": "Hosted Rhythm",
+    "Shared identity": "Shared Identity",
+    "Community layer": "Community Layer",
+    "One connected rhythm": "Ein verbundener Rhythmus",
+    "Community modes": "Community Modes",
+    "Global citizen": "Global Citizen",
+    "Crays Membership": "Crays Membership",
+    "Membership for people who want access, rhythm and belonging.": "Membership für Menschen, die Access, Rhythmus und Belonging wollen.",
+    "First access": "First Access",
+    "Membership": "Membership",
+    "Member access": "Member Access",
+    "Guest access": "Guest Access",
+    "Club stay": "Club Stay",
+    "Hospitality partnership": "Hospitality Partnership",
+    "Technical support": "Technical Support",
+    "Legal entity question": "Frage zur Legal Entity",
+    "Contact Crays Clubs": "Crays Clubs kontaktieren",
+    "Where Crays conversations start.": "Wo Crays Gespräche beginnen.",
+    "For first access, membership interest, Berlin flagship questions, club living, VIP club and future stay availability.": "Für First Access, Membership-Interesse, Berlin Flagship, Club Living, VIP Club und künftige Stay-Verfügbarkeit.",
+    "Hospitality Partners": "Hospitality Partners",
+    "Venues, hotels and brands": "Venues, Hotels und Brands",
+    "Contact Form": "Kontaktformular",
+    "Send the request with context.": "Anfrage mit Kontext senden.",
+    "Full Name": "Vollständiger Name",
+    "Email": "E-Mail",
+    "Request Type": "Anfragetyp",
+    "Select one": "Auswählen",
+    "Message": "Nachricht",
+    "I accept the": "Ich akzeptiere die",
+    "Privacy Policy": "Datenschutzerklärung",
+    "Send request": "Anfrage senden",
+    "Official Information": "Offizielle Informationen",
+    "Legal entities and offices.": "Legal Entities und Offices.",
+    "Open imprint": "Impressum öffnen",
+    "Global Headquarter": "Global Headquarter",
+    "Operational Business": "Operational Business",
+    "Where": "Where",
+    "Mallorca villas": "Mallorca Villas",
+    "When": "When",
+    "Add dates": "Daten hinzufügen",
+    "Dates": "Daten",
+    "Flexible": "Flexibel",
+    "Exact dates": "Exakte Daten",
+    "How long would you like to stay?": "Wie lange möchtest du bleiben?",
+    "Weekend": "Weekend",
+    "Week": "Woche",
+    "Month": "Monat",
+    "Go anytime": "Jederzeit",
+    "Who": "Who",
+    "1 guest": "1 Guest",
+    "2 guests": "2 Guests",
+    "3 guests": "3 Guests",
+    "4 guests": "4 Guests",
+    "5+ guests": "5+ Guests",
+    "Search": "Suchen",
+    "Search Villas": "Villas suchen",
+    "Available portfolio": "Verfügbares Portfolio",
+    "Crays Villas on Mallorca": "Crays Villas auf Mallorca",
+    "Fund-owned villas, local Crays support, request-first booking.": "Fund-owned Villas, lokaler Crays Support, request-first Booking.",
+    "Tiles": "Kacheln",
+    "List": "Liste",
+    "Sort": "Sortieren",
+    "Recommended": "Empfohlen",
+    "Price descending": "Preis absteigend",
+    "Price ascending": "Preis aufsteigend",
+    "Guests descending": "Guests absteigend",
+    "Rating descending": "Rating absteigend",
+    "Open Maps": "Maps öffnen",
+    "Filters": "Filter",
+    "Filter": "Filter",
+    "Recommended for you": "Für dich empfohlen",
+    "Type of place": "Art des Ortes",
+    "Any type": "Alle Typen",
+    "Villa": "Villa",
+    "Finca": "Finca",
+    "Estate": "Estate",
+    "Price range": "Preisbereich",
+    "Rooms and beds": "Zimmer und Betten",
+    "Bedrooms": "Schlafzimmer",
+    "Beds": "Betten",
+    "Bathrooms": "Bäder",
+    "Clear all": "Alles löschen",
+    "Show": "Anzeigen",
+    "villas": "Villas",
+    "The Crays way to": "Der Crays Way,",
+    "explore the": "die Welt",
+    "world together": "gemeinsam zu entdecken",
+    "Adults": "Erwachsene",
+    "Ages 13 or above": "Ab 13 Jahren",
+    "Children": "Kinder",
+    "Ages 2-12": "2 bis 12 Jahre",
+    "Pets": "Haustiere",
+    "On request where available": "Auf Anfrage, wo verfügbar",
+    "Booking help": "Booking Help",
+    "Owner In-Kind Contribution": "Owner In-Kind Contribution",
+    "Check-in": "Check-in",
+    "Check-out": "Check-out",
+    "Guests": "Guests",
+    "Search villas": "Villas suchen",
+    "Loading Crays villa...": "Crays Villa lädt...",
+    "Crays Villa": "Crays Villa",
+    "Continue with Google": "Weiter mit Google",
+    "Continue with LinkedIn": "Weiter mit LinkedIn",
+    "Best for guests and members": "Ideal für Guests und Members",
+    "Best for founders and teams": "Ideal für Founder und Teams",
+    "Create your Crays account": "Crays Account erstellen",
+    "Profile details": "Profildaten",
+    "Sign up": "Sign-up",
+    "Email fallback": "E-Mail-Fallback",
+    "First name": "Vorname",
+    "Last name": "Nachname",
+    "Phone": "Telefon",
+    "Main intent": "Hauptinteresse",
+    "Book villas and stays": "Villas und Stays buchen",
+    "Become a member": "Member werden",
+    "Company or team access": "Company oder Team Access",
+    "Creator or brand partner": "Creator oder Brand Partner",
+    "Villa owner or investor": "Villa Owner oder Investor",
+    "Create account with email": "Account per E-Mail erstellen",
+    "Update profile": "Profil aktualisieren",
+    "No session": "Keine Session",
+    "Backend synced": "Backend synchronisiert",
+    "Local pending": "Lokal ausstehend",
+    "Crays profile": "Crays Profil",
+    "No active Crays account yet.": "Noch kein aktiver Crays Account.",
+    "Create account": "Account erstellen",
+    "Sign up": "Registrieren",
+    "Email fallback": "E-Mail-Fallback",
+    "Use the flow": "Flow nutzen",
+    "Wish List, cart and booking requests stay visible after login.": "Wish List, Cart und Booking Requests bleiben nach dem Login sichtbar.",
+    "Book villas and stays": "Villas und Stays buchen",
+    "Become a member": "Member werden",
+    "Company or team access": "Company oder Team Access",
+    "Creator or brand partner": "Creator oder Brand Partner",
+    "Villa owner or investor": "Villa Owner oder Investor",
+    "Search villas": "Villas suchen",
+    "Flow summary": "Flow Summary",
+    "No active Crays account yet.": "Noch kein aktiver Crays Account.",
+    "Signed in as": "Angemeldet als",
+    "Account area": "Account-Bereich",
+    "View villa": "Villa ansehen",
+    "Remove": "Entfernen",
+    "Add to cart": "In den Warenkorb",
+    "Save villa": "Villa speichern",
+    "Create account": "Account erstellen",
+    "Use the flow": "Flow nutzen",
+    "Wish List": "Wish List",
+    "Saved villas": "Gespeicherte Villas",
+    "Cart & Requests": "Cart & Requests",
+    "Cart and booking requests": "Cart und Buchungsanfragen",
+    "Request checkout": "Checkout anfragen",
+    "Flow summary": "Flow Summary",
+    "Cart / requests": "Cart / Requests",
+    "Booking requests": "Buchungsanfragen",
+    "Estimated subtotal": "Geschätzte Zwischensumme",
+    "Continue search": "Suche fortsetzen",
+    "Legal": "Legal",
+    "Imprint": "Impressum",
+    "Terms and Conditions": "AGB",
+    "Data Protection": "Datenschutz",
+    "Legal contact": "Legal Contact",
+    "Company": "Company",
+    "Disclaimer": "Disclaimer",
+    "Copyright and Trademark": "Copyright und Trademark",
+    "Scope": "Geltungsbereich",
+    "Website Content": "Website Content",
+    "Access Requests": "Access Requests",
+    "Third-Party Services": "Third-Party Services",
+    "Liability": "Haftung",
+    "Privacy contact": "Privacy Contact",
+    "Overview": "Überblick",
+    "Website Visits": "Website-Besuche",
+    "Contact and Access Forms": "Kontakt- und Access-Formulare",
+    "Cookies and Similar Technologies": "Cookies und ähnliche Technologien",
+    "Retention": "Aufbewahrung",
+    "Your Choices": "Deine Optionen",
+    "Controller": "Controller",
+    "Personal Data We Process": "Verarbeitete personenbezogene Daten",
+    "Purposes": "Zwecke",
+    "Legal Bases": "Rechtsgrundlagen",
+    "Sharing and Service Providers": "Weitergabe und Service Provider",
+    "Your Rights": "Deine Rechte",
+    "Cookie Settings": "Cookie-Einstellungen",
+    "Cookie Consent": "Cookie Consent",
+    "Privacy & Cookie Settings": "Privacy & Cookie Settings",
+    "Reject optional": "Optionale ablehnen",
+    "Accept all": "Alle akzeptieren"
+  },
+  es: {
+    "Crays Clubs | Social Living for Explorer": "Crays Clubs | Social Living para explorers",
+    "About Us | Crays Clubs": "Sobre nosotros | Crays Clubs",
+    "Community Life | Crays Clubs": "Community Life | Crays Clubs",
+    "Become a Member | Crays Clubs": "Hazte miembro | Crays Clubs",
+    "Contact | Crays Clubs": "Contacto | Crays Clubs",
+    "Account & Booking | Crays Villas": "Account & Booking | Crays Villas",
+    "Crays Villas | Search": "Crays Villas | Búsqueda",
+    "Crays Villas | Property": "Crays Villas | Villa",
+    "Imprint | Crays Clubs": "Aviso legal | Crays Clubs",
+    "Terms and Conditions | Crays Clubs": "Términos y condiciones | Crays Clubs",
+    "Privacy Policy | Crays Clubs": "Política de privacidad | Crays Clubs",
+    "Data Protection | Crays Clubs": "Protección de datos | Crays Clubs",
+    "About Us": "Sobre nosotros",
+    "Lifestyle": "Lifestyle",
+    "Hospitality": "Hospitality",
+    "Community Life": "Community Life",
+    "Become a Member": "Hazte miembro",
+    "Contact": "Contacto",
+    "Account & Booking": "Account & Booking",
+    "Login, Wish List, Cart and Booking Request": "Login, Wish List, carrito y solicitud de reserva",
+    "Crays Association": "Crays Association",
+    "Explore our Ecosystem Projects": "Explora nuestros proyectos del Ecosystem",
+    "A New Era of": "Una nueva era de",
+    "Work, Live, and Play": "Work, Live y Play",
+    "Connect with friends, colleagues, and business partners in one place.": "Conecta con amigos, colegas y socios en un solo lugar.",
+    "Join our community of builders & makers.": "Únete a nuestra comunidad de builders & makers.",
+    "Explore Association": "Explorar Association",
+    "Explore Community": "Explorar Community",
+    "Your living room in the city.": "Tu living room en la ciudad.",
+    "Work, lounge, living and health under one Crays roof.": "Work, lounge, living y health bajo un mismo techo Crays.",
+    "One club flow from arrival to afterwork.": "Un club flow desde la llegada hasta el afterwork.",
+    "Built for guests who arrive ready to live.": "Creado para guests que llegan listos para vivir.",
+    "More Information": "Más información",
+    "We build the real-world layer for people who move.": "Construimos el real-world layer para personas en movimiento.",
+    "Explore the model": "Explorar el modelo",
+    "The Idea": "La idea",
+    "Freedom only works when the basics are already handled.": "La libertad funciona cuando lo básico ya está resuelto.",
+    "What We Believe": "Lo que creemos",
+    "Vision": "Visión",
+    "Crays Lifestyle": "Crays Lifestyle",
+    "The real-world operating layer for people who move.": "El real-world operating layer para personas en movimiento.",
+    "Explore stays": "Explorar stays",
+    "Talk to Crays": "Hablar con Crays",
+    "Not another lifestyle page. A live map of the Crays ecosystem.": "No es otra página de lifestyle. Es un mapa vivo del Crays ecosystem.",
+    "Less platform noise. More real activity.": "Menos ruido de plataforma. Más actividad real.",
+    "Crays Hospitality": "Crays Hospitality",
+    "Hospitality as the real-world layer of Crays.": "Hospitality como real-world layer de Crays.",
+    "The Crays engine": "El motor Crays",
+    "Not another hotel brand. A social operating system for places.": "No otra marca hotelera. Un sistema social operativo para lugares.",
+    "Crays Community Life": "Crays Community Life",
+    "A real-world circle for people who build, move and belong.": "Un círculo real para quienes construyen, se mueven y pertenecen.",
+    "Crays Membership": "Crays Membership",
+    "Membership for people who want access, rhythm and belonging.": "Membership para quienes quieren access, ritmo y pertenencia.",
+    "Contact Crays Clubs": "Contactar con Crays Clubs",
+    "Where Crays conversations start.": "Donde empiezan las conversaciones Crays.",
+    "Contact Form": "Formulario de contacto",
+    "Send the request with context.": "Envía la solicitud con contexto.",
+    "Full Name": "Nombre completo",
+    "Email": "Email",
+    "Request Type": "Tipo de solicitud",
+    "Select one": "Selecciona una opción",
+    "Message": "Mensaje",
+    "I accept the": "Acepto la",
+    "Privacy Policy": "Política de privacidad",
+    "Send request": "Enviar solicitud",
+    "Where": "Where",
+    "Mallorca villas": "Villas en Mallorca",
+    "When": "When",
+    "Add dates": "Añadir fechas",
+    "Dates": "Fechas",
+    "Flexible": "Flexible",
+    "Exact dates": "Fechas exactas",
+    "How long would you like to stay?": "¿Cuánto tiempo quieres quedarte?",
+    "Weekend": "Weekend",
+    "Week": "Semana",
+    "Month": "Mes",
+    "Go anytime": "Cualquier fecha",
+    "Who": "Who",
+    "Search": "Buscar",
+    "Search Villas": "Buscar Villas",
+    "Available portfolio": "Portfolio disponible",
+    "Crays Villas on Mallorca": "Crays Villas en Mallorca",
+    "Tiles": "Tarjetas",
+    "List": "Lista",
+    "Sort": "Ordenar",
+    "Recommended": "Recomendado",
+    "Price descending": "Precio descendente",
+    "Price ascending": "Precio ascendente",
+    "Open Maps": "Abrir Maps",
+    "Filters": "Filtros",
+    "Filter": "Filtro",
+    "Recommended for you": "Recomendado para ti",
+    "Type of place": "Tipo de lugar",
+    "Any type": "Cualquier tipo",
+    "Price range": "Rango de precio",
+    "Rooms and beds": "Habitaciones y camas",
+    "Bedrooms": "Dormitorios",
+    "Beds": "Camas",
+    "Bathrooms": "Baños",
+    "Clear all": "Borrar todo",
+    "Show": "Mostrar",
+    "Adults": "Adultos",
+    "Children": "Niños",
+    "Pets": "Mascotas",
+    "On request where available": "Bajo petición donde esté disponible",
+    "Booking help": "Ayuda de booking",
+    "Check-in": "Check-in",
+    "Check-out": "Check-out",
+    "Guests": "Guests",
+    "Search villas": "Buscar villas",
+    "Loading Crays villa...": "Cargando Crays Villa...",
+    "Continue with Google": "Continuar con Google",
+    "Continue with LinkedIn": "Continuar con LinkedIn",
+    "Create your Crays account": "Crear tu Crays account",
+    "Profile details": "Datos del perfil",
+    "Sign up": "Sign up",
+    "Email fallback": "Fallback por email",
+    "First name": "Nombre",
+    "Last name": "Apellido",
+    "Phone": "Teléfono",
+    "Main intent": "Intención principal",
+    "Create account with email": "Crear account con email",
+    "Update profile": "Actualizar perfil",
+    "No session": "Sin sesión",
+    "Backend synced": "Backend sincronizado",
+    "Local pending": "Pendiente local",
+    "View villa": "Ver villa",
+    "Remove": "Eliminar",
+    "Add to cart": "Añadir al carrito",
+    "Save villa": "Guardar villa",
+    "Wish List": "Wish List",
+    "Saved villas": "Villas guardadas",
+    "Cart and booking requests": "Carrito y solicitudes de reserva",
+    "Flow summary": "Resumen del flow",
+    "Continue search": "Continuar búsqueda",
+    "Legal": "Legal",
+    "Imprint": "Aviso legal",
+    "Terms and Conditions": "Términos y condiciones",
+    "Data Protection": "Protección de datos",
+    "Privacy Policy": "Política de privacidad",
+    "Overview": "Resumen",
+    "Scope": "Alcance",
+    "Liability": "Responsabilidad",
+    "Cookie Settings": "Ajustes de cookies",
+    "Reject optional": "Rechazar opcionales",
+    "Accept all": "Aceptar todo"
+  },
+  ca: {
+    "Crays Clubs | Social Living for Explorer": "Crays Clubs | Social Living per explorers",
+    "About Us | Crays Clubs": "Sobre nosaltres | Crays Clubs",
+    "Community Life | Crays Clubs": "Community Life | Crays Clubs",
+    "Become a Member | Crays Clubs": "Fes-te membre | Crays Clubs",
+    "Contact | Crays Clubs": "Contacte | Crays Clubs",
+    "Account & Booking | Crays Villas": "Account & Booking | Crays Villas",
+    "Crays Villas | Search": "Crays Villas | Cerca",
+    "Crays Villas | Property": "Crays Villas | Villa",
+    "Imprint | Crays Clubs": "Avís legal | Crays Clubs",
+    "Terms and Conditions | Crays Clubs": "Termes i condicions | Crays Clubs",
+    "Privacy Policy | Crays Clubs": "Política de privacitat | Crays Clubs",
+    "Data Protection | Crays Clubs": "Protecció de dades | Crays Clubs",
+    "About Us": "Sobre nosaltres",
+    "Lifestyle": "Lifestyle",
+    "Hospitality": "Hospitality",
+    "Community Life": "Community Life",
+    "Become a Member": "Fes-te membre",
+    "Contact": "Contacte",
+    "Account & Booking": "Account & Booking",
+    "Login, Wish List, Cart and Booking Request": "Login, Wish List, cistella i petició de reserva",
+    "Crays Association": "Crays Association",
+    "Explore our Ecosystem Projects": "Explora els projectes de l'Ecosystem",
+    "A New Era of": "Una nova era de",
+    "Work, Live, and Play": "Work, Live i Play",
+    "Connect with friends, colleagues, and business partners in one place.": "Connecta amb amics, col·legues i socis en un sol lloc.",
+    "Join our community of builders & makers.": "Uneix-te a la nostra community de builders & makers.",
+    "Explore Association": "Explorar Association",
+    "Explore Community": "Explorar Community",
+    "Your living room in the city.": "El teu living room a la ciutat.",
+    "One club flow from arrival to afterwork.": "Un club flow de l'arribada a l'afterwork.",
+    "More Information": "Més informació",
+    "We build the real-world layer for people who move.": "Construïm el real-world layer per a persones en moviment.",
+    "Explore the model": "Explorar el model",
+    "The Idea": "La idea",
+    "Freedom only works when the basics are already handled.": "La llibertat funciona quan els bàsics ja estan resolts.",
+    "What We Believe": "El que creiem",
+    "Vision": "Visió",
+    "Crays Lifestyle": "Crays Lifestyle",
+    "The real-world operating layer for people who move.": "El real-world operating layer per a persones en moviment.",
+    "Explore stays": "Explorar stays",
+    "Talk to Crays": "Parlar amb Crays",
+    "Less platform noise. More real activity.": "Menys soroll de plataforma. Més activitat real.",
+    "Crays Hospitality": "Crays Hospitality",
+    "Hospitality as the real-world layer of Crays.": "Hospitality com a real-world layer de Crays.",
+    "Crays Community Life": "Crays Community Life",
+    "A real-world circle for people who build, move and belong.": "Un cercle real per a qui construeix, es mou i pertany.",
+    "Crays Membership": "Crays Membership",
+    "Membership for people who want access, rhythm and belonging.": "Membership per a qui vol access, ritme i pertinença.",
+    "Contact Crays Clubs": "Contacta amb Crays Clubs",
+    "Where Crays conversations start.": "On comencen les converses Crays.",
+    "Contact Form": "Formulari de contacte",
+    "Full Name": "Nom complet",
+    "Email": "Email",
+    "Request Type": "Tipus de petició",
+    "Select one": "Selecciona una opció",
+    "Message": "Missatge",
+    "I accept the": "Accepto la",
+    "Privacy Policy": "Política de privacitat",
+    "Send request": "Enviar petició",
+    "Where": "Where",
+    "Mallorca villas": "Villas a Mallorca",
+    "When": "When",
+    "Add dates": "Afegir dates",
+    "Dates": "Dates",
+    "Flexible": "Flexible",
+    "Exact dates": "Dates exactes",
+    "Weekend": "Weekend",
+    "Week": "Setmana",
+    "Month": "Mes",
+    "Go anytime": "Qualsevol data",
+    "Who": "Who",
+    "Search": "Buscar",
+    "Search Villas": "Buscar Villas",
+    "Available portfolio": "Portfolio disponible",
+    "Crays Villas on Mallorca": "Crays Villas a Mallorca",
+    "Tiles": "Targetes",
+    "List": "Llista",
+    "Sort": "Ordenar",
+    "Recommended": "Recomanat",
+    "Filters": "Filtres",
+    "Filter": "Filtre",
+    "Type of place": "Tipus de lloc",
+    "Price range": "Rang de preu",
+    "Bedrooms": "Dormitoris",
+    "Beds": "Llits",
+    "Bathrooms": "Banys",
+    "Clear all": "Esborrar-ho tot",
+    "Show": "Mostrar",
+    "Adults": "Adults",
+    "Children": "Infants",
+    "Pets": "Mascotes",
+    "Booking help": "Ajuda de booking",
+    "Check-in": "Check-in",
+    "Check-out": "Check-out",
+    "Guests": "Guests",
+    "Continue with Google": "Continuar amb Google",
+    "Continue with LinkedIn": "Continuar amb LinkedIn",
+    "Create your Crays account": "Crea el teu Crays account",
+    "First name": "Nom",
+    "Last name": "Cognom",
+    "Phone": "Telèfon",
+    "Main intent": "Intenció principal",
+    "Create account with email": "Crear account amb email",
+    "View villa": "Veure villa",
+    "Remove": "Eliminar",
+    "Add to cart": "Afegir a la cistella",
+    "Save villa": "Guardar villa",
+    "Saved villas": "Villas guardades",
+    "Cart and booking requests": "Cistella i peticions de reserva",
+    "Legal": "Legal",
+    "Imprint": "Avís legal",
+    "Terms and Conditions": "Termes i condicions",
+    "Data Protection": "Protecció de dades",
+    "Cookie Settings": "Configuració de cookies",
+    "Reject optional": "Rebutjar opcionals",
+    "Accept all": "Acceptar tot"
+  },
+  fr: {
+    "Crays Clubs | Social Living for Explorer": "Crays Clubs | Social Living pour explorers",
+    "About Us | Crays Clubs": "À propos | Crays Clubs",
+    "Community Life | Crays Clubs": "Community Life | Crays Clubs",
+    "Become a Member | Crays Clubs": "Devenir membre | Crays Clubs",
+    "Contact | Crays Clubs": "Contact | Crays Clubs",
+    "Account & Booking | Crays Villas": "Account & Booking | Crays Villas",
+    "Crays Villas | Search": "Crays Villas | Recherche",
+    "Crays Villas | Property": "Crays Villas | Villa",
+    "Imprint | Crays Clubs": "Mentions légales | Crays Clubs",
+    "Terms and Conditions | Crays Clubs": "Conditions générales | Crays Clubs",
+    "Privacy Policy | Crays Clubs": "Politique de confidentialité | Crays Clubs",
+    "Data Protection | Crays Clubs": "Protection des données | Crays Clubs",
+    "About Us": "À propos",
+    "Lifestyle": "Lifestyle",
+    "Hospitality": "Hospitality",
+    "Community Life": "Community Life",
+    "Become a Member": "Devenir membre",
+    "Contact": "Contact",
+    "Account & Booking": "Account & Booking",
+    "Login, Wish List, Cart and Booking Request": "Login, Wish List, panier et demande de réservation",
+    "Crays Association": "Crays Association",
+    "Explore our Ecosystem Projects": "Explorer nos projets Ecosystem",
+    "A New Era of": "Une nouvelle ère de",
+    "Work, Live, and Play": "Work, Live et Play",
+    "Connect with friends, colleagues, and business partners in one place.": "Retrouver amis, collègues et partenaires business au même endroit.",
+    "Join our community of builders & makers.": "Rejoignez notre communauté de builders & makers.",
+    "Explore Association": "Explorer l'Association",
+    "Explore Community": "Explorer la Community",
+    "Your living room in the city.": "Votre living room en ville.",
+    "One club flow from arrival to afterwork.": "Un club flow de l'arrivée à l'afterwork.",
+    "More Information": "En savoir plus",
+    "We build the real-world layer for people who move.": "Nous construisons le real-world layer pour les personnes en mouvement.",
+    "Explore the model": "Explorer le modèle",
+    "The Idea": "L'idée",
+    "Freedom only works when the basics are already handled.": "La liberté fonctionne quand les bases sont déjà en place.",
+    "What We Believe": "Ce que nous croyons",
+    "Vision": "Vision",
+    "Crays Lifestyle": "Crays Lifestyle",
+    "The real-world operating layer for people who move.": "Le real-world operating layer pour les personnes en mouvement.",
+    "Explore stays": "Explorer les stays",
+    "Talk to Crays": "Parler à Crays",
+    "Less platform noise. More real activity.": "Moins de bruit de plateforme. Plus d'activité réelle.",
+    "Crays Hospitality": "Crays Hospitality",
+    "Hospitality as the real-world layer of Crays.": "Hospitality comme real-world layer de Crays.",
+    "Crays Community Life": "Crays Community Life",
+    "A real-world circle for people who build, move and belong.": "Un cercle réel pour celles et ceux qui construisent, bougent et appartiennent.",
+    "Crays Membership": "Crays Membership",
+    "Membership for people who want access, rhythm and belonging.": "Membership pour celles et ceux qui veulent access, rythme et appartenance.",
+    "Contact Crays Clubs": "Contacter Crays Clubs",
+    "Where Crays conversations start.": "Là où commencent les conversations Crays.",
+    "Contact Form": "Formulaire de contact",
+    "Full Name": "Nom complet",
+    "Email": "Email",
+    "Request Type": "Type de demande",
+    "Select one": "Choisir",
+    "Message": "Message",
+    "I accept the": "J'accepte la",
+    "Privacy Policy": "Politique de confidentialité",
+    "Send request": "Envoyer la demande",
+    "Where": "Where",
+    "Mallorca villas": "Villas à Majorque",
+    "When": "When",
+    "Add dates": "Ajouter des dates",
+    "Dates": "Dates",
+    "Flexible": "Flexible",
+    "Exact dates": "Dates exactes",
+    "Weekend": "Weekend",
+    "Week": "Semaine",
+    "Month": "Mois",
+    "Go anytime": "N'importe quand",
+    "Who": "Who",
+    "Search": "Rechercher",
+    "Search Villas": "Rechercher des Villas",
+    "Available portfolio": "Portfolio disponible",
+    "Crays Villas on Mallorca": "Crays Villas à Majorque",
+    "Tiles": "Cartes",
+    "List": "Liste",
+    "Sort": "Trier",
+    "Recommended": "Recommandé",
+    "Filters": "Filtres",
+    "Filter": "Filtre",
+    "Type of place": "Type de lieu",
+    "Price range": "Fourchette de prix",
+    "Bedrooms": "Chambres",
+    "Beds": "Lits",
+    "Bathrooms": "Salles de bain",
+    "Clear all": "Tout effacer",
+    "Show": "Afficher",
+    "Adults": "Adultes",
+    "Children": "Enfants",
+    "Pets": "Animaux",
+    "Booking help": "Aide booking",
+    "Check-in": "Check-in",
+    "Check-out": "Check-out",
+    "Guests": "Guests",
+    "Continue with Google": "Continuer avec Google",
+    "Continue with LinkedIn": "Continuer avec LinkedIn",
+    "Create your Crays account": "Créer votre Crays account",
+    "First name": "Prénom",
+    "Last name": "Nom",
+    "Phone": "Téléphone",
+    "Main intent": "Intention principale",
+    "Create account with email": "Créer un account par email",
+    "View villa": "Voir la villa",
+    "Remove": "Retirer",
+    "Add to cart": "Ajouter au panier",
+    "Save villa": "Sauver la villa",
+    "Saved villas": "Villas sauvegardées",
+    "Cart and booking requests": "Panier et demandes de réservation",
+    "Legal": "Legal",
+    "Imprint": "Mentions légales",
+    "Terms and Conditions": "Conditions générales",
+    "Data Protection": "Protection des données",
+    "Cookie Settings": "Paramètres cookies",
+    "Reject optional": "Refuser l'optionnel",
+    "Accept all": "Tout accepter"
+  },
+  pt: {
+    "Crays Clubs | Social Living for Explorer": "Crays Clubs | Social Living para explorers",
+    "About Us | Crays Clubs": "Sobre nós | Crays Clubs",
+    "Community Life | Crays Clubs": "Community Life | Crays Clubs",
+    "Become a Member | Crays Clubs": "Torne-se membro | Crays Clubs",
+    "Contact | Crays Clubs": "Contacto | Crays Clubs",
+    "Account & Booking | Crays Villas": "Account & Booking | Crays Villas",
+    "Crays Villas | Search": "Crays Villas | Pesquisa",
+    "Crays Villas | Property": "Crays Villas | Villa",
+    "Imprint | Crays Clubs": "Ficha legal | Crays Clubs",
+    "Terms and Conditions | Crays Clubs": "Termos e condições | Crays Clubs",
+    "Privacy Policy | Crays Clubs": "Política de privacidade | Crays Clubs",
+    "Data Protection | Crays Clubs": "Proteção de dados | Crays Clubs",
+    "About Us": "Sobre nós",
+    "Lifestyle": "Lifestyle",
+    "Hospitality": "Hospitality",
+    "Community Life": "Community Life",
+    "Become a Member": "Torne-se membro",
+    "Contact": "Contacto",
+    "Account & Booking": "Account & Booking",
+    "Login, Wish List, Cart and Booking Request": "Login, Wish List, carrinho e pedido de reserva",
+    "Crays Association": "Crays Association",
+    "Explore our Ecosystem Projects": "Explore os projetos do nosso Ecosystem",
+    "A New Era of": "Uma nova era de",
+    "Work, Live, and Play": "Work, Live e Play",
+    "Connect with friends, colleagues, and business partners in one place.": "Ligue-se a amigos, colegas e parceiros num só lugar.",
+    "Join our community of builders & makers.": "Junte-se à nossa comunidade de builders & makers.",
+    "Explore Association": "Explorar Association",
+    "Explore Community": "Explorar Community",
+    "Your living room in the city.": "O seu living room na cidade.",
+    "One club flow from arrival to afterwork.": "Um club flow da chegada ao afterwork.",
+    "More Information": "Mais informação",
+    "We build the real-world layer for people who move.": "Construímos o real-world layer para pessoas em movimento.",
+    "Explore the model": "Explorar o modelo",
+    "The Idea": "A ideia",
+    "Freedom only works when the basics are already handled.": "A liberdade funciona quando o essencial já está resolvido.",
+    "What We Believe": "Aquilo em que acreditamos",
+    "Vision": "Visão",
+    "Crays Lifestyle": "Crays Lifestyle",
+    "The real-world operating layer for people who move.": "O real-world operating layer para pessoas em movimento.",
+    "Explore stays": "Explorar stays",
+    "Talk to Crays": "Falar com a Crays",
+    "Less platform noise. More real activity.": "Menos ruído de plataforma. Mais atividade real.",
+    "Crays Hospitality": "Crays Hospitality",
+    "Hospitality as the real-world layer of Crays.": "Hospitality como real-world layer da Crays.",
+    "Crays Community Life": "Crays Community Life",
+    "A real-world circle for people who build, move and belong.": "Um círculo real para quem constrói, se move e pertence.",
+    "Crays Membership": "Crays Membership",
+    "Membership for people who want access, rhythm and belonging.": "Membership para quem quer access, ritmo e pertença.",
+    "Contact Crays Clubs": "Contactar Crays Clubs",
+    "Where Crays conversations start.": "Onde começam as conversas Crays.",
+    "Contact Form": "Formulário de contacto",
+    "Full Name": "Nome completo",
+    "Email": "Email",
+    "Request Type": "Tipo de pedido",
+    "Select one": "Selecionar",
+    "Message": "Mensagem",
+    "I accept the": "Aceito a",
+    "Privacy Policy": "Política de privacidade",
+    "Send request": "Enviar pedido",
+    "Where": "Where",
+    "Mallorca villas": "Villas em Maiorca",
+    "When": "When",
+    "Add dates": "Adicionar datas",
+    "Dates": "Datas",
+    "Flexible": "Flexível",
+    "Exact dates": "Datas exatas",
+    "Weekend": "Weekend",
+    "Week": "Semana",
+    "Month": "Mês",
+    "Go anytime": "Qualquer data",
+    "Who": "Who",
+    "Search": "Pesquisar",
+    "Search Villas": "Pesquisar Villas",
+    "Available portfolio": "Portfolio disponível",
+    "Crays Villas on Mallorca": "Crays Villas em Maiorca",
+    "Tiles": "Cartões",
+    "List": "Lista",
+    "Sort": "Ordenar",
+    "Recommended": "Recomendado",
+    "Filters": "Filtros",
+    "Filter": "Filtro",
+    "Type of place": "Tipo de lugar",
+    "Price range": "Faixa de preço",
+    "Bedrooms": "Quartos",
+    "Beds": "Camas",
+    "Bathrooms": "Casas de banho",
+    "Clear all": "Limpar tudo",
+    "Show": "Mostrar",
+    "Adults": "Adultos",
+    "Children": "Crianças",
+    "Pets": "Animais",
+    "Booking help": "Ajuda de booking",
+    "Check-in": "Check-in",
+    "Check-out": "Check-out",
+    "Guests": "Guests",
+    "Continue with Google": "Continuar com Google",
+    "Continue with LinkedIn": "Continuar com LinkedIn",
+    "Create your Crays account": "Criar o seu Crays account",
+    "First name": "Nome",
+    "Last name": "Apelido",
+    "Phone": "Telefone",
+    "Main intent": "Intenção principal",
+    "Create account with email": "Criar account por email",
+    "View villa": "Ver villa",
+    "Remove": "Remover",
+    "Add to cart": "Adicionar ao carrinho",
+    "Save villa": "Guardar villa",
+    "Saved villas": "Villas guardadas",
+    "Cart and booking requests": "Carrinho e pedidos de reserva",
+    "Legal": "Legal",
+    "Imprint": "Ficha legal",
+    "Terms and Conditions": "Termos e condições",
+    "Data Protection": "Proteção de dados",
+    "Cookie Settings": "Definições de cookies",
+    "Reject optional": "Rejeitar opcionais",
+    "Accept all": "Aceitar tudo"
+  },
+  it: {
+    "Crays Clubs | Social Living for Explorer": "Crays Clubs | Social Living per explorers",
+    "About Us | Crays Clubs": "Chi siamo | Crays Clubs",
+    "Community Life | Crays Clubs": "Community Life | Crays Clubs",
+    "Become a Member | Crays Clubs": "Diventa membro | Crays Clubs",
+    "Contact | Crays Clubs": "Contatto | Crays Clubs",
+    "Account & Booking | Crays Villas": "Account & Booking | Crays Villas",
+    "Crays Villas | Search": "Crays Villas | Cerca",
+    "Crays Villas | Property": "Crays Villas | Villa",
+    "Imprint | Crays Clubs": "Note legali | Crays Clubs",
+    "Terms and Conditions | Crays Clubs": "Termini e condizioni | Crays Clubs",
+    "Privacy Policy | Crays Clubs": "Privacy Policy | Crays Clubs",
+    "Data Protection | Crays Clubs": "Protezione dati | Crays Clubs",
+    "About Us": "Chi siamo",
+    "Lifestyle": "Lifestyle",
+    "Hospitality": "Hospitality",
+    "Community Life": "Community Life",
+    "Become a Member": "Diventa membro",
+    "Contact": "Contatto",
+    "Account & Booking": "Account & Booking",
+    "Login, Wish List, Cart and Booking Request": "Login, Wish List, carrello e richiesta di booking",
+    "Crays Association": "Crays Association",
+    "Explore our Ecosystem Projects": "Scopri i nostri progetti Ecosystem",
+    "A New Era of": "Una nuova era di",
+    "Work, Live, and Play": "Work, Live e Play",
+    "Connect with friends, colleagues, and business partners in one place.": "Connetti amici, colleghi e partner business in un solo luogo.",
+    "Join our community of builders & makers.": "Entra nella nostra community di builders & makers.",
+    "Explore Association": "Scopri Association",
+    "Explore Community": "Scopri Community",
+    "Your living room in the city.": "Il tuo living room in città.",
+    "One club flow from arrival to afterwork.": "Un club flow dall'arrivo all'afterwork.",
+    "More Information": "Maggiori informazioni",
+    "We build the real-world layer for people who move.": "Costruiamo il real-world layer per persone in movimento.",
+    "Explore the model": "Scopri il modello",
+    "The Idea": "L'idea",
+    "Freedom only works when the basics are already handled.": "La libertà funziona quando le basi sono già curate.",
+    "What We Believe": "In cosa crediamo",
+    "Vision": "Visione",
+    "Crays Lifestyle": "Crays Lifestyle",
+    "The real-world operating layer for people who move.": "Il real-world operating layer per persone in movimento.",
+    "Explore stays": "Scopri gli stays",
+    "Talk to Crays": "Parla con Crays",
+    "Less platform noise. More real activity.": "Meno rumore da piattaforma. Più attività reale.",
+    "Crays Hospitality": "Crays Hospitality",
+    "Hospitality as the real-world layer of Crays.": "Hospitality come real-world layer di Crays.",
+    "Crays Community Life": "Crays Community Life",
+    "A real-world circle for people who build, move and belong.": "Un cerchio reale per chi costruisce, si muove e appartiene.",
+    "Crays Membership": "Crays Membership",
+    "Membership for people who want access, rhythm and belonging.": "Membership per chi cerca access, ritmo e appartenenza.",
+    "Contact Crays Clubs": "Contatta Crays Clubs",
+    "Where Crays conversations start.": "Dove iniziano le conversazioni Crays.",
+    "Contact Form": "Modulo di contatto",
+    "Full Name": "Nome completo",
+    "Email": "Email",
+    "Request Type": "Tipo di richiesta",
+    "Select one": "Seleziona",
+    "Message": "Messaggio",
+    "I accept the": "Accetto la",
+    "Privacy Policy": "Privacy Policy",
+    "Send request": "Invia richiesta",
+    "Where": "Where",
+    "Mallorca villas": "Villas a Maiorca",
+    "When": "When",
+    "Add dates": "Aggiungi date",
+    "Dates": "Date",
+    "Flexible": "Flessibile",
+    "Exact dates": "Date esatte",
+    "Weekend": "Weekend",
+    "Week": "Settimana",
+    "Month": "Mese",
+    "Go anytime": "Qualsiasi data",
+    "Who": "Who",
+    "Search": "Cerca",
+    "Search Villas": "Cerca Villas",
+    "Available portfolio": "Portfolio disponibile",
+    "Crays Villas on Mallorca": "Crays Villas a Maiorca",
+    "Tiles": "Card",
+    "List": "Lista",
+    "Sort": "Ordina",
+    "Recommended": "Consigliato",
+    "Filters": "Filtri",
+    "Filter": "Filtro",
+    "Type of place": "Tipo di luogo",
+    "Price range": "Fascia di prezzo",
+    "Bedrooms": "Camere",
+    "Beds": "Letti",
+    "Bathrooms": "Bagni",
+    "Clear all": "Cancella tutto",
+    "Show": "Mostra",
+    "Adults": "Adulti",
+    "Children": "Bambini",
+    "Pets": "Animali",
+    "Booking help": "Aiuto booking",
+    "Check-in": "Check-in",
+    "Check-out": "Check-out",
+    "Guests": "Guests",
+    "Continue with Google": "Continua con Google",
+    "Continue with LinkedIn": "Continua con LinkedIn",
+    "Create your Crays account": "Crea il tuo Crays account",
+    "First name": "Nome",
+    "Last name": "Cognome",
+    "Phone": "Telefono",
+    "Main intent": "Intento principale",
+    "Create account with email": "Crea account via email",
+    "View villa": "Vedi villa",
+    "Remove": "Rimuovi",
+    "Add to cart": "Aggiungi al carrello",
+    "Save villa": "Salva villa",
+    "Saved villas": "Villas salvate",
+    "Cart and booking requests": "Carrello e richieste di booking",
+    "Legal": "Legal",
+    "Imprint": "Note legali",
+    "Terms and Conditions": "Termini e condizioni",
+    "Data Protection": "Protezione dati",
+    "Cookie Settings": "Impostazioni cookie",
+    "Reject optional": "Rifiuta opzionali",
+    "Accept all": "Accetta tutto"
+  }
+};
+
+const copyFromDe = [
+  "Crays Clubs",
+  "Crays Villas",
+  "Crays Hotels",
+  "Crays Co-Working",
+  "Crays Co-Living",
+  "Experiences",
+  "Services",
+  "Crays Club Berlin",
+  "Berlin Flagship",
+  "Crays Business Nomads Association",
+  "Crays Fund",
+  "Crays World",
+  "Crays Coffee",
+  "Google",
+  "LinkedIn",
+  "GitHub",
+  "X",
+  "Open Collective",
+  "Reddit",
+  "Telegram",
+  "TikTok",
+  "YouTube",
+  "Nostr",
+  "Discord",
+  "Palma",
+  "Frankfurt",
+  "Dubai",
+  "Los Angeles",
+  "Miami",
+  "Bali",
+  "Mallorca",
+  "Formentor",
+  "Portocolom",
+  "Capdepera",
+  "Cala Ratjada",
+  "Sineu",
+  "Andratx"
+];
+
+for (const lang of ["es", "ca", "fr", "pt", "it"]) {
+  for (const source of copyFromDe) {
+    translations[lang][source] = source;
+  }
+}
+
+const runtimeTranslations = {
+  de: {
+    "Create your Crays account for stays, membership and access.": "Erstelle deinen Crays Account für Stays, Membership und Access.",
+    "Start with Google, LinkedIn or email. Crays stores the customer profile in the backend and keeps the front-end flow simple.": "Starte mit Google, LinkedIn oder E-Mail. Crays speichert das Profil im Backend und hält den Frontend Flow einfach.",
+    "Create account": "Account erstellen",
+    "Google, LinkedIn or email profile connected to the Crays backend.": "Google, LinkedIn oder E-Mail-Profil mit dem Crays Backend verbunden.",
+    "Save intent": "Intent speichern",
+    "Membership, villa booking, team access and partner interest stay attached.": "Membership, Villa Booking, Team Access und Partnerinteresse bleiben verbunden.",
+    "Crays follows up": "Crays meldet sich",
+    "The backend record gives the team one customer source of truth.": "Der Backend Record gibt dem Team eine zentrale Customer Source.",
+    "Use Google or LinkedIn when available, or create an account with email in under a minute.": "Nutze Google oder LinkedIn, sobald verfügbar, oder erstelle in unter einer Minute einen Account per E-Mail.",
+    "Best for guests and members": "Ideal für Guests und Members",
+    "Best for founders and teams": "Ideal für Founder und Teams",
+    "I agree that Crays may create my account and process my data for booking, membership and service requests.": "Ich stimme zu, dass Crays meinen Account erstellt und meine Daten für Booking, Membership und Service Requests verarbeitet.",
+    "No saved villas yet": "Noch keine Villas gespeichert",
+    "Use the villa search or detail pages to save houses into this unified flow.": "Nutze die Villa-Suche oder Detailseiten, um Houses in diesem Flow zu speichern.",
+    "No cart or booking request yet": "Noch kein Cart oder Booking Request",
+    "Add a villa to the cart or send a booking request from a villa detail page.": "Füge eine Villa zum Cart hinzu oder sende eine Booking Request über die Detailseite.",
+    "Request checkout": "Checkout anfragen",
+    "Cart / requests": "Cart / Requests",
+    "Continue search": "Suche fortsetzen",
+    "Premium holiday villa in Formentor with sea-air terraces, private pool, generous living space and quiet privacy.": "Premium Holiday Villa in Formentor mit Meerluft-Terrassen, privatem Pool, viel Living Space und ruhiger Privacy.",
+    "Large estate for groups close to the north coast, with broad terraces, pool landscape and private retreat zones.": "Großes Estate für Gruppen nahe der Nordküste, mit weiten Terrassen, Pool Landscape und privaten Retreat Zones.",
+    "Mediterranean summer house with calm garden areas, wide outdoor living and a generous pool setting.": "Mediterranes Summer House mit ruhigen Gartenbereichen, weitem Outdoor Living und großzügigem Pool Setting.",
+    "Map": "Karte",
+    "2 guests": "2 Guests",
+    "13 Crays Villas on Mallorca": "13 Crays Villas auf Mallorca"
+  },
+  es: {
+    "Create your Crays account for stays, membership and access.": "Crea tu Crays account para stays, membership y access.",
+    "Start with Google, LinkedIn or email. Crays stores the customer profile in the backend and keeps the front-end flow simple.": "Empieza con Google, LinkedIn o email. Crays guarda el perfil en el backend y mantiene simple el front-end flow.",
+    "Create account": "Crear account",
+    "Sign up": "Registrarse",
+    "Email fallback": "Fallback por email",
+    "Use the flow": "Usar el flow",
+    "Wish List, cart and booking requests stay visible after login.": "Wish List, carrito y solicitudes de booking siguen visibles después del login.",
+    "Book villas and stays": "Reservar villas y stays",
+    "Become a member": "Hacerse member",
+    "Company or team access": "Access para empresa o equipo",
+    "Creator or brand partner": "Creator o brand partner",
+    "Villa owner or investor": "Villa owner o investor",
+    "Search villas": "Buscar villas",
+    "Flow summary": "Resumen del flow",
+    "No active Crays account yet.": "Aún no hay Crays account activo.",
+    "Google, LinkedIn or email profile connected to the Crays backend.": "Perfil de Google, LinkedIn o email conectado al backend de Crays.",
+    "Save intent": "Guardar intención",
+    "Membership, villa booking, team access and partner interest stay attached.": "Membership, villa booking, team access e interés de partner quedan conectados.",
+    "Crays follows up": "Crays hace follow-up",
+    "The backend record gives the team one customer source of truth.": "El registro backend da al equipo una fuente única del customer.",
+    "Use Google or LinkedIn when available, or create an account with email in under a minute.": "Usa Google o LinkedIn cuando estén disponibles, o crea un account por email en menos de un minuto.",
+    "Best for guests and members": "Ideal para guests y members",
+    "Best for founders and teams": "Ideal para founders y equipos",
+    "I agree that Crays may create my account and process my data for booking, membership and service requests.": "Acepto que Crays cree mi account y trate mis datos para booking, membership y service requests.",
+    "No saved villas yet": "Aún no hay villas guardadas",
+    "Use the villa search or detail pages to save houses into this unified flow.": "Usa la búsqueda de villas o las páginas de detalle para guardar casas en este flow.",
+    "No cart or booking request yet": "Aún no hay carrito ni solicitud de booking",
+    "Add a villa to the cart or send a booking request from a villa detail page.": "Añade una villa al carrito o envía una solicitud de booking desde la página de detalle.",
+    "Request checkout": "Solicitar checkout",
+    "Cart / requests": "Carrito / solicitudes",
+    "Booking requests": "Solicitudes de booking",
+    "Estimated subtotal": "Subtotal estimado",
+    "Continue search": "Continuar búsqueda",
+    "Premium holiday villa in Formentor with sea-air terraces, private pool, generous living space and quiet privacy.": "Villa premium en Formentor con terrazas de aire marino, piscina privada, mucho espacio y privacidad tranquila.",
+    "Large estate for groups close to the north coast, with broad terraces, pool landscape and private retreat zones.": "Gran estate para grupos cerca de la costa norte, con terrazas amplias, piscina y zonas privadas de retiro.",
+    "Mediterranean summer house with calm garden areas, wide outdoor living and a generous pool setting.": "Casa mediterránea de verano con jardín tranquilo, amplio outdoor living y una gran zona de piscina.",
+    "Map": "Mapa",
+    "2 guests": "2 huéspedes",
+    "13 Crays Villas on Mallorca": "13 Crays Villas en Mallorca"
+  },
+  ca: {
+    "Create your Crays account for stays, membership and access.": "Crea el teu Crays account per a stays, membership i access.",
+    "Start with Google, LinkedIn or email. Crays stores the customer profile in the backend and keeps the front-end flow simple.": "Comença amb Google, LinkedIn o email. Crays desa el perfil al backend i manté senzill el front-end flow.",
+    "Create account": "Crear account",
+    "Sign up": "Registrar-se",
+    "Email fallback": "Fallback per email",
+    "Use the flow": "Fer servir el flow",
+    "Wish List, cart and booking requests stay visible after login.": "Wish List, cistella i peticions de booking continuen visibles després del login.",
+    "Book villas and stays": "Reservar villas i stays",
+    "Become a member": "Fer-se member",
+    "Company or team access": "Access per a empresa o equip",
+    "Creator or brand partner": "Creator o brand partner",
+    "Villa owner or investor": "Villa owner o investor",
+    "Search villas": "Buscar villas",
+    "Flow summary": "Resum del flow",
+    "No active Crays account yet.": "Encara no hi ha cap Crays account actiu.",
+    "Google, LinkedIn or email profile connected to the Crays backend.": "Perfil de Google, LinkedIn o email connectat al backend de Crays.",
+    "Save intent": "Desar intenció",
+    "Membership, villa booking, team access and partner interest stay attached.": "Membership, villa booking, team access i interès de partner queden connectats.",
+    "Crays follows up": "Crays fa follow-up",
+    "The backend record gives the team one customer source of truth.": "El registre backend dona a l'equip una font única del customer.",
+    "Use Google or LinkedIn when available, or create an account with email in under a minute.": "Fes servir Google o LinkedIn quan estiguin disponibles, o crea un account per email en menys d'un minut.",
+    "Best for guests and members": "Ideal per a guests i members",
+    "Best for founders and teams": "Ideal per a founders i equips",
+    "I agree that Crays may create my account and process my data for booking, membership and service requests.": "Accepto que Crays creï el meu account i tracti les meves dades per a booking, membership i service requests.",
+    "No saved villas yet": "Encara no hi ha villas guardades",
+    "Use the villa search or detail pages to save houses into this unified flow.": "Fes servir la cerca de villas o les pàgines de detall per guardar cases en aquest flow.",
+    "No cart or booking request yet": "Encara no hi ha cistella ni petició de booking",
+    "Add a villa to the cart or send a booking request from a villa detail page.": "Afegeix una villa a la cistella o envia una petició de booking des de la pàgina de detall.",
+    "Request checkout": "Sol·licitar checkout",
+    "Cart / requests": "Cistella / peticions",
+    "Booking requests": "Peticions de booking",
+    "Estimated subtotal": "Subtotal estimat",
+    "Continue search": "Continuar cerca",
+    "Premium holiday villa in Formentor with sea-air terraces, private pool, generous living space and quiet privacy.": "Villa premium a Formentor amb terrasses d'aire marí, piscina privada, molt living space i privacitat tranquil·la.",
+    "Large estate for groups close to the north coast, with broad terraces, pool landscape and private retreat zones.": "Gran estate per a grups prop de la costa nord, amb terrasses àmplies, pool landscape i zones privades de retreat.",
+    "Mediterranean summer house with calm garden areas, wide outdoor living and a generous pool setting.": "Casa mediterrània d'estiu amb jardins tranquils, outdoor living ampli i una gran zona de piscina.",
+    "Map": "Mapa",
+    "2 guests": "2 hostes",
+    "13 Crays Villas on Mallorca": "13 Crays Villas a Mallorca"
+  },
+  fr: {
+    "Create your Crays account for stays, membership and access.": "Créez votre Crays account pour les stays, la membership et l'access.",
+    "Start with Google, LinkedIn or email. Crays stores the customer profile in the backend and keeps the front-end flow simple.": "Commencez avec Google, LinkedIn ou email. Crays garde le profil dans le backend et simplifie le front-end flow.",
+    "Create account": "Créer un account",
+    "Sign up": "S'inscrire",
+    "Email fallback": "Fallback email",
+    "Use the flow": "Utiliser le flow",
+    "Wish List, cart and booking requests stay visible after login.": "Wish List, panier et demandes de booking restent visibles après le login.",
+    "Book villas and stays": "Réserver villas et stays",
+    "Become a member": "Devenir member",
+    "Company or team access": "Access entreprise ou équipe",
+    "Creator or brand partner": "Creator ou brand partner",
+    "Villa owner or investor": "Villa owner ou investor",
+    "Search villas": "Rechercher des villas",
+    "Flow summary": "Résumé du flow",
+    "No active Crays account yet.": "Aucun Crays account actif.",
+    "Google, LinkedIn or email profile connected to the Crays backend.": "Profil Google, LinkedIn ou email connecté au backend Crays.",
+    "Save intent": "Sauver l'intention",
+    "Membership, villa booking, team access and partner interest stay attached.": "Membership, villa booking, team access et intérêt partner restent liés.",
+    "Crays follows up": "Crays fait le follow-up",
+    "The backend record gives the team one customer source of truth.": "Le record backend donne à l'équipe une source customer unique.",
+    "Use Google or LinkedIn when available, or create an account with email in under a minute.": "Utilisez Google ou LinkedIn quand disponible, ou créez un account par email en moins d'une minute.",
+    "Best for guests and members": "Idéal pour guests et members",
+    "Best for founders and teams": "Idéal pour founders et équipes",
+    "I agree that Crays may create my account and process my data for booking, membership and service requests.": "J'accepte que Crays crée mon account et traite mes données pour booking, membership et service requests.",
+    "No saved villas yet": "Aucune villa sauvegardée",
+    "Use the villa search or detail pages to save houses into this unified flow.": "Utilisez la recherche de villas ou les pages détail pour sauvegarder des maisons dans ce flow.",
+    "No cart or booking request yet": "Aucun panier ni booking request",
+    "Add a villa to the cart or send a booking request from a villa detail page.": "Ajoutez une villa au panier ou envoyez une booking request depuis la page détail.",
+    "Request checkout": "Demander le checkout",
+    "Cart / requests": "Panier / demandes",
+    "Booking requests": "Demandes de booking",
+    "Estimated subtotal": "Sous-total estimé",
+    "Continue search": "Continuer la recherche",
+    "Premium holiday villa in Formentor with sea-air terraces, private pool, generous living space and quiet privacy.": "Villa premium à Formentor avec terrasses face à l'air marin, piscine privée, grands espaces et privacy calme.",
+    "Large estate for groups close to the north coast, with broad terraces, pool landscape and private retreat zones.": "Grand estate pour groupes près de la côte nord, avec larges terrasses, pool landscape et zones de retreat privées.",
+    "Mediterranean summer house with calm garden areas, wide outdoor living and a generous pool setting.": "Maison d'été méditerranéenne avec jardins calmes, large outdoor living et grand espace piscine.",
+    "Map": "Carte",
+    "2 guests": "2 guests",
+    "13 Crays Villas on Mallorca": "13 Crays Villas à Majorque"
+  },
+  pt: {
+    "Create your Crays account for stays, membership and access.": "Crie o seu Crays account para stays, membership e access.",
+    "Start with Google, LinkedIn or email. Crays stores the customer profile in the backend and keeps the front-end flow simple.": "Comece com Google, LinkedIn ou email. A Crays guarda o perfil no backend e mantém simples o front-end flow.",
+    "Create account": "Criar account",
+    "Sign up": "Registar",
+    "Email fallback": "Fallback por email",
+    "Use the flow": "Usar o flow",
+    "Wish List, cart and booking requests stay visible after login.": "Wish List, carrinho e pedidos de booking continuam visíveis após o login.",
+    "Book villas and stays": "Reservar villas e stays",
+    "Become a member": "Tornar-se member",
+    "Company or team access": "Access para empresa ou equipa",
+    "Creator or brand partner": "Creator ou brand partner",
+    "Villa owner or investor": "Villa owner ou investor",
+    "Search villas": "Pesquisar villas",
+    "Flow summary": "Resumo do flow",
+    "No active Crays account yet.": "Ainda não há Crays account ativo.",
+    "Google, LinkedIn or email profile connected to the Crays backend.": "Perfil Google, LinkedIn ou email ligado ao backend da Crays.",
+    "Save intent": "Guardar intenção",
+    "Membership, villa booking, team access and partner interest stay attached.": "Membership, villa booking, team access e interesse de partner ficam ligados.",
+    "Crays follows up": "A Crays faz follow-up",
+    "The backend record gives the team one customer source of truth.": "O registo backend dá à equipa uma fonte única do customer.",
+    "Use Google or LinkedIn when available, or create an account with email in under a minute.": "Use Google ou LinkedIn quando disponível, ou crie um account por email em menos de um minuto.",
+    "Best for guests and members": "Ideal para guests e members",
+    "Best for founders and teams": "Ideal para founders e equipas",
+    "I agree that Crays may create my account and process my data for booking, membership and service requests.": "Aceito que a Crays crie o meu account e trate os meus dados para booking, membership e service requests.",
+    "No saved villas yet": "Ainda não há villas guardadas",
+    "Use the villa search or detail pages to save houses into this unified flow.": "Use a pesquisa de villas ou as páginas de detalhe para guardar casas neste flow.",
+    "No cart or booking request yet": "Ainda não há carrinho nem booking request",
+    "Add a villa to the cart or send a booking request from a villa detail page.": "Adicione uma villa ao carrinho ou envie uma booking request a partir da página de detalhe.",
+    "Request checkout": "Pedir checkout",
+    "Cart / requests": "Carrinho / pedidos",
+    "Booking requests": "Pedidos de booking",
+    "Estimated subtotal": "Subtotal estimado",
+    "Continue search": "Continuar pesquisa",
+    "Premium holiday villa in Formentor with sea-air terraces, private pool, generous living space and quiet privacy.": "Villa premium em Formentor com terraços de ar marítimo, piscina privada, muito living space e privacy tranquila.",
+    "Large estate for groups close to the north coast, with broad terraces, pool landscape and private retreat zones.": "Grande estate para grupos perto da costa norte, com terraços amplos, pool landscape e zonas privadas de retreat.",
+    "Mediterranean summer house with calm garden areas, wide outdoor living and a generous pool setting.": "Casa mediterrânica de verão com jardins calmos, amplo outdoor living e grande zona de piscina.",
+    "Map": "Mapa",
+    "2 guests": "2 guests",
+    "13 Crays Villas on Mallorca": "13 Crays Villas em Maiorca"
+  },
+  it: {
+    "Create your Crays account for stays, membership and access.": "Crea il tuo Crays account per stays, membership e access.",
+    "Start with Google, LinkedIn or email. Crays stores the customer profile in the backend and keeps the front-end flow simple.": "Inizia con Google, LinkedIn o email. Crays salva il profilo nel backend e mantiene semplice il front-end flow.",
+    "Create account": "Crea account",
+    "Sign up": "Registrati",
+    "Email fallback": "Fallback email",
+    "Use the flow": "Usa il flow",
+    "Wish List, cart and booking requests stay visible after login.": "Wish List, carrello e richieste di booking restano visibili dopo il login.",
+    "Book villas and stays": "Prenota villas e stays",
+    "Become a member": "Diventa member",
+    "Company or team access": "Access per azienda o team",
+    "Creator or brand partner": "Creator o brand partner",
+    "Villa owner or investor": "Villa owner o investor",
+    "Search villas": "Cerca villas",
+    "Flow summary": "Riepilogo flow",
+    "No active Crays account yet.": "Nessun Crays account attivo.",
+    "Google, LinkedIn or email profile connected to the Crays backend.": "Profilo Google, LinkedIn o email collegato al backend Crays.",
+    "Save intent": "Salva intento",
+    "Membership, villa booking, team access and partner interest stay attached.": "Membership, villa booking, team access e interesse partner restano collegati.",
+    "Crays follows up": "Crays fa follow-up",
+    "The backend record gives the team one customer source of truth.": "Il record backend dà al team una fonte customer unica.",
+    "Use Google or LinkedIn when available, or create an account with email in under a minute.": "Usa Google o LinkedIn quando disponibili, oppure crea un account via email in meno di un minuto.",
+    "Best for guests and members": "Ideale per guests e members",
+    "Best for founders and teams": "Ideale per founders e team",
+    "I agree that Crays may create my account and process my data for booking, membership and service requests.": "Accetto che Crays crei il mio account e tratti i miei dati per booking, membership e service requests.",
+    "No saved villas yet": "Nessuna villa salvata",
+    "Use the villa search or detail pages to save houses into this unified flow.": "Usa la ricerca villas o le pagine dettaglio per salvare case in questo flow.",
+    "No cart or booking request yet": "Nessun carrello o booking request",
+    "Add a villa to the cart or send a booking request from a villa detail page.": "Aggiungi una villa al carrello o invia una booking request dalla pagina dettaglio.",
+    "Request checkout": "Richiedi checkout",
+    "Cart / requests": "Carrello / richieste",
+    "Booking requests": "Richieste di booking",
+    "Estimated subtotal": "Subtotale stimato",
+    "Continue search": "Continua ricerca",
+    "Premium holiday villa in Formentor with sea-air terraces, private pool, generous living space and quiet privacy.": "Villa premium a Formentor con terrazze vista mare, piscina privata, ampio living space e privacy tranquilla.",
+    "Large estate for groups close to the north coast, with broad terraces, pool landscape and private retreat zones.": "Grande estate per gruppi vicino alla costa nord, con terrazze ampie, pool landscape e zone retreat private.",
+    "Mediterranean summer house with calm garden areas, wide outdoor living and a generous pool setting.": "Casa estiva mediterranea con giardini calmi, ampio outdoor living e grande area piscina.",
+    "Map": "Mappa",
+    "2 guests": "2 guests",
+    "13 Crays Villas on Mallorca": "13 Crays Villas a Maiorca"
+  }
+};
+
+for (const [code, pack] of Object.entries(runtimeTranslations)) {
+  Object.assign(translations[code], pack);
+}
+
+const legalTranslations = {
+  de: {
+    "A practical privacy overview for visitors, early access applicants and Crays Club community contacts.": "Ein praktischer Privacy-Überblick für Besucher, Early-Access-Anfragen und Crays Club Community-Kontakte.",
+    "Privacy contact": "Privacy Contact",
+    "Crays Club uses personal data to operate the website, answer messages, manage access interest and improve the community experience. We aim to keep data collection focused and understandable.": "Crays Club nutzt personenbezogene Daten, um die Website zu betreiben, Nachrichten zu beantworten, Access-Interesse zu verwalten und die Community Experience zu verbessern. Die Datenerhebung bleibt fokussiert und verständlich.",
+    "This policy complements the Data Protection page and explains the practical handling of privacy-relevant information on CraysClub.com.": "Diese Policy ergänzt die Datenschutzseite und erklärt den praktischen Umgang mit privacy-relevanten Informationen auf CraysClub.com.",
+    "When the website is visited, technical information such as browser type, device data, access times, requested pages and security-related logs may be processed by hosting and infrastructure providers.": "Beim Besuch der Website können technische Informationen wie Browsertyp, Gerätedaten, Zugriffszeiten, aufgerufene Seiten und sicherheitsrelevante Logs durch Hosting- und Infrastruktur-Provider verarbeitet werden.",
+    "This information helps deliver pages, prevent abuse, troubleshoot errors and keep the service secure.": "Diese Informationen helfen, Seiten auszuliefern, Missbrauch zu verhindern, Fehler zu beheben und den Service sicher zu halten.",
+    "If you contact Crays or request access, we process the details you provide, such as your name, email address, message and relevant context for the request. This information is used to respond and to evaluate the requested Crays Club interaction.": "Wenn du Crays kontaktierst oder Access anfragst, verarbeiten wir die von dir angegebenen Daten wie Name, E-Mail, Nachricht und relevanten Kontext. Diese Informationen werden zur Antwort und Bewertung der gewünschten Crays Club Interaktion genutzt.",
+    "Please do not send sensitive information unless it is necessary for the specific request.": "Bitte sende keine sensiblen Informationen, außer sie sind für die konkrete Anfrage erforderlich.",
+    "The site may use technologies that support basic functionality, security, analytics or embedded third-party services. Where required, consent or additional information will be provided before optional technologies are used.": "Die Website kann Technologien für Grundfunktionen, Sicherheit, Analytics oder eingebundene Drittanbieter nutzen. Wo erforderlich, werden Consent oder zusätzliche Informationen bereitgestellt, bevor optionale Technologien eingesetzt werden.",
+    "Data is kept only for as long as needed for the relevant purpose, legal requirements, dispute prevention or legitimate operational needs. After that, data is deleted or anonymized where appropriate.": "Daten werden nur so lange gespeichert, wie es für den jeweiligen Zweck, rechtliche Anforderungen, Streitvermeidung oder legitime operative Bedürfnisse nötig ist. Danach werden sie gelöscht oder anonymisiert.",
+    "You can contact Crays to ask about your personal data, request correction or deletion, object to certain uses or withdraw consent where processing depends on consent.": "Du kannst Crays kontaktieren, um Auskunft, Korrektur oder Löschung deiner Daten zu verlangen, bestimmten Nutzungen zu widersprechen oder Consent zu widerrufen, soweit die Verarbeitung darauf beruht.",
+    "Contact:": "Kontakt:",
+    "Company and contact information for Crays Clubs.": "Company- und Kontaktinformationen für Crays Clubs.",
+    "Clear operating terms for website use, early access requests and Crays Club communication.": "Klare Operating Terms für Website-Nutzung, Early-Access-Anfragen und Crays Club Kommunikation.",
+    "How Crays Club handles personal data when people visit the website, request access or contact the team.": "Wie Crays Club personenbezogene Daten behandelt, wenn Menschen die Website besuchen, Access anfragen oder das Team kontaktieren."
+  },
+  es: {
+    "A practical privacy overview for visitors, early access applicants and Crays Club community contacts.": "Un resumen práctico de privacidad para visitantes, solicitudes de early access y contactos de la Crays Club community.",
+    "Privacy contact": "Contacto de privacidad",
+    "Crays Club uses personal data to operate the website, answer messages, manage access interest and improve the community experience. We aim to keep data collection focused and understandable.": "Crays Club usa datos personales para operar la web, responder mensajes, gestionar interés de access y mejorar la community experience. Buscamos que la recogida de datos sea clara y limitada.",
+    "This policy complements the Data Protection page and explains the practical handling of privacy-relevant information on CraysClub.com.": "Esta política complementa la página de Data Protection y explica cómo se maneja la información relevante para la privacidad en CraysClub.com.",
+    "When the website is visited, technical information such as browser type, device data, access times, requested pages and security-related logs may be processed by hosting and infrastructure providers.": "Al visitar la web, proveedores de hosting e infraestructura pueden tratar datos técnicos como tipo de navegador, dispositivo, horas de acceso, páginas solicitadas y logs de seguridad.",
+    "This information helps deliver pages, prevent abuse, troubleshoot errors and keep the service secure.": "Esta información ayuda a entregar páginas, prevenir abusos, resolver errores y mantener seguro el servicio.",
+    "If you contact Crays or request access, we process the details you provide, such as your name, email address, message and relevant context for the request. This information is used to respond and to evaluate the requested Crays Club interaction.": "Si contactas con Crays o solicitas access, tratamos los datos que aportas, como nombre, email, mensaje y contexto relevante. Se usan para responder y evaluar la interacción solicitada con Crays Club.",
+    "Please do not send sensitive information unless it is necessary for the specific request.": "No envíes información sensible salvo que sea necesaria para esa solicitud concreta.",
+    "The site may use technologies that support basic functionality, security, analytics or embedded third-party services. Where required, consent or additional information will be provided before optional technologies are used.": "La web puede usar tecnologías para funcionalidad básica, seguridad, analytics o servicios externos integrados. Cuando sea necesario, se pedirá consentimiento o se dará información adicional antes de usar tecnologías opcionales.",
+    "Data is kept only for as long as needed for the relevant purpose, legal requirements, dispute prevention or legitimate operational needs. After that, data is deleted or anonymized where appropriate.": "Los datos se conservan solo durante el tiempo necesario para la finalidad, requisitos legales, prevención de disputas o necesidades operativas legítimas. Después se eliminan o anonimizan cuando procede.",
+    "You can contact Crays to ask about your personal data, request correction or deletion, object to certain uses or withdraw consent where processing depends on consent.": "Puedes contactar con Crays para preguntar por tus datos, pedir corrección o eliminación, oponerte a ciertos usos o retirar el consentimiento cuando el tratamiento dependa de él.",
+    "Contact:": "Contacto:",
+    "Company and contact information for Crays Clubs.": "Información de empresa y contacto de Crays Clubs.",
+    "Clear operating terms for website use, early access requests and Crays Club communication.": "Términos operativos claros para el uso de la web, solicitudes de early access y comunicación de Crays Club.",
+    "How Crays Club handles personal data when people visit the website, request access or contact the team.": "Cómo Crays Club gestiona datos personales cuando se visita la web, se solicita access o se contacta con el equipo."
+  },
+  ca: {
+    "A practical privacy overview for visitors, early access applicants and Crays Club community contacts.": "Un resum pràctic de privacitat per a visitants, sol·licituds d'early access i contactes de la Crays Club community.",
+    "Privacy contact": "Contacte de privacitat",
+    "Crays Club uses personal data to operate the website, answer messages, manage access interest and improve the community experience. We aim to keep data collection focused and understandable.": "Crays Club utilitza dades personals per operar la web, respondre missatges, gestionar interès d'access i millorar la community experience. Volem que la recollida de dades sigui clara i limitada.",
+    "This policy complements the Data Protection page and explains the practical handling of privacy-relevant information on CraysClub.com.": "Aquesta política complementa la pàgina de Data Protection i explica el tractament pràctic de la informació rellevant per a la privacitat a CraysClub.com.",
+    "When the website is visited, technical information such as browser type, device data, access times, requested pages and security-related logs may be processed by hosting and infrastructure providers.": "Quan es visita la web, proveïdors de hosting i infraestructura poden tractar informació tècnica com navegador, dispositiu, hores d'accés, pàgines sol·licitades i logs de seguretat.",
+    "This information helps deliver pages, prevent abuse, troubleshoot errors and keep the service secure.": "Aquesta informació ajuda a servir pàgines, prevenir abusos, resoldre errors i mantenir segur el servei.",
+    "If you contact Crays or request access, we process the details you provide, such as your name, email address, message and relevant context for the request. This information is used to respond and to evaluate the requested Crays Club interaction.": "Si contactes amb Crays o demanes access, tractem les dades que facilites, com nom, email, missatge i context rellevant. S'utilitzen per respondre i avaluar la interacció sol·licitada amb Crays Club.",
+    "Please do not send sensitive information unless it is necessary for the specific request.": "No enviïs informació sensible llevat que sigui necessària per a la petició concreta.",
+    "The site may use technologies that support basic functionality, security, analytics or embedded third-party services. Where required, consent or additional information will be provided before optional technologies are used.": "La web pot usar tecnologies per a funcionalitat bàsica, seguretat, analytics o serveis externs integrats. Quan calgui, es demanarà consentiment o es donarà informació addicional abans d'usar tecnologies opcionals.",
+    "Data is kept only for as long as needed for the relevant purpose, legal requirements, dispute prevention or legitimate operational needs. After that, data is deleted or anonymized where appropriate.": "Les dades es conserven només el temps necessari per a la finalitat, requisits legals, prevenció de conflictes o necessitats operatives legítimes. Després s'eliminen o anonimitzen quan correspongui.",
+    "You can contact Crays to ask about your personal data, request correction or deletion, object to certain uses or withdraw consent where processing depends on consent.": "Pots contactar amb Crays per preguntar per les teves dades, demanar correcció o eliminació, oposar-te a certs usos o retirar consentiment quan el tractament en depengui.",
+    "Contact:": "Contacte:",
+    "Company and contact information for Crays Clubs.": "Informació d'empresa i contacte de Crays Clubs.",
+    "Clear operating terms for website use, early access requests and Crays Club communication.": "Termes operatius clars per a l'ús de la web, sol·licituds d'early access i comunicació de Crays Club.",
+    "How Crays Club handles personal data when people visit the website, request access or contact the team.": "Com Crays Club tracta dades personals quan es visita la web, es demana access o es contacta amb l'equip."
+  },
+  fr: {
+    "A practical privacy overview for visitors, early access applicants and Crays Club community contacts.": "Un aperçu privacy pratique pour visiteurs, demandes d'early access et contacts de la Crays Club community.",
+    "Privacy contact": "Contact privacy",
+    "Crays Club uses personal data to operate the website, answer messages, manage access interest and improve the community experience. We aim to keep data collection focused and understandable.": "Crays Club utilise des données personnelles pour exploiter le site, répondre aux messages, gérer l'intérêt access et améliorer la community experience. La collecte reste ciblée et lisible.",
+    "This policy complements the Data Protection page and explains the practical handling of privacy-relevant information on CraysClub.com.": "Cette politique complète la page Data Protection et explique le traitement pratique des informations liées à la privacy sur CraysClub.com.",
+    "When the website is visited, technical information such as browser type, device data, access times, requested pages and security-related logs may be processed by hosting and infrastructure providers.": "Lors d'une visite, des informations techniques comme navigateur, appareil, heures d'accès, pages demandées et logs de sécurité peuvent être traitées par les fournisseurs d'hébergement et d'infrastructure.",
+    "This information helps deliver pages, prevent abuse, troubleshoot errors and keep the service secure.": "Ces informations aident à servir les pages, prévenir les abus, corriger les erreurs et sécuriser le service.",
+    "If you contact Crays or request access, we process the details you provide, such as your name, email address, message and relevant context for the request. This information is used to respond and to evaluate the requested Crays Club interaction.": "Si vous contactez Crays ou demandez access, nous traitons les données fournies, comme nom, email, message et contexte utile. Elles servent à répondre et évaluer l'interaction Crays Club demandée.",
+    "Please do not send sensitive information unless it is necessary for the specific request.": "N'envoyez pas d'informations sensibles sauf si elles sont nécessaires à la demande précise.",
+    "The site may use technologies that support basic functionality, security, analytics or embedded third-party services. Where required, consent or additional information will be provided before optional technologies are used.": "Le site peut utiliser des technologies pour les fonctions de base, la sécurité, analytics ou des services tiers intégrés. Lorsque nécessaire, un consentement ou des informations supplémentaires seront fournis avant toute technologie optionnelle.",
+    "Data is kept only for as long as needed for the relevant purpose, legal requirements, dispute prevention or legitimate operational needs. After that, data is deleted or anonymized where appropriate.": "Les données sont conservées seulement le temps nécessaire à la finalité, aux obligations légales, à la prévention des litiges ou aux besoins opérationnels légitimes. Ensuite, elles sont supprimées ou anonymisées.",
+    "You can contact Crays to ask about your personal data, request correction or deletion, object to certain uses or withdraw consent where processing depends on consent.": "Vous pouvez contacter Crays pour vos données personnelles, demander correction ou suppression, vous opposer à certains usages ou retirer un consentement lorsque le traitement en dépend.",
+    "Contact:": "Contact :",
+    "Company and contact information for Crays Clubs.": "Informations société et contact pour Crays Clubs.",
+    "Clear operating terms for website use, early access requests and Crays Club communication.": "Conditions opérationnelles claires pour l'usage du site, les demandes d'early access et la communication Crays Club.",
+    "How Crays Club handles personal data when people visit the website, request access or contact the team.": "Comment Crays Club traite les données personnelles lors des visites, demandes d'access ou contacts avec l'équipe."
+  },
+  pt: {
+    "A practical privacy overview for visitors, early access applicants and Crays Club community contacts.": "Um resumo prático de privacidade para visitantes, pedidos de early access e contactos da Crays Club community.",
+    "Privacy contact": "Contacto de privacidade",
+    "Crays Club uses personal data to operate the website, answer messages, manage access interest and improve the community experience. We aim to keep data collection focused and understandable.": "A Crays Club usa dados pessoais para operar o site, responder a mensagens, gerir interesse de access e melhorar a community experience. A recolha de dados deve ser focada e compreensível.",
+    "This policy complements the Data Protection page and explains the practical handling of privacy-relevant information on CraysClub.com.": "Esta política complementa a página Data Protection e explica o tratamento prático de informação relevante para privacidade em CraysClub.com.",
+    "When the website is visited, technical information such as browser type, device data, access times, requested pages and security-related logs may be processed by hosting and infrastructure providers.": "Ao visitar o site, fornecedores de hosting e infraestrutura podem tratar informação técnica como navegador, dispositivo, horas de acesso, páginas pedidas e logs de segurança.",
+    "This information helps deliver pages, prevent abuse, troubleshoot errors and keep the service secure.": "Esta informação ajuda a entregar páginas, prevenir abuso, resolver erros e manter o serviço seguro.",
+    "If you contact Crays or request access, we process the details you provide, such as your name, email address, message and relevant context for the request. This information is used to respond and to evaluate the requested Crays Club interaction.": "Se contactar a Crays ou pedir access, tratamos os dados fornecidos, como nome, email, mensagem e contexto relevante. A informação é usada para responder e avaliar a interação Crays Club pedida.",
+    "Please do not send sensitive information unless it is necessary for the specific request.": "Não envie informação sensível salvo se for necessária para o pedido específico.",
+    "The site may use technologies that support basic functionality, security, analytics or embedded third-party services. Where required, consent or additional information will be provided before optional technologies are used.": "O site pode usar tecnologias para funcionalidade básica, segurança, analytics ou serviços terceiros integrados. Quando necessário, será pedido consentimento ou dada informação adicional antes de tecnologias opcionais.",
+    "Data is kept only for as long as needed for the relevant purpose, legal requirements, dispute prevention or legitimate operational needs. After that, data is deleted or anonymized where appropriate.": "Os dados são guardados apenas pelo tempo necessário para a finalidade, requisitos legais, prevenção de litígios ou necessidades operacionais legítimas. Depois são apagados ou anonimizados.",
+    "You can contact Crays to ask about your personal data, request correction or deletion, object to certain uses or withdraw consent where processing depends on consent.": "Pode contactar a Crays para perguntar sobre os seus dados, pedir correção ou eliminação, opor-se a certos usos ou retirar consentimento quando o tratamento dependa dele.",
+    "Contact:": "Contacto:",
+    "Company and contact information for Crays Clubs.": "Informação de empresa e contacto da Crays Clubs.",
+    "Clear operating terms for website use, early access requests and Crays Club communication.": "Termos operacionais claros para uso do site, pedidos de early access e comunicação Crays Club.",
+    "How Crays Club handles personal data when people visit the website, request access or contact the team.": "Como a Crays Club trata dados pessoais quando pessoas visitam o site, pedem access ou contactam a equipa."
+  },
+  it: {
+    "A practical privacy overview for visitors, early access applicants and Crays Club community contacts.": "Una panoramica privacy pratica per visitatori, richieste di early access e contatti della Crays Club community.",
+    "Privacy contact": "Contatto privacy",
+    "Crays Club uses personal data to operate the website, answer messages, manage access interest and improve the community experience. We aim to keep data collection focused and understandable.": "Crays Club usa dati personali per gestire il sito, rispondere ai messaggi, gestire l'interesse access e migliorare la community experience. La raccolta dati resta chiara e mirata.",
+    "This policy complements the Data Protection page and explains the practical handling of privacy-relevant information on CraysClub.com.": "Questa policy integra la pagina Data Protection e spiega la gestione pratica delle informazioni privacy su CraysClub.com.",
+    "When the website is visited, technical information such as browser type, device data, access times, requested pages and security-related logs may be processed by hosting and infrastructure providers.": "Quando il sito viene visitato, provider di hosting e infrastruttura possono trattare informazioni tecniche come browser, dispositivo, orari di accesso, pagine richieste e log di sicurezza.",
+    "This information helps deliver pages, prevent abuse, troubleshoot errors and keep the service secure.": "Queste informazioni aiutano a servire le pagine, prevenire abusi, risolvere errori e mantenere sicuro il servizio.",
+    "If you contact Crays or request access, we process the details you provide, such as your name, email address, message and relevant context for the request. This information is used to respond and to evaluate the requested Crays Club interaction.": "Se contatti Crays o richiedi access, trattiamo i dati forniti, come nome, email, messaggio e contesto utile. Sono usati per rispondere e valutare l'interazione Crays Club richiesta.",
+    "Please do not send sensitive information unless it is necessary for the specific request.": "Non inviare informazioni sensibili salvo se necessarie per la richiesta specifica.",
+    "The site may use technologies that support basic functionality, security, analytics or embedded third-party services. Where required, consent or additional information will be provided before optional technologies are used.": "Il sito può usare tecnologie per funzionalità base, sicurezza, analytics o servizi terzi integrati. Dove necessario, verranno forniti consenso o informazioni aggiuntive prima dell'uso di tecnologie opzionali.",
+    "Data is kept only for as long as needed for the relevant purpose, legal requirements, dispute prevention or legitimate operational needs. After that, data is deleted or anonymized where appropriate.": "I dati sono conservati solo per il tempo necessario allo scopo, agli obblighi legali, alla prevenzione di controversie o a esigenze operative legittime. Poi sono cancellati o anonimizzati.",
+    "You can contact Crays to ask about your personal data, request correction or deletion, object to certain uses or withdraw consent where processing depends on consent.": "Puoi contattare Crays per chiedere informazioni sui tuoi dati, richiedere correzione o cancellazione, opporti a certi usi o revocare il consenso quando il trattamento dipende da esso.",
+    "Contact:": "Contatto:",
+    "Company and contact information for Crays Clubs.": "Informazioni aziendali e contatti per Crays Clubs.",
+    "Clear operating terms for website use, early access requests and Crays Club communication.": "Termini operativi chiari per uso del sito, richieste di early access e comunicazione Crays Club.",
+    "How Crays Club handles personal data when people visit the website, request access or contact the team.": "Come Crays Club gestisce dati personali quando si visita il sito, si richiede access o si contatta il team."
+  }
+};
+
+for (const [code, pack] of Object.entries(legalTranslations)) {
+  Object.assign(translations[code], pack);
+}
+
+const allTranslations = Object.fromEntries(
+  languageCodes.map((code) => [code, code === "en" ? {} : translations[code] || {}])
+);
+
+function ensureDir(dir) {
+  fs.mkdirSync(dir, { recursive: true });
+}
+
+function toPosix(value) {
+  return value.split(path.sep).join("/");
+}
+
+function routeFromFile(file) {
+  const normalized = toPosix(file);
+  if (normalized === "index.html") return "/";
+  return "/" + normalized.replace(/\/index\.html$/, "").replace(/\.html$/, "");
+}
+
+function languageRoute(code, route) {
+  return route === "/" ? `/${code}` : `/${code}${route}`;
+}
+
+function htmlEscape(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function decodeEntities(value) {
+  return String(value)
+    .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&mdash;/g, "—")
+    .replace(/&ndash;/g, "–")
+    .replace(/&copy;/g, "©")
+    .replace(/&trade;/g, "™")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, "\"")
+    .replace(/&#39;/g, "'");
+}
+
+function normalizeText(value) {
+  return decodeEntities(value).replace(/\s+/g, " ").trim();
+}
+
+function translateText(value, code) {
+  if (code === "en") return value;
+  const normalized = normalizeText(value);
+  const replacement = allTranslations[code]?.[normalized];
+  if (!replacement) return value;
+  const leading = value.match(/^\s*/)?.[0] || "";
+  const trailing = value.match(/\s*$/)?.[0] || "";
+  return `${leading}${htmlEscape(replacement)}${trailing}`;
+}
+
+function translateAttributes(html, code) {
+  if (code === "en") return html;
+  return html.replace(/\b(aria-label|title|alt|placeholder|content)="([^"]*)"/g, (match, attr, value) => {
+    const normalized = normalizeText(value);
+    const replacement = allTranslations[code]?.[normalized];
+    return replacement ? `${attr}="${htmlEscape(replacement)}"` : match;
+  });
+}
+
+function translateHtmlText(html, code) {
+  if (code === "en") return html;
+  const chunks = html.split(/(<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>)/gi);
+  return chunks.map((chunk) => {
+    if (/^<(script|style)/i.test(chunk)) return chunk;
+    return translateAttributes(chunk, code).replace(/>([^<>]+)</g, (match, text) => {
+      const next = translateText(text, code);
+      return `>${next}<`;
+    });
+  }).join("");
+}
+
+function linkShouldStay(value) {
+  return !value ||
+    value.startsWith("#") ||
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("mailto:") ||
+    value.startsWith("tel:") ||
+    value.startsWith("javascript:") ||
+    value.startsWith("/assets/") ||
+    value.startsWith("/api/") ||
+    value.startsWith("/_") ||
+    value.startsWith("/favicon") ||
+    languageCodes.some((code) => value === `/${code}` || value.startsWith(`/${code}/`));
+}
+
+function prefixInternalLinks(html, code) {
+  return html.replace(/\b(href|action)="(\/[^"]*)"/g, (match, attr, value) => {
+    if (linkShouldStay(value)) return match;
+    return `${attr}="/${code}${value}"`;
+  });
+}
+
+function stripGeneratedI18n(html) {
+  return html
+    .replace(/\n?\s*<link rel="stylesheet" href="\/assets\/crays-club\/crays-i18n\.css\?v=[^"]*" \/?>/g, "")
+    .replace(/\n?\s*<script src="\/assets\/crays-club\/crays-i18n\.js\?v=[^"]*" defer><\/script>/g, "")
+    .replace(/\n?\s*<link rel="alternate" hreflang="[^"]+" href="[^"]+" \/?>/g, "");
+}
+
+function injectHead(html, code, route, isGenerated) {
+  let next = html.replace(/<html\b([^>]*)>/i, (match, attrs) => {
+    const withoutLang = attrs
+      .replace(/\s+lang="[^"]*"/i, "")
+      .replace(/\s+data-crays-lang="[^"]*"/i, "");
+    return `<html lang="${code}" data-crays-lang="${code}"${withoutLang}>`;
+  });
+
+  const canonical = `${baseUrl}${isGenerated ? languageRoute(code, route).replace(/\/$/, route === "/" ? "/" : "") : route}`;
+  const canonicalTag = `<link rel="canonical" href="${canonical}" />`;
+  if (/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i.test(next)) {
+    next = next.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, canonicalTag);
+  } else {
+    next = next.replace(/<\/head>/i, `    ${canonicalTag}\n  </head>`);
+  }
+
+  const alternates = languages.map((lang) => {
+    const href = `${baseUrl}${languageRoute(lang.code, route)}`;
+    return `    <link rel="alternate" hreflang="${lang.code}" href="${href}" />`;
+  }).join("\n") + `\n    <link rel="alternate" hreflang="x-default" href="${baseUrl}${languageRoute("en", route)}" />`;
+
+  if (!next.includes("crays-i18n.css")) {
+    next = next.replace(/<\/head>/i, `    <link rel="stylesheet" href="/assets/crays-club/crays-i18n.css?v=${version}" />\n${alternates}\n  </head>`);
+  }
+
+  return next;
+}
+
+function injectScript(html) {
+  if (html.includes("crays-i18n.js")) return html;
+  return html.replace(/<\/body>/i, `    <script src="/assets/crays-club/crays-i18n.js?v=${version}" defer></script>\n  </body>`);
+}
+
+function transformHtml(html, code, route, isGenerated) {
+  let next = stripGeneratedI18n(html);
+  next = injectHead(next, code, route, isGenerated);
+  next = translateHtmlText(next, code);
+  if (isGenerated) next = prefixInternalLinks(next, code);
+  next = injectScript(next);
+  return next;
+}
+
+function shouldIncludeHtml(file) {
+  const normalized = toPosix(file);
+  if (normalized.startsWith(".")) return false;
+  if (normalized.startsWith("assets/")) return false;
+  if (normalized.startsWith("api/")) return false;
+  if (normalized.startsWith("qa-screens/")) return false;
+  if (normalized.startsWith("verification/")) return false;
+  if (normalized.startsWith("__query/")) return false;
+  if (normalized.startsWith("extracted-pdf-text/")) return false;
+  if (languageCodes.some((code) => normalized === `${code}/index.html` || normalized.startsWith(`${code}/`))) return false;
+  if (path.basename(normalized).startsWith("sources-")) return false;
+  return normalized.endsWith(".html");
+}
+
+function walk(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const absolute = path.join(dir, entry.name);
+    const relative = path.relative(root, absolute);
+    if (entry.isDirectory()) {
+      if (entry.name === "node_modules") continue;
+      files.push(...walk(absolute));
+    } else if (shouldIncludeHtml(relative)) {
+      files.push(relative);
+    }
+  }
+  return files;
+}
+
+function writeClientAssets() {
+  ensureDir(path.join(root, "assets", "crays-club"));
+  const clientJs = `(() => {
+  const languages = ${JSON.stringify(languages)};
+  const translations = ${JSON.stringify(allTranslations)};
+  const languageCodes = languages.map((language) => language.code);
+  const preserveTerms = new Set(${JSON.stringify(copyFromDe)});
+  const normalize = (value) => String(value || "")
+    .replace(/\\u00a0/g, " ")
+    .replace(/\\s+/g, " ")
+    .trim();
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const currentLang = languageCodes.includes(pathParts[0]) ? pathParts[0] : (document.documentElement.dataset.craysLang || "en");
+  const active = languages.find((language) => language.code === currentLang) || languages[0];
+  document.documentElement.lang = currentLang;
+  document.documentElement.dataset.craysLang = currentLang;
+  document.documentElement.style.setProperty("--crays-i18n-font-scale", currentLang === "de" || currentLang === "fr" || currentLang === "pt" || currentLang === "it" ? "0.94" : currentLang === "es" || currentLang === "ca" ? "0.96" : "1");
+  const map = translations[currentLang] || {};
+  const skipTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "CODE", "PRE"]);
+  const shouldSkip = (node) => node.parentElement && (skipTags.has(node.parentElement.tagName) || node.parentElement.closest("[data-crays-no-translate]"));
+  const applyText = (node) => {
+    if (!node || shouldSkip(node)) return;
+    const key = normalize(node.nodeValue);
+    const replacement = map[key];
+    if (!replacement || preserveTerms.has(key)) return;
+    if (replacement.length > key.length * 1.08 && node.parentElement) {
+      node.parentElement.classList.add("crays-i18n-fit");
+    }
+    node.nodeValue = node.nodeValue.replace(key, replacement);
+  };
+  const walkText = (rootNode) => {
+    const walker = document.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(applyText);
+  };
+  const applyAttributes = (rootNode) => {
+    if (!rootNode.querySelectorAll) return;
+    rootNode.querySelectorAll("[aria-label], [title], [alt], [placeholder]").forEach((element) => {
+      ["aria-label", "title", "alt", "placeholder"].forEach((attr) => {
+        const value = element.getAttribute(attr);
+        const replacement = map[normalize(value)];
+        if (replacement) element.setAttribute(attr, replacement);
+      });
+    });
+  };
+  const hasLanguagePrefix = () => languageCodes.includes(window.location.pathname.split("/").filter(Boolean)[0]);
+  const prefixPath = (href) => {
+    if (!href || href.startsWith("#") || href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:") || href.startsWith("/assets/") || href.startsWith("/api/") || href.startsWith("/_")) return href;
+    if (!href.startsWith("/")) return href;
+    const hrefPath = href.split(/[?#]/)[0];
+    if (languageCodes.some((code) => hrefPath === "/" + code || hrefPath.startsWith("/" + code + "/"))) return href;
+    return "/" + currentLang + href;
+  };
+  const keepLinksInLanguage = (rootNode) => {
+    if (!rootNode.querySelectorAll) return;
+    rootNode.querySelectorAll("a[href], form[action]").forEach((element) => {
+      if (element.closest("[data-crays-language-switcher]")) return;
+      const attr = element.tagName === "FORM" ? "action" : "href";
+      const next = prefixPath(element.getAttribute(attr));
+      if (next) element.setAttribute(attr, next);
+    });
+  };
+  const routeWithoutLanguage = () => {
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    if (languageCodes.includes(parts[0])) parts.shift();
+    const route = "/" + parts.join("/");
+    return route === "/" ? "/" : route.replace(/\\/$/, "");
+  };
+  const languageUrl = (code) => {
+    const route = routeWithoutLanguage();
+    return route === "/" ? "/" + code + window.location.search + window.location.hash : "/" + code + route + window.location.search + window.location.hash;
+  };
+  const languageMenuHtml = () => '<div class="crays-language-switcher__menu" role="menu" aria-label="Select language">' + languages.map((language) => '<a class="' + (language.code === currentLang ? "is-active" : "") + '" href="' + languageUrl(language.code) + '" hreflang="' + language.code + '" role="menuitem"><span class="crays-language-switcher__flag crays-language-switcher__flag--' + language.code + '" aria-hidden="true"></span><strong>' + language.native + '</strong></a>').join("") + '</div>';
+  const closeSwitchers = (except) => {
+    document.querySelectorAll("[data-crays-language-switcher].is-open").forEach((switcher) => {
+      if (switcher === except) return;
+      switcher.classList.remove("is-open");
+      const button = switcher.querySelector("[data-crays-language-button]");
+      if (button) button.setAttribute("aria-expanded", "false");
+    });
+  };
+  const wireSwitcherButton = (switcher, button) => {
+    if (!button || button.dataset.craysLanguageButton === "true") return;
+    button.dataset.craysLanguageButton = "true";
+    button.setAttribute("aria-haspopup", "menu");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("title", active.native);
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const isOpen = switcher.classList.toggle("is-open");
+      button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      if (isOpen) closeSwitchers(switcher);
+    });
+  };
+  const renderSwitcher = () => {
+    const globeButtons = Array.from(document.querySelectorAll(".crays-home-globe, .booking-header-globe")).filter((button) => !button.closest("[data-crays-language-switcher]"));
+    if (globeButtons.length) {
+      globeButtons.forEach((button) => {
+        const switcher = document.createElement("span");
+        switcher.className = "crays-language-switcher crays-language-switcher--header";
+        switcher.dataset.craysLanguageSwitcher = "true";
+        button.parentNode.insertBefore(switcher, button);
+        switcher.appendChild(button);
+        switcher.insertAdjacentHTML("beforeend", languageMenuHtml());
+        wireSwitcherButton(switcher, button);
+      });
+      return;
+    }
+    if (document.querySelector("[data-crays-language-switcher]")) return;
+    const switcher = document.createElement("span");
+    switcher.className = "crays-language-switcher crays-language-switcher--floating";
+    switcher.dataset.craysLanguageSwitcher = "true";
+    switcher.innerHTML = '<button class="crays-language-switcher__button" type="button" aria-label="Language selector"><span class="crays-language-switcher__globe" aria-hidden="true"></span></button>' + languageMenuHtml();
+    document.body.append(switcher);
+    wireSwitcherButton(switcher, switcher.querySelector("button"));
+  };
+  const translateAll = (rootNode = document.body) => {
+    if (currentLang !== "en") {
+      walkText(rootNode);
+      applyAttributes(rootNode);
+    }
+    keepLinksInLanguage(rootNode);
+  };
+  document.addEventListener("DOMContentLoaded", () => {
+    renderSwitcher();
+    document.addEventListener("click", () => closeSwitchers(null));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeSwitchers(null);
+    });
+    translateAll(document.body);
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE) applyText(node);
+          if (node.nodeType === Node.ELEMENT_NODE) translateAll(node);
+        });
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    setTimeout(() => translateAll(document.body), 250);
+    setTimeout(() => translateAll(document.body), 1000);
+  });
+})();`;
+
+  const clientCss = `:root {
+  --crays-i18n-font-scale: 1;
+}
+
+html[data-crays-lang] body {
+  text-size-adjust: 100%;
+}
+
+html[data-crays-lang]:not([data-crays-lang="en"]) :is(h1, h2, h3, p, a, button, label, span, strong, small, figcaption, dt, dd, li) {
+  overflow-wrap: anywhere;
+}
+
+html[data-crays-lang]:not([data-crays-lang="en"]) :is(.crays-home-nav, .crays-unified-nav, .booking-header-utility, .booking-header-dropdown, .crays-home-dropdown, .crays-footer-rebuild__legal, .crays-unified-footer-links, .crays-unified-footer-legal) :is(a, button, span, strong) {
+  font-size: calc(1em * var(--crays-i18n-font-scale));
+}
+
+html[data-crays-lang]:not([data-crays-lang="en"]) :is(.account-auth-head h2, .account-hero-copy h1, .member-hero-title, .comm-ci-hero h1, .hosp-ci-hero h1, .life-ci-hero h1) {
+  font-size: calc(1em * var(--crays-i18n-font-scale));
+}
+
+.crays-i18n-fit {
+  font-size: calc(1em * var(--crays-i18n-font-scale));
+  line-height: 1.16;
+}
+
+.crays-language-switcher {
+  z-index: 2147483000;
+  font-family: Montserrat, Arial, sans-serif;
+  color: #07121d;
+}
+
+.crays-language-switcher--header {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.crays-language-switcher--floating {
+  position: fixed;
+  top: 96px;
+  right: 18px;
+  display: inline-flex;
+}
+
+.crays-language-switcher__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 46px;
+  min-height: 46px;
+  padding: 0;
+  border: 1px solid rgba(243, 18, 72, 0.36);
+  border-radius: 999px;
+  background: rgba(255, 253, 250, 0.94);
+  color: #07121d;
+  box-shadow: 0 12px 34px rgba(7, 18, 29, 0.16);
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+}
+
+.crays-language-switcher__globe {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 0;
+}
+
+.crays-language-switcher__globe::before {
+  content: "";
+  width: 8px;
+  height: 18px;
+  border-left: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.crays-language-switcher__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  display: grid;
+  width: 204px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255, 253, 250, 0.98);
+  box-shadow: 0 22px 54px rgba(7, 18, 29, 0.24);
+}
+
+.crays-language-switcher:not(.is-open) .crays-language-switcher__menu {
+  display: none;
+}
+
+.crays-language-switcher__menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 11px;
+  border-radius: 8px;
+  color: #07121d;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.crays-language-switcher__flag {
+  position: relative;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 15px;
+  overflow: hidden;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(7, 18, 29, 0.14);
+}
+
+.crays-language-switcher__flag--en {
+  background:
+    linear-gradient(28deg, transparent 0 42%, #fff 42% 48%, #c8102e 48% 52%, #fff 52% 58%, transparent 58% 100%),
+    linear-gradient(152deg, transparent 0 42%, #fff 42% 48%, #c8102e 48% 52%, #fff 52% 58%, transparent 58% 100%),
+    linear-gradient(90deg, transparent 44%, #fff 44% 56%, transparent 56%),
+    linear-gradient(transparent 38%, #fff 38% 62%, transparent 62%),
+    linear-gradient(90deg, transparent 47%, #c8102e 47% 53%, transparent 53%),
+    linear-gradient(transparent 43%, #c8102e 43% 57%, transparent 57%),
+    #012169;
+}
+
+.crays-language-switcher__flag--de {
+  background: linear-gradient(to bottom, #000 0 33.33%, #dd0000 33.33% 66.66%, #ffce00 66.66% 100%);
+}
+
+.crays-language-switcher__flag--es {
+  background: linear-gradient(to bottom, #aa151b 0 25%, #f1bf00 25% 75%, #aa151b 75% 100%);
+}
+
+.crays-language-switcher__flag--ca {
+  background: linear-gradient(to bottom, #fcd116 0 11.11%, #da121a 11.11% 22.22%, #fcd116 22.22% 33.33%, #da121a 33.33% 44.44%, #fcd116 44.44% 55.55%, #da121a 55.55% 66.66%, #fcd116 66.66% 77.77%, #da121a 77.77% 88.88%, #fcd116 88.88% 100%);
+}
+
+.crays-language-switcher__flag--fr {
+  background: linear-gradient(90deg, #002395 0 33.33%, #fff 33.33% 66.66%, #ed2939 66.66% 100%);
+}
+
+.crays-language-switcher__flag--pt {
+  background:
+    radial-gradient(circle at 40% 50%, #ffcc00 0 17%, transparent 18%),
+    linear-gradient(90deg, #046a38 0 40%, #da291c 40% 100%);
+}
+
+.crays-language-switcher__flag--it {
+  background: linear-gradient(90deg, #009246 0 33.33%, #fff 33.33% 66.66%, #ce2b37 66.66% 100%);
+}
+
+.crays-language-switcher__menu a.is-active {
+  background: rgba(243, 18, 72, 0.1);
+}
+
+.crays-language-switcher__menu strong {
+  font-size: inherit;
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  html[data-crays-lang]:not([data-crays-lang="en"]) .account-auth-head h2 {
+    font-size: clamp(24px, 7.2vw, 30px);
+    line-height: 1.08;
+  }
+
+  .crays-language-switcher--floating {
+    top: auto;
+    right: 14px;
+    bottom: 18px;
+  }
+}`;
+
+  fs.writeFileSync(path.join(root, "assets", "crays-club", "crays-i18n.js"), clientJs);
+  fs.writeFileSync(path.join(root, "assets", "crays-club", "crays-i18n.css"), clientCss);
+}
+
+function writeSitemap(files) {
+  const urls = [];
+  for (const file of files) {
+    const route = routeFromFile(file);
+    for (const language of languages) {
+      urls.push(`${baseUrl}${languageRoute(language.code, route)}`);
+    }
+  }
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`;
+  fs.writeFileSync(path.join(root, "sitemap.xml"), xml);
+}
+
+writeClientAssets();
+
+const htmlFiles = walk(root).sort((a, b) => a.localeCompare(b));
+for (const file of htmlFiles) {
+  const absolute = path.join(root, file);
+  const source = fs.readFileSync(absolute, "utf8");
+  const route = routeFromFile(file);
+
+  const patchedSource = transformHtml(source, "en", route, false);
+  if (patchedSource !== source) {
+    fs.writeFileSync(absolute, patchedSource);
+  }
+
+  for (const code of languageCodes) {
+    const output = path.join(root, code, file);
+    ensureDir(path.dirname(output));
+    const localized = transformHtml(source, code, route, true);
+    fs.writeFileSync(output, localized);
+  }
+}
+
+writeSitemap(htmlFiles);
+
+console.log(JSON.stringify({
+  languages: languageCodes,
+  pages: htmlFiles.length,
+  generatedFiles: htmlFiles.length * languageCodes.length,
+  version
+}, null, 2));

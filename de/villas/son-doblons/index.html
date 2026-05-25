@@ -1,0 +1,2368 @@
+<!doctype html>
+<html lang="de" data-crays-lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crays Villas | Villa</title>
+    <meta
+      name="description"
+      content="Crays Villas property detail page with gallery, availability, villa facts, amenities, location and legal information."
+    />
+    <meta name="theme-color" content="#07121d" />
+    <link rel="icon" href="/assets/crays-club/crays-mark.svg?v=crays-favicon-2" sizes="any" type="image/svg+xml" />
+    <link rel="shortcut icon" href="/assets/crays-club/crays-mark.svg?v=crays-favicon-2" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/crays-unified-nav.css?v=booking-header-1" />
+    <style>
+      :root {
+        --ink: #07121d;
+        --text: #263445;
+        --muted: #697789;
+        --line: #e4e9ef;
+        --paper: #ffffff;
+        --soft: #f5f7fa;
+        --red: #f31248;
+        --red-strong: #ff2b62;
+        --green: #167a52;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: #ffffff;
+        color: var(--text);
+        font-family: Montserrat, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .shell {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .villa-actions {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+      }
+
+      .villa-nav-button {
+        display: inline-flex;
+        min-height: 42px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(7, 18, 29, 0.14);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--ink);
+        padding: 0 18px;
+        font-size: 13px;
+        font-weight: 800;
+        transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+      }
+
+      .villa-nav-button:hover,
+      .villa-nav-button:focus {
+        border-color: var(--red);
+        background: var(--red);
+        color: #fff;
+      }
+
+      .property-search-bar {
+        position: sticky;
+        top: 88px;
+        z-index: 850;
+        padding: 16px 0;
+        background: rgba(255, 255, 255, 0.97);
+        border-bottom: 1px solid rgba(7, 18, 29, 0.12);
+        backdrop-filter: blur(18px);
+      }
+
+      .property-search-shell {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(190px, 1.3fr) minmax(150px, 0.9fr) minmax(150px, 0.9fr) auto;
+        align-items: center;
+        width: min(760px, calc(100% - 48px));
+        min-height: 56px;
+        margin: 0 auto;
+        padding: 0;
+        border: 1px solid rgba(7, 18, 29, 0.12);
+        border-radius: 999px;
+        background: #ffffff;
+        box-shadow: 0 8px 28px rgba(7, 18, 29, 0.09);
+      }
+
+      .search-field {
+        display: grid;
+        min-width: 0;
+        min-height: 54px;
+        align-content: center;
+        gap: 3px;
+        padding: 0 18px;
+        border: 0;
+        border-right: 1px solid rgba(7, 18, 29, 0.09);
+        background: transparent;
+        color: var(--ink);
+        text-align: left;
+      }
+
+      .search-field-trigger {
+        cursor: pointer;
+      }
+
+      .search-field-trigger:hover,
+      .search-field-trigger:focus {
+        background: #f7f9fb;
+      }
+
+      .search-field span {
+        display: block;
+        color: var(--ink);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .search-field strong,
+      .search-field select {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font-size: 12.5px;
+        font-weight: 750;
+        outline: 0;
+      }
+
+      .search-submit,
+      .booking-button,
+      .gallery-button,
+      .ghost-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      }
+
+      .search-submit,
+      .booking-button {
+        border: 1px solid var(--red);
+        background: linear-gradient(180deg, var(--red-strong) 0%, var(--red) 100%);
+        color: #ffffff;
+        box-shadow: 0 18px 38px rgba(243, 18, 72, 0.22);
+      }
+
+      .search-submit {
+        width: 46px;
+        height: 46px;
+        min-height: 46px;
+        margin-right: 6px;
+        padding: 0;
+        box-shadow: 0 13px 28px rgba(243, 19, 73, 0.24);
+      }
+
+      .search-submit span {
+        display: none;
+      }
+
+      .search-submit::before {
+        content: "";
+        width: 14px;
+        height: 14px;
+        border: 2px solid currentColor;
+        border-radius: 999px;
+      }
+
+      .search-submit::after {
+        content: "";
+        width: 8px;
+        height: 2px;
+        margin-left: -3px;
+        margin-top: 14px;
+        border-radius: 999px;
+        background: currentColor;
+        transform: rotate(45deg);
+      }
+
+      .search-submit:hover,
+      .booking-button:hover,
+      .gallery-button:hover,
+      .ghost-button:hover {
+        transform: translateY(-1px);
+      }
+
+      .property-popover {
+        position: absolute;
+        top: calc(100% + 12px);
+        z-index: 950;
+        width: min(420px, calc(100vw - 32px));
+        padding: 16px;
+        border: 1px solid rgba(7, 18, 29, 0.12);
+        border-radius: 22px;
+        background: #ffffff;
+        box-shadow: 0 28px 70px rgba(7, 18, 29, 0.18);
+      }
+
+      .property-date-popover {
+        left: 44%;
+        transform: translateX(-50%);
+      }
+
+      .property-guests-popover {
+        right: 58px;
+      }
+
+      .property-date-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .property-date-grid label,
+      .property-guest-row {
+        display: grid;
+        gap: 7px;
+      }
+
+      .property-date-grid span,
+      .property-guest-row span {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 850;
+      }
+
+      .property-date-grid input {
+        min-height: 44px;
+        border: 1px solid rgba(7, 18, 29, 0.12);
+        border-radius: 14px;
+        padding: 0 12px;
+        color: var(--ink);
+        font-weight: 800;
+      }
+
+      .property-guest-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+      }
+
+      .property-guest-row + .property-guest-row {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(7, 18, 29, 0.08);
+      }
+
+      .property-guest-row strong {
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .property-stepper {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .property-stepper button {
+        display: inline-grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border: 1px solid rgba(7, 18, 29, 0.14);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .property-stepper output {
+        min-width: 26px;
+        text-align: center;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .property-page {
+        padding: 26px 0 70px;
+      }
+
+      .crumbs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .crumbs a {
+        color: var(--ink);
+      }
+
+      .property-title-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 24px;
+        align-items: end;
+        margin-bottom: 20px;
+      }
+
+      .kicker {
+        margin: 0 0 8px;
+        color: var(--red);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(34px, 4.4vw, 64px);
+        font-weight: 900;
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+
+      .property-subline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .rating {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--ink);
+      }
+
+      .stars {
+        color: var(--red);
+        letter-spacing: 0.08em;
+      }
+
+      .share-row {
+        display: flex;
+        gap: 10px;
+      }
+
+      .ghost-button {
+        min-height: 42px;
+        padding: 0 18px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        color: var(--ink);
+      }
+
+      .gallery {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
+        gap: 8px;
+        height: clamp(460px, 58vw, 650px);
+        margin-bottom: 18px;
+      }
+
+      .gallery-main,
+      .gallery-side button {
+        position: relative;
+        overflow: hidden;
+        border: 0;
+        border-radius: 8px;
+        background: #d9dee5;
+        cursor: pointer;
+      }
+
+      .gallery-main img,
+      .gallery-side img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-main:hover img,
+      .gallery-side button:hover img {
+        transform: scale(1.025);
+      }
+
+      .gallery-side {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .gallery-button {
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+        z-index: 2;
+        min-height: 44px;
+        padding: 0 18px;
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        background: rgba(7, 18, 29, 0.72);
+        color: #ffffff;
+        backdrop-filter: blur(16px);
+      }
+
+      .gallery-counter {
+        position: absolute;
+        left: 18px;
+        bottom: 18px;
+        z-index: 2;
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.68);
+        border-radius: 999px;
+        background: rgba(7, 18, 29, 0.62);
+        color: #ffffff;
+        padding: 0 16px;
+        font-size: 13px;
+        font-weight: 900;
+        backdrop-filter: blur(16px);
+      }
+
+      .anchor-nav {
+        position: sticky;
+        top: 85px;
+        z-index: 700;
+        margin-bottom: 28px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(16px);
+      }
+
+      .anchor-nav .shell {
+        display: flex;
+        gap: 24px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .anchor-nav .shell::-webkit-scrollbar {
+        display: none;
+      }
+
+      .anchor-nav a {
+        padding: 17px 0;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .anchor-nav a:first-child {
+        color: var(--ink);
+        box-shadow: inset 0 -3px 0 var(--red);
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 42px;
+        align-items: start;
+      }
+
+      .content-main {
+        min-width: 0;
+      }
+
+      .fact-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 34px;
+      }
+
+      .fact {
+        min-height: 92px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      .fact span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .fact strong {
+        display: block;
+        margin-top: 8px;
+        color: var(--ink);
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .section {
+        padding: 34px 0;
+        border-top: 1px solid var(--line);
+        scroll-margin-top: 160px;
+      }
+
+      .section h2 {
+        margin: 0 0 18px;
+        color: var(--ink);
+        font-size: clamp(24px, 3vw, 34px);
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .section h3 {
+        margin: 26px 0 12px;
+        color: var(--ink);
+        font-size: 17px;
+        font-weight: 900;
+      }
+
+      .copy {
+        max-width: 760px;
+        color: #3d4b5b;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.75;
+      }
+
+      .copy p {
+        margin: 0 0 16px;
+      }
+
+      .copy.is-collapsed p:nth-child(n + 3) {
+        display: none;
+      }
+
+      .text-button {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--red);
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .amenity-grid,
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .image-grid,
+      .review-grid,
+      .policy-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .image-grid button {
+        overflow: hidden;
+        min-height: 190px;
+        border: 0;
+        border-radius: 8px;
+        background: #d9dee5;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .image-grid img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.25s ease;
+      }
+
+      .image-grid button:hover img,
+      .image-grid button:focus img {
+        transform: scale(1.03);
+      }
+
+      .review-card,
+      .policy-card {
+        min-height: 160px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .review-card strong,
+      .policy-card strong {
+        display: block;
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      .review-card p,
+      .policy-card p {
+        margin: 10px 0 0;
+        color: #3d4b5b;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.55;
+      }
+
+      .review-card span,
+      .policy-card span {
+        display: block;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .amenity,
+      .info-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        min-height: 58px;
+        padding: 15px 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .amenity::before,
+      .info-item::before {
+        content: "";
+        flex: 0 0 9px;
+        width: 9px;
+        height: 9px;
+        margin-top: 6px;
+        border-radius: 999px;
+        background: var(--red);
+      }
+
+      .info-group {
+        margin-top: 24px;
+      }
+
+      .info-group h3 {
+        margin-top: 0;
+      }
+
+      .location-panel {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+      }
+
+      .map-visual {
+        position: relative;
+        min-height: 360px;
+        background: #edf2f6;
+      }
+
+      .google-map-frame {
+        width: 100%;
+        height: 380px;
+        border: 0;
+        display: block;
+      }
+
+      .map-copy {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 20px;
+        align-items: center;
+        padding: 20px 22px;
+      }
+
+      .map-copy p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .map-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
+      .booking-card {
+        position: sticky;
+        top: 168px;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 24px 70px rgba(7, 18, 29, 0.12);
+      }
+
+      .booking-card h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .price {
+        margin: 8px 0 4px;
+        color: var(--ink);
+        font-size: 34px;
+        font-weight: 900;
+      }
+
+      .price small {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .booking-help {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        margin: 16px 0;
+        padding: 12px;
+        border-radius: 8px;
+        background: #eef4ff;
+        color: #2d4561;
+        font-size: 12px;
+        font-weight: 800;
+        line-height: 1.45;
+      }
+
+      .booking-help span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        width: 19px;
+        height: 19px;
+        border: 1px solid rgba(45, 69, 97, 0.26);
+        border-radius: 999px;
+        color: var(--red);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .booking-choice-stack {
+        display: grid;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .booking-choice {
+        width: 100%;
+        min-height: 68px;
+        padding: 13px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .booking-choice span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .booking-choice strong {
+        display: block;
+        margin-top: 6px;
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      .booking-button {
+        width: 100%;
+        margin-top: 12px;
+      }
+
+      .booking-quick-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .booking-mini-button {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        padding: 0 12px;
+        font-size: 12px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+      }
+
+      .booking-mini-button:hover,
+      .booking-mini-button:focus {
+        border-color: var(--red);
+        background: var(--red);
+        color: #ffffff;
+        transform: translateY(-1px);
+      }
+
+      .booking-note {
+        margin: 14px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.6;
+      }
+
+      .booking-card-footer {
+        display: grid;
+        gap: 8px;
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.5;
+      }
+
+      .booking-bullets {
+        display: grid;
+        gap: 8px;
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+
+      .booking-bullets span {
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .booking-policy-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+
+      .booking-policy-list span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+        line-height: 1.45;
+      }
+
+      .booking-flow {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: rgba(7, 18, 29, 0.62);
+      }
+
+      .booking-flow-panel {
+        width: min(100%, 980px);
+        max-height: min(900px, calc(100vh - 48px));
+        overflow: auto;
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 34px 90px rgba(7, 18, 29, 0.32);
+      }
+
+      .booking-flow-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: flex-start;
+        padding: 24px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .booking-flow-top h2 {
+        margin: 4px 0 0;
+        color: var(--ink);
+        font-size: clamp(24px, 3vw, 34px);
+        font-weight: 900;
+      }
+
+      .booking-flow-close {
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        font-size: 22px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .booking-flow-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 310px;
+        gap: 24px;
+        padding: 24px;
+      }
+
+      .booking-steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 22px;
+      }
+
+      .booking-step {
+        min-height: 54px;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        text-align: left;
+      }
+
+      .booking-step.is-active {
+        border-color: var(--red);
+        background: rgba(243, 18, 72, 0.07);
+        color: var(--ink);
+      }
+
+      .booking-step strong {
+        display: block;
+        margin-top: 4px;
+        color: inherit;
+        font-size: 13px;
+      }
+
+      .booking-pane {
+        display: grid;
+        gap: 18px;
+      }
+
+      .booking-pane h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .booking-field-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .booking-field,
+      .booking-service {
+        display: grid;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .booking-field input,
+      .booking-field select,
+      .booking-field textarea {
+        width: 100%;
+        min-height: 48px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--ink);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 800;
+        text-transform: none;
+      }
+
+      .booking-field textarea {
+        min-height: 96px;
+        padding-top: 12px;
+        resize: vertical;
+      }
+
+      .booking-counter-row {
+        display: grid;
+        gap: 10px;
+      }
+
+      .booking-counter {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        padding: 13px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      .booking-counter strong,
+      .booking-service strong {
+        display: block;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 900;
+        text-transform: none;
+      }
+
+      .booking-counter span,
+      .booking-service span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: none;
+      }
+
+      .booking-counter-controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .booking-counter-controls button {
+        width: 34px;
+        height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        font-size: 18px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .booking-counter-controls output {
+        min-width: 28px;
+        color: var(--ink);
+        font-weight: 900;
+        text-align: center;
+      }
+
+      .booking-service {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        text-transform: none;
+      }
+
+      .booking-service input {
+        width: 20px;
+        height: 20px;
+        accent-color: var(--red);
+      }
+
+      .booking-service-price {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .booking-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 6px;
+      }
+
+      .booking-secondary,
+      .booking-primary {
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .booking-secondary {
+        border: 1px solid var(--line);
+        background: #ffffff;
+        color: var(--ink);
+      }
+
+      .booking-primary {
+        border: 1px solid var(--red);
+        background: var(--red);
+        color: #ffffff;
+      }
+
+      .booking-summary {
+        align-self: start;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+      }
+
+      .booking-summary h3 {
+        margin: 0 0 14px;
+        color: var(--ink);
+        font-size: 17px;
+        font-weight: 900;
+      }
+
+      .booking-summary-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .booking-summary-row strong {
+        color: var(--ink);
+      }
+
+      .booking-summary-row.is-total {
+        color: var(--ink);
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .booking-success {
+        padding: 24px;
+        border: 1px solid rgba(22, 122, 82, 0.24);
+        border-radius: 8px;
+        background: rgba(22, 122, 82, 0.08);
+      }
+
+      .booking-success strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--ink);
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .help-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 22px;
+        align-items: center;
+        margin-top: 28px;
+        padding: 26px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: #ffffff;
+      }
+
+      .help-panel h2 {
+        margin: 0 0 8px;
+        color: #ffffff;
+      }
+
+      .help-panel p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.78);
+        font-weight: 600;
+        line-height: 1.6;
+      }
+
+      .help-panel a {
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 999px;
+        background: #ffffff;
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: none;
+        background: rgba(7, 18, 29, 0.96);
+      }
+
+      .modal.is-open {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+      }
+
+      .modal-top,
+      .modal-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 22px;
+        color: #ffffff;
+      }
+
+      .modal-close,
+      .modal-nav {
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      .modal-close {
+        min-width: 44px;
+        height: 44px;
+        font-size: 22px;
+      }
+
+      .modal-stage {
+        display: grid;
+        place-items: center;
+        min-height: 0;
+        padding: 0 22px;
+      }
+
+      .modal-stage img {
+        max-width: min(1200px, 100%);
+        max-height: 100%;
+        border-radius: 8px;
+        object-fit: contain;
+      }
+
+      .modal-nav {
+        min-width: 48px;
+        height: 48px;
+        font-size: 24px;
+      }
+
+      .crays-unified-footer {
+        margin-top: 40px;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      @media (max-width: 980px) {
+        .property-search-shell,
+        .property-title-row,
+        .content-grid,
+        .map-copy,
+        .help-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .gallery {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+
+        .gallery-main {
+          min-height: 420px;
+        }
+
+        .gallery-side {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .gallery-side button {
+          min-height: 150px;
+        }
+
+        .booking-card {
+          position: static;
+        }
+
+        .booking-flow-body {
+          grid-template-columns: 1fr;
+        }
+
+        .image-grid,
+        .review-grid,
+        .policy-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .booking-steps {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .anchor-nav {
+          top: 0;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .shell {
+          width: min(100% - 24px, 1180px);
+        }
+
+        .property-search-shell,
+        .fact-strip,
+        .amenity-grid,
+        .info-grid,
+        .booking-field-grid,
+        .booking-steps {
+          grid-template-columns: 1fr;
+        }
+
+        .booking-flow {
+          padding: 10px;
+        }
+
+        .booking-flow-top,
+        .booking-flow-body {
+          padding: 18px;
+        }
+
+        h1 {
+          font-size: 38px;
+        }
+
+        .gallery-main {
+          min-height: 330px;
+        }
+
+        .gallery-side {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .gallery-side button {
+          min-height: 130px;
+        }
+
+        .share-row {
+          flex-wrap: wrap;
+        }
+
+        .booking-quick-actions {
+          grid-template-columns: 1fr;
+        }
+
+        .villa-actions {
+          width: 100%;
+          justify-content: center;
+          margin: 10px 0 0;
+        }
+
+        .image-grid,
+        .review-grid,
+        .policy-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="/assets/crays-club/crays-i18n.css?v=crays-i18n-2" />
+
+
+
+
+
+
+
+    <meta property="og:image" content="https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp" />
+      <link rel="canonical" href="https://www.craysclub.com/de/villas/son-doblons" />
+    <link rel="alternate" hreflang="en" href="https://www.craysclub.com/en/villas/son-doblons" />
+    <link rel="alternate" hreflang="de" href="https://www.craysclub.com/de/villas/son-doblons" />
+    <link rel="alternate" hreflang="es" href="https://www.craysclub.com/es/villas/son-doblons" />
+    <link rel="alternate" hreflang="ca" href="https://www.craysclub.com/ca/villas/son-doblons" />
+    <link rel="alternate" hreflang="fr" href="https://www.craysclub.com/fr/villas/son-doblons" />
+    <link rel="alternate" hreflang="pt" href="https://www.craysclub.com/pt/villas/son-doblons" />
+    <link rel="alternate" hreflang="it" href="https://www.craysclub.com/it/villas/son-doblons" />
+    <link rel="alternate" hreflang="x-default" href="https://www.craysclub.com/en/villas/son-doblons" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="author" content="Crays Clubs" />
+    <meta name="publisher" content="Crays Clubs" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta property="og:url" content="https://www.craysclub.com/de/villas/son-doblons" />
+    <meta property="og:image:secure_url" content="https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="348" />
+    <meta property="og:image:height" content="94" />
+    <meta property="og:image:alt" content="Crays Clubs" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Crays Villas | Villa" />
+    <meta name="twitter:description" content="Crays Villas property detail page with gallery, availability, villa facts, amenities, location and legal information." />
+    <meta name="twitter:image" content="https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp" />
+    <meta name="twitter:image:alt" content="Crays Clubs" />
+    <link rel="preload" as="image" href="/assets/crays-club/crays-fund-home-logo.webp" fetchpriority="high" data-crays-seo-preload />
+    <script type="application/ld+json" data-crays-seo-json>{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.craysclub.com/#organization","name":"Crays Clubs","alternateName":"Crays","url":"https://www.craysclub.com/en","logo":{"@type":"ImageObject","url":"https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp","width":348,"height":94},"sameAs":["https://www.linkedin.com/company/crays/","https://github.com/CraysCircle","https://x.com/CraysCircle","https://www.instagram.com/crays_circle/","https://www.youtube.com/@CraysCircle"],"contactPoint":{"@type":"ContactPoint","email":"team@craysclub.com","contactType":"customer support","availableLanguage":["English","German","Spanish","Catalan","French","Portuguese","Italian"]}},{"@type":"WebSite","@id":"https://www.craysclub.com/#website","name":"Crays Clubs","url":"https://www.craysclub.com/en","publisher":{"@id":"https://www.craysclub.com/#organization"},"inLanguage":"de","potentialAction":{"@type":"SearchAction","target":"https://www.craysclub.com/de/search?destination={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"CollectionPage","@id":"https://www.craysclub.com/de/villas/son-doblons#webpage","url":"https://www.craysclub.com/de/villas/son-doblons","name":"Crays Villas | Villa","headline":"Crays Villas | Villa","description":"Crays Villas property detail page with gallery, availability, villa facts, amenities, location and legal information.","inLanguage":"de","isPartOf":{"@id":"https://www.craysclub.com/#website"},"publisher":{"@id":"https://www.craysclub.com/#organization"},"dateModified":"2026-05-06","primaryImageOfPage":{"@id":"https://www.craysclub.com/de/villas/son-doblons#primaryimage"},"breadcrumb":{"@id":"https://www.craysclub.com/de/villas/son-doblons#breadcrumb"}},{"@type":"ImageObject","@id":"https://www.craysclub.com/de/villas/son-doblons#primaryimage","url":"https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp","contentUrl":"https://www.craysclub.com/assets/crays-club/crays-fund-home-logo.webp","caption":"Crays Clubs","width":348,"height":94},{"@type":"BreadcrumbList","@id":"https://www.craysclub.com/de/villas/son-doblons#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Crays Clubs","item":"https://www.craysclub.com/de"},{"@type":"ListItem","position":2,"name":"Villas","item":"https://www.craysclub.com/de/villas"},{"@type":"ListItem","position":3,"name":"Crays Villas | Villa","item":"https://www.craysclub.com/de/villas/son-doblons"}]}]}</script>
+    <meta name="language" content="de" />
+  </head>
+  <body>
+    <header class="booking-header" data-booking-header>
+      <a class="booking-header-brand" href="/de/" aria-label="Crays Clubs start page">
+        <img src="/assets/crays-club/crays-fund-home-logo.webp" alt="Crays" width="348" height="94" />
+      </a>
+      <div class="booking-header-utility" aria-label="Crays villa service links">
+        <a class="booking-utility-button booking-utility-phone" href="tel:+34655149302"><span>Booking Help</span><strong>+34 655 14 93 02</strong></a>
+        <a class="booking-utility-button" href="/de/contact">Kontakt</a>
+        <a class="booking-utility-button" href="https://crays.fund/en/rollovers" target="_blank" rel="noreferrer noopener">Owner In-Kind Contribution</a>
+      </div>
+      <div class="booking-header-actions" aria-label="Crays navigation controls">
+        <button class="booking-header-globe" type="button" aria-label="Language selector">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 0 1 0 18M12 3a14.5 14.5 0 0 0 0 18"></path>
+          </svg>
+        </button>
+        <div class="booking-header-menu" data-booking-account-menu>
+          <button class="booking-account-menu-button" type="button" data-booking-account-menu-button aria-expanded="false" aria-controls="booking-account-dropdown" aria-label="Open navigation menu">
+            <span class="booking-account-menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="booking-header-avatar" aria-hidden="true"></span>
+          </button>
+          <div class="booking-header-dropdown" id="booking-account-dropdown" data-booking-account-dropdown hidden>
+            <a href="/de/account"><strong>Account &amp; Booking</strong><span>Login, Wish List, Warenkorb und Buchungsanfrage</span></a>
+            <span class="booking-account-dropdown-divider" aria-hidden="true"></span>
+            <a href="/de/about-us">Über uns</a>
+            <a href="/de/lifestyle">Lifestyle</a>
+            <a href="/de/hospitality">Hospitality</a>
+            <a href="/de/community-life">Community Life</a>
+            <a href="/de/become-a-member">Mitglied werden</a>
+            <a href="/de/contact">Kontakt</a>
+            <span class="booking-account-dropdown-divider" aria-hidden="true"></span>
+            <a href="https://www.crays.org" target="_blank" rel="noreferrer noopener"><strong>Crays Association</strong><span>Unsere Ecosystem-Projekte entdecken</span></a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <form class="property-search-bar" data-search-form autocomplete="off">
+      <div class="shell property-search-shell">
+        <input type="hidden" name="date_from" value="2026-06-26" />
+        <input type="hidden" name="date_to" value="2026-07-03" />
+        <input type="hidden" name="guests" value="2" />
+        <label class="search-field">
+          <span>Where</span>
+          <select name="destination" data-search-destination aria-label="Destination"></select>
+        </label>
+        <button class="search-field search-field-trigger" type="button" data-property-date-trigger aria-expanded="false">
+          <span>When</span>
+          <strong data-property-date-summary>Daten hinzufügen</strong>
+        </button>
+        <button class="search-field search-field-trigger" type="button" data-property-guests-trigger aria-expanded="false">
+          <span>Who</span>
+          <strong data-property-guests-summary>2 Guests</strong>
+        </button>
+        <button class="search-submit" type="submit" aria-label="Villas suchen"><span>Villas suchen</span></button>
+        <div class="property-popover property-date-popover" data-property-date-popover hidden>
+          <div class="property-date-grid">
+            <label><span>Check-in</span><input type="date" data-property-date-from-ui /></label>
+            <label><span>Check-out</span><input type="date" data-property-date-to-ui /></label>
+          </div>
+        </div>
+        <div class="property-popover property-guests-popover" data-property-guests-popover hidden>
+          <div class="property-guest-row">
+            <div><strong>Erwachsene</strong><span>Ab 13 Jahren</span></div>
+            <div class="property-stepper"><button type="button" data-property-guests-step="-1">-</button><output data-property-guests-output>2</output><button type="button" data-property-guests-step="1">+</button></div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <main class="property-page" data-property-root>
+      <div class="shell">
+        <p>Crays Villa lädt...</p>
+      </div>
+    </main>
+
+    <footer class="crays-unified-footer">
+      <div class="crays-unified-footer-shell">
+        <div class="crays-unified-footer-top">
+          <a class="crays-unified-footer-brand" href="/de/" aria-label="Crays Clubs start page">
+            <img src="/assets/crays-club/logo.svg" alt="Crays Clubs" width="240" height="76" loading="lazy" />
+          </a>
+          <nav class="crays-unified-footer-nav" aria-label="Footer navigation">
+            <a href="/de/about-us">Über uns</a>
+            <a href="/de/lifestyle">Lifestyle</a>
+            <a href="/de/hospitality">Hospitality</a>
+            <a href="/de/community-life">Community Life</a>
+            <a href="/de/become-a-member">Mitglied werden</a>
+            <a href="/de/contact">Kontakt</a>
+          </nav>
+        </div>
+        <div class="crays-unified-footer-bottom">
+          <nav class="crays-unified-footer-legal" aria-label="Legal links">
+            <a href="/de/legal/imprint">Impressum</a>
+            <a href="/de/legal/terms-and-conditions">AGB</a>
+            <a href="/de/legal/data-protection">Datenschutz</a>
+            <a href="/de/legal/privacy-policy">Datenschutzerklärung</a>
+          </nav>
+        </div>
+        <div class="crays-unified-footer-credit">2026 Copyright &copy; and Trademark&trade; by CRAYS</div>
+      </div>
+    </footer>
+
+    <div class="modal" data-gallery-modal aria-hidden="true">
+      <div class="modal-top">
+        <strong data-modal-title>Crays Villa</strong>
+        <button class="modal-close" type="button" data-modal-close aria-label="Close gallery">x</button>
+      </div>
+      <div class="modal-stage">
+        <img data-modal-image alt="" />
+      </div>
+      <div class="modal-bottom">
+        <button class="modal-nav" type="button" data-modal-prev aria-label="Previous image">&lt;</button>
+        <span data-modal-count>1 / 1</span>
+        <button class="modal-nav" type="button" data-modal-next aria-label="Next image">&gt;</button>
+      </div>
+    </div>
+
+    <script src="/assets/crays-unified-nav.js"></script>
+    <script>
+      (function () {
+        var menu = document.querySelector("[data-booking-account-menu]");
+        var button = document.querySelector("[data-booking-account-menu-button]");
+        var dropdown = document.querySelector("[data-booking-account-dropdown]");
+        if (!menu || !button || !dropdown) return;
+        button.addEventListener("click", function (event) {
+          event.stopPropagation();
+          var open = dropdown.hidden;
+          dropdown.hidden = !open;
+          button.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        document.addEventListener("click", function (event) {
+          if (menu.contains(event.target)) return;
+          dropdown.hidden = true;
+          button.setAttribute("aria-expanded", "false");
+        });
+        document.addEventListener("keydown", function (event) {
+          if (event.key !== "Escape") return;
+          dropdown.hidden = true;
+          button.setAttribute("aria-expanded", "false");
+        });
+      }());
+    </script>
+    <script src="/assets/crays-villas/crays-villa-data.js?v=villa-data-rename-visual-1"></script>
+    <script>
+      (function () {
+        var villas = (window.CRAYS_VILLA_DATA || []).map(function (villa) {
+          var copy = Object.assign({}, villa);
+          copy.price = copy.price || copy.searchPrice || 0;
+          copy.rating = Number(copy.rating || 0);
+          copy.ratingLabel = copy.ratingLabel || copy.rating.toFixed(1) + " / 5";
+          copy.tags = copy.tags || [];
+          copy.text = copy.text || copy.intro || "";
+          copy.images = copy.images || 1;
+          return copy;
+        });
+
+        var root = document.querySelector("[data-property-root]");
+        var searchForm = document.querySelector("[data-search-form]");
+        var modal = document.querySelector("[data-gallery-modal]");
+        var modalImage = document.querySelector("[data-modal-image]");
+        var modalTitle = document.querySelector("[data-modal-title]");
+        var modalCount = document.querySelector("[data-modal-count]");
+        var currentVilla = null;
+        var currentImages = [];
+        var currentImageIndex = 0;
+        var bookingOpen = false;
+        var bookingStep = 1;
+        var bookingSubmitted = false;
+        var bookingReference = "";
+        var bookingState = {
+          date_from: "",
+          nights: 7,
+          adults: 2,
+          children: 0,
+          pets: 0,
+          dateConfirmed: false,
+          services: {
+            arrival: true,
+            workspace: false,
+            chef: false
+          },
+          name: "",
+          email: "",
+          phone: "",
+          message: ""
+        };
+
+        function escapeHtml(value) {
+          return String(value || "").replace(/[&<>"']/g, function (char) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char];
+          });
+        }
+
+        function money(value) {
+          return new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(value) + " &euro;";
+        }
+
+        function ratingText(villa) {
+          return villa.ratingLabel || Number(villa.rating || 0).toFixed(1) + " / 5";
+        }
+
+        function parseDate(value) {
+          var parts = String(value || "").split("-").map(Number);
+          if (parts.length !== 3 || !parts[0] || !parts[1] || !parts[2]) return null;
+          return new Date(parts[0], parts[1] - 1, parts[2]);
+        }
+
+        function toISO(date) {
+          if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "";
+          var month = String(date.getMonth() + 1).padStart(2, "0");
+          var day = String(date.getDate()).padStart(2, "0");
+          return date.getFullYear() + "-" + month + "-" + day;
+        }
+
+        function addDays(value, days) {
+          var date = parseDate(value);
+          if (!date) return "";
+          date.setDate(date.getDate() + Number(days || 0));
+          return toISO(date);
+        }
+
+        function formatDate(value) {
+          var date = parseDate(value);
+          if (!date) return "";
+          return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+        }
+
+        function nightsBetween(start, end) {
+          var from = parseDate(start);
+          var to = parseDate(end);
+          if (!from || !to) return 7;
+          return Math.max(1, Math.round((to.getTime() - from.getTime()) / 86400000));
+        }
+
+        function clamp(value, min, max) {
+          return Math.max(min, Math.min(max, Number(value || 0)));
+        }
+
+        function currentSlug() {
+          var parts = window.location.pathname.split("/").filter(Boolean);
+          var last = parts[parts.length - 1];
+          var params = new URLSearchParams(window.location.search);
+          return params.get("villa") || (last === "villas" ? "andratx" : last) || "andratx";
+        }
+
+        function imagePath(villa, index) {
+          return "/assets/crays-villas/gallery/" + villa.slug + "/" + villa.slug + "-" + (index + 1) + ".jpg";
+        }
+
+        function galleryImages(villa) {
+          var total = villa.images || 1;
+          return Array.from({ length: total }, function (_, index) {
+            return imagePath(villa, index);
+          });
+        }
+
+        function googleMapQuery(villa) {
+          var map = villa.map || {};
+          if (map.latitude && map.longitude) return map.latitude + "," + map.longitude;
+          return map.label || villa.place + ", Mallorca";
+        }
+
+        function googleMapLabel(villa) {
+          return (villa.map && villa.map.label) || villa.place + ", Mallorca";
+        }
+
+        function googleMapEmbed(villa) {
+          var zoom = (villa.map && villa.map.zoom) || 12;
+          return "https://www.google.com/maps?q=" + encodeURIComponent(googleMapQuery(villa)) + "&z=" + encodeURIComponent(zoom) + "&output=embed";
+        }
+
+        function googleMapUrl(villa) {
+          return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(googleMapQuery(villa));
+        }
+
+        function searchUrl(villa) {
+          var data = new FormData(searchForm);
+          var url = new URL("/search", window.location.origin);
+          url.searchParams.set("destination", villa ? villa.place : data.get("destination") || "");
+          url.searchParams.set("date_from", data.get("date_from") || "2026-06-26");
+          url.searchParams.set("date_to", data.get("date_to") || "2026-07-03");
+          url.searchParams.set("guests", data.get("guests") || "2");
+          return url.pathname + "?" + url.searchParams.toString();
+        }
+
+        function fillSearch(villa) {
+          var destination = document.querySelector("[data-search-destination]");
+          var places = Array.from(new Set(villas.map(function (item) { return item.place; }))).sort();
+          destination.innerHTML = places.map(function (place) {
+            return '<option value="' + escapeHtml(place) + '">' + escapeHtml(place) + '</option>';
+          }).join("");
+          destination.value = villa.place;
+
+          var params = new URLSearchParams(window.location.search);
+          searchForm.elements.date_from.value = params.get("date_from") || params.get("start") || "2026-06-26";
+          searchForm.elements.date_to.value = params.get("date_to") || "2026-07-03";
+          searchForm.elements.guests.value = params.get("guests") || params.get("adult") || "2";
+        }
+
+        function initPropertySearchUI() {
+          var dateTrigger = document.querySelector("[data-property-date-trigger]");
+          var datePopover = document.querySelector("[data-property-date-popover]");
+          var dateSummary = document.querySelector("[data-property-date-summary]");
+          var dateFromControl = document.querySelector("[data-property-date-from-ui]");
+          var dateToControl = document.querySelector("[data-property-date-to-ui]");
+          var guestsTrigger = document.querySelector("[data-property-guests-trigger]");
+          var guestsPopover = document.querySelector("[data-property-guests-popover]");
+          var guestsSummary = document.querySelector("[data-property-guests-summary]");
+          var guestsOutput = document.querySelector("[data-property-guests-output]");
+          if (!dateTrigger || !datePopover || !guestsTrigger || !guestsPopover) return;
+
+          function closePopovers(except) {
+            if (except !== "date") {
+              datePopover.hidden = true;
+              dateTrigger.setAttribute("aria-expanded", "false");
+            }
+            if (except !== "guests") {
+              guestsPopover.hidden = true;
+              guestsTrigger.setAttribute("aria-expanded", "false");
+            }
+          }
+
+          function syncSummary() {
+            var from = searchForm.elements.date_from.value;
+            var to = searchForm.elements.date_to.value;
+            if (dateFromControl) dateFromControl.value = from;
+            if (dateToControl) dateToControl.value = to;
+            dateSummary.textContent = from && to ? formatDate(from) + " - " + formatDate(to) : "Add dates";
+            var guests = clamp(searchForm.elements.guests.value || 2, 1, 30);
+            searchForm.elements.guests.value = String(guests);
+            guestsSummary.textContent = guests + (guests === 1 ? " guest" : " guests");
+            if (guestsOutput) guestsOutput.value = guests;
+          }
+
+          dateTrigger.addEventListener("click", function (event) {
+            event.stopPropagation();
+            var open = datePopover.hidden;
+            closePopovers("date");
+            datePopover.hidden = !open;
+            dateTrigger.setAttribute("aria-expanded", open ? "true" : "false");
+          });
+
+          guestsTrigger.addEventListener("click", function (event) {
+            event.stopPropagation();
+            var open = guestsPopover.hidden;
+            closePopovers("guests");
+            guestsPopover.hidden = !open;
+            guestsTrigger.setAttribute("aria-expanded", open ? "true" : "false");
+          });
+
+          [dateFromControl, dateToControl].forEach(function (input) {
+            if (!input) return;
+            input.addEventListener("change", function () {
+              if (input === dateFromControl) searchForm.elements.date_from.value = input.value;
+              if (input === dateToControl) searchForm.elements.date_to.value = input.value;
+              if (searchForm.elements.date_from.value && searchForm.elements.date_to.value && searchForm.elements.date_to.value <= searchForm.elements.date_from.value) {
+                searchForm.elements.date_to.value = addDays(searchForm.elements.date_from.value, 1);
+              }
+              syncSummary();
+            });
+          });
+
+          guestsPopover.addEventListener("click", function (event) {
+            var step = event.target.closest("[data-property-guests-step]");
+            if (!step) return;
+            var next = clamp(Number(searchForm.elements.guests.value || 2) + Number(step.getAttribute("data-property-guests-step") || 0), 1, 30);
+            searchForm.elements.guests.value = String(next);
+            syncSummary();
+          });
+
+          document.addEventListener("click", function (event) {
+            if (searchForm.contains(event.target)) return;
+            closePopovers();
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") closePopovers();
+          });
+
+          syncSummary();
+        }
+
+        function initBookingState() {
+          var params = new URLSearchParams(window.location.search);
+          var start = searchForm.elements.date_from.value || "2026-06-26";
+          var end = searchForm.elements.date_to.value || addDays(start, 7);
+          bookingState.date_from = start;
+          bookingState.nights = nightsBetween(start, end);
+          bookingState.adults = clamp(searchForm.elements.guests.value || params.get("adult") || 2, 1, 30);
+          bookingState.children = clamp(params.get("children") || params.get("child") || 0, 0, 12);
+          bookingState.pets = clamp(params.get("pets") || 0, 0, 4);
+          bookingState.dateConfirmed = params.has("date_from") || params.has("date_to") || params.has("start");
+        }
+
+        function checkoutDate() {
+          return addDays(bookingState.date_from, bookingState.nights || 7);
+        }
+
+        function guestSummary() {
+          var total = Number(bookingState.adults || 0) + Number(bookingState.children || 0);
+          var guests = total + " guest" + (total === 1 ? "" : "s");
+          var pets = Number(bookingState.pets || 0) + " pet" + (Number(bookingState.pets || 0) === 1 ? "" : "s");
+          return guests + " - " + pets;
+        }
+
+        function bookingDateSummary() {
+          if (!bookingState.dateConfirmed) return "Add";
+          return formatDate(bookingState.date_from) + " - " + formatDate(checkoutDate()) + " - " + bookingState.nights + " nights";
+        }
+
+        function serviceCatalog(villa) {
+          if (villa && Array.isArray(villa.bookingServices) && villa.bookingServices.length) return villa.bookingServices;
+          if (currentVilla && Array.isArray(currentVilla.bookingServices) && currentVilla.bookingServices.length) return currentVilla.bookingServices;
+          return [
+            { key: "arrival", title: "Arrival planning", text: "Check-in timing, local contact and arrival notes prepared by Crays.", price: 0 },
+            { key: "workspace", title: "Workspace setup", text: "Desk setup, monitor request and work-ready arrival pack.", price: 220 },
+            { key: "chef", title: "Private chef intro", text: "Curated local chef introduction for one dinner at the villa.", price: 380 }
+          ];
+        }
+
+        function bookingTotals(villa) {
+          var nights = Number(bookingState.nights || 7);
+          var nightly = Math.max(1, Math.round((Number(villa.price || 0) || Number(villa.searchPrice || 0)) / 7));
+          var stay = nightly * nights;
+          var services = serviceCatalog(villa).reduce(function (sum, item) {
+            return sum + (bookingState.services[item.key] ? item.price : 0);
+          }, 0);
+          var care = Math.round(stay * 0.08);
+          return {
+            nights: nights,
+            nightly: nightly,
+            stay: stay,
+            services: services,
+            care: care,
+            total: stay + services + care,
+            due: Math.round((stay + services + care) * 0.2),
+            security: Math.max(900, Math.round(stay * 0.12))
+          };
+        }
+
+        function nightOptions(villa) {
+          var minimum = Number((villa.availability && villa.availability.minimumNights) || 3);
+          return [3, 5, 7, 10, 14, 21, 28].filter(function (value) { return value >= minimum; }).map(function (value) {
+            return '<option value="' + value + '">' + value + ' nights</option>';
+          }).join("");
+        }
+
+        function readStoredJson(key, fallback) {
+          try {
+            var value = localStorage.getItem(key);
+            return value ? JSON.parse(value) : fallback;
+          } catch (error) {
+            return fallback;
+          }
+        }
+
+        function writeStoredJson(key, value) {
+          try {
+            localStorage.setItem(key, JSON.stringify(value));
+          } catch (error) {}
+        }
+
+        function saveVillaToWishList(villa) {
+          var stored = readStoredJson("craysWishList", []);
+          var legacy = readStoredJson("craysWatchList", []);
+          var slugs = Array.from(new Set([].concat(stored || [], legacy || [], [villa.slug]).filter(Boolean)));
+          writeStoredJson("craysWishList", slugs);
+          writeStoredJson("craysWatchList", slugs);
+        }
+
+        function addVillaToCart(villa) {
+          var items = readStoredJson("craysCart", []);
+          var totals = bookingTotals(villa);
+          var next = {
+            id: "cart-" + villa.slug,
+            slug: villa.slug,
+            dateFrom: bookingState.date_from || "2026-06-26",
+            dateTo: checkoutDate(),
+            nights: bookingState.nights || 7,
+            guests: Number(bookingState.adults || 0) + Number(bookingState.children || 0),
+            services: bookingState.services,
+            total: totals.total,
+            source: "cart"
+          };
+          var existing = items.find(function (item) { return item.slug === villa.slug; });
+          if (existing) Object.assign(existing, next);
+          else items.push(next);
+          writeStoredJson("craysCart", items);
+        }
+
+        function bookingReferenceFor(villa) {
+          return "CRB-" + String(villa.backendProductId || villa.id).padStart(2, "0") + "-" + Date.now().toString(36).toUpperCase().slice(-5);
+        }
+
+        function syncSearchFromBooking() {
+          searchForm.elements.date_from.value = bookingState.date_from || "2026-06-26";
+          searchForm.elements.date_to.value = checkoutDate() || "2026-07-03";
+          searchForm.elements.guests.value = bookingState.adults || 2;
+        }
+
+        function textBlocks(villa) {
+          if (Array.isArray(villa.overview) && villa.overview.length) return villa.overview;
+          return [
+            villa.name + " is a Crays fund-owned villa stay in " + villa.place + ". The page is structured for the real booking flow: arrival dates, guest count, property facts, features, location context and legal information stay visible while the villa keeps the calm Crays visual language.",
+            "The villa is built around " + villa.hero + ", generous outdoor living, a private pool and strong separation between social zones and bedrooms. It is prepared for families, founders and longer island stays that need comfort without losing privacy.",
+            "Inside, the house combines fast Wi-Fi, climate comfort, equipped kitchen areas and practical laundry support. Outside, terraces, dining areas and pool zones are the center of the stay, with local Crays support available before and during arrival.",
+            "This detail page is connected to the Crays Booking data shape, so more photos, more feature rows and live availability can be added without rebuilding the layout."
+          ];
+        }
+
+        function infoGroups(villa) {
+          if (Array.isArray(villa.infoGroups) && villa.infoGroups.length) return villa.infoGroups;
+          return [
+            { title: "Facts", items: ["Region: " + villa.place, "Accommodation type: " + villa.type, "Guest rating: " + ratingText(villa), "Guests: " + villa.guests, "Bedrooms: " + villa.bedrooms, "Bathrooms: " + villa.bathrooms, "Pets: " + villa.pets, "Collection: Luxury collection"] },
+            { title: "Facilities", items: ["Private outdoor pool", "Smart TV", "High-speed Wi-Fi", "Dishwasher", "Washing machine", "Air conditioning", "Garden or terrace", "Family games"] },
+            { title: "Rooms", items: ["Kitchen with warm and cold water", villa.bedrooms + " bedrooms", villa.bathrooms + " bathrooms", "Living room", "Outdoor dining area", "Private terrace zones"] },
+            { title: "Amenities", items: ["Cooking plates and oven", "Refrigerator", "Coffee machine", "Barbecue", "High chair available", "Baby cot available", "Private parking", "Flexible arrival"] },
+            { title: "Heating / Energy", items: ["Air conditioning included", "Eco stay data prepared", "Energy-saving house field supported", "Seasonal comfort setup"] },
+            { title: "Outside", items: ["Garden furniture", "Private pool", "Sun loungers", "Outdoor shower field supported", "Terrace or similar", "Local team support"] },
+            { title: "Nearby", items: ["Beach nearby", "Coast within 5 km", "Golf nearby", "Shopping and village access", "Nearest airport: Palma de Mallorca", "Local Crays arrival support"] },
+            { title: "Parking", items: ["Private parking on the property", "EV charger field supported", "Arrival instructions from Crays"] }
+          ];
+        }
+
+        function renderInfoGroups(villa) {
+          return infoGroups(villa).map(function (group) {
+            return '<div class="info-group"><h3>' + escapeHtml(group.title) + '</h3><div class="info-grid">' +
+              group.items.map(function (item) { return '<div class="info-item">' + escapeHtml(item) + '</div>'; }).join("") +
+              '</div></div>';
+          }).join("");
+        }
+
+        function renderAllImages(villa) {
+          return '<div class="image-grid">' + galleryImages(villa).map(function (src, index) {
+            return '<button type="button" data-open-gallery="' + index + '"><img src="' + src + '" alt="' + escapeHtml(villa.name) + ' gallery image ' + (index + 1) + '" loading="lazy" /></button>';
+          }).join("") + '</div>';
+        }
+
+        function renderReviews(villa) {
+          var reviews = Array.isArray(villa.reviews) && villa.reviews.length ? villa.reviews : [];
+          if (!reviews.length) return '<div class="review-card"><strong>' + escapeHtml(ratingText(villa)) + '</strong><p>Reviews are maintained as backend content fields for this villa.</p><span>Crays Villas</span></div>';
+          return '<div class="review-grid">' + reviews.map(function (review) {
+            return '<article class="review-card"><strong>' + escapeHtml(review.rating || ratingText(villa)) + '</strong><p>' + escapeHtml(review.text) + '</p><span>' + escapeHtml(review.name || "Crays Guest") + (review.date ? ", " + escapeHtml(review.date) : "") + '</span></article>';
+          }).join("") + '</div>';
+        }
+
+        function renderLegal(villa) {
+          var legal = villa.legal || {};
+          var items = [
+            ["License or registration number", legal.license || "Maintained in Crays Booking backend"],
+            ["National registration license", legal.nationalRegistration || "Field prepared for live import"],
+            ["Provider", legal.provider || "Crays Villas"],
+            ["Data source", legal.dataSource || "Crays Booking property CRY-" + (villa.backendProductId || villa.id)],
+            ["Owner type", legal.ownerType || "Fund-owned villa"],
+            ["Quality record", legal.quality || "Crays quality-controlled property record"]
+          ];
+          return '<div class="info-grid">' + items.map(function (item) {
+            return '<div class="info-item">' + escapeHtml(item[0]) + ': ' + escapeHtml(item[1]) + '</div>';
+          }).join("") + '</div>';
+        }
+
+        function renderPolicies(villa) {
+          var availability = villa.availability || {};
+          var rules = Array.isArray(villa.houseRules) ? villa.houseRules : [];
+          var policyCards = [
+            { title: "Check-in", text: "Check-in window: " + (availability.checkInWindow || "confirmed before arrival") + ". Check-out: " + (availability.checkoutTime || "confirmed before arrival") + "." },
+            { title: "Minimum stay", text: "Minimum stay: " + (availability.minimumNights || 3) + " nights. Default request duration: " + (availability.defaultNights || 7) + " nights." },
+            { title: "Payment mode", text: availability.paymentMode || "Request first, no instant charge." }
+          ].concat(rules.slice(0, 3).map(function (rule, index) {
+            return { title: "House rule " + (index + 1), text: rule };
+          }));
+          return '<div class="policy-grid">' + policyCards.map(function (card) {
+            return '<article class="policy-card"><strong>' + escapeHtml(card.title) + '</strong><p>' + escapeHtml(card.text) + '</p></article>';
+          }).join("") + '</div>';
+        }
+
+        function renderGallery(villa) {
+          var images = galleryImages(villa);
+          var side = images.slice(1, 5);
+          while (side.length < 4) side.push(images[0]);
+          return '<div class="gallery" id="gallery">' +
+            '<button class="gallery-main" type="button" data-open-gallery="0"><img src="' + images[0] + '" alt="' + escapeHtml(villa.name) + ' main image" /></button>' +
+            '<div class="gallery-side">' +
+              side.map(function (src, index) {
+                return '<button type="button" data-open-gallery="' + Math.min(index + 1, images.length - 1) + '"><img src="' + src + '" alt="' + escapeHtml(villa.name) + ' image ' + (index + 2) + '" loading="lazy" /></button>';
+              }).join("") +
+            '</div>' +
+            '<span class="gallery-counter">1 / ' + images.length + '</span>' +
+            '<button class="gallery-button" type="button" data-open-gallery="0">All images - ' + images.length + '</button>' +
+          '</div>';
+        }
+
+        function renderBookingCard(villa) {
+          var totals = bookingTotals(villa);
+          var cta = bookingState.dateConfirmed ? "Continue booking" : "Check availability";
+          var availability = villa.availability || {};
+          return '<aside class="booking-card">' +
+            '<h2>Your villa stay</h2>' +
+            '<div class="price">' + money(totals.total) + ' <small>' + totals.nights + ' nights from</small></div>' +
+            '<div class="booking-help"><span>i</span><p>Choose arrival date and duration for exact Crays availability and price confirmation.</p></div>' +
+            '<div class="booking-choice-stack">' +
+              '<button class="booking-choice" type="button" data-open-booking="1"><span>Arrival date and duration</span><strong>' + escapeHtml(bookingDateSummary()) + '</strong></button>' +
+              '<button class="booking-choice" type="button" data-open-booking="2"><span>Guests and pets</span><strong>' + escapeHtml(guestSummary()) + '</strong></button>' +
+              '<button class="booking-button" type="button" data-open-booking="' + (bookingState.dateConfirmed ? "4" : "1") + '">' + cta + '</button>' +
+              '<div class="booking-quick-actions"><button class="booking-mini-button" type="button" data-save-villa>Save villa</button><button class="booking-mini-button" type="button" data-add-cart>Add to cart</button></div>' +
+            '</div>' +
+            '<p class="booking-note">' + escapeHtml(villa.intro) + '</p>' +
+            '<div class="booking-card-footer"><span>No instant charge. Crays confirms availability first.</span><span>Local arrival support and villa handover included.</span></div>' +
+            '<div class="booking-bullets"><span>Fund-owned villa</span><span>Local Crays team</span><span>Crays Booking property CRY-' + (villa.backendProductId || villa.id) + '</span><span>Large gallery ready</span></div>' +
+            '<div class="booking-policy-list"><span>Minimum stay: ' + escapeHtml(availability.minimumNights || 3) + ' nights</span><span>Check-in: ' + escapeHtml(availability.checkInWindow || "confirmed before arrival") + '</span><span>' + escapeHtml(availability.cancellation || "Terms confirmed before payment.") + '</span></div>' +
+          '</aside>';
+        }
+
+        function renderBookingSteps() {
+          var steps = [
+            ["1", "Dates"],
+            ["2", "Guests"],
+            ["3", "Services"],
+            ["4", "Request"]
+          ];
+          return '<div class="booking-steps">' + steps.map(function (step) {
+            return '<button class="booking-step' + (Number(step[0]) === bookingStep ? " is-active" : "") + '" type="button" data-booking-step="' + step[0] + '">Step ' + step[0] + '<strong>' + step[1] + '</strong></button>';
+          }).join("") + '</div>';
+        }
+
+        function renderBookingSummary(villa) {
+          var totals = bookingTotals(villa);
+          return '<aside class="booking-summary">' +
+            '<h3>Booking summary</h3>' +
+            '<div class="booking-summary-row"><span>Villa</span><strong>' + escapeHtml(villa.name) + '</strong></div>' +
+            '<div class="booking-summary-row"><span>Dates</span><strong>' + escapeHtml(bookingDateSummary()) + '</strong></div>' +
+            '<div class="booking-summary-row"><span>Guests</span><strong>' + escapeHtml(guestSummary()) + '</strong></div>' +
+            '<div class="booking-summary-row"><span>Villa stay</span><strong>' + money(totals.stay) + '</strong></div>' +
+            '<div class="booking-summary-row"><span>Selected services</span><strong>' + money(totals.services) + '</strong></div>' +
+            '<div class="booking-summary-row"><span>Crays care</span><strong>' + money(totals.care) + '</strong></div>' +
+            '<div class="booking-summary-row is-total"><span>Total estimate</span><strong>' + money(totals.total) + '</strong></div>' +
+            '<div class="booking-summary-row"><span>Request deposit</span><strong>' + money(totals.due) + '</strong></div>' +
+            '<div class="booking-summary-row"><span>Security hold</span><strong>' + money(totals.security) + '</strong></div>' +
+          '</aside>';
+        }
+
+        function renderBookingPane() {
+          if (bookingSubmitted) {
+            return '<div class="booking-success"><strong>Booking request prepared</strong><p>Your Crays request ' + escapeHtml(bookingReference) + ' is ready for the team. The next production step can connect this object to the live Crays Booking backend.</p></div>' +
+              '<div class="booking-actions"><button class="booking-secondary" type="button" data-close-booking>Close</button><a class="booking-primary" href="/de/contact">Contact Crays</a></div>';
+          }
+
+          if (bookingStep === 1) {
+            return '<div class="booking-pane"><h3>Select arrival and duration</h3><div class="booking-field-grid">' +
+              '<label class="booking-field">Check-in<input type="date" name="date_from" value="' + escapeHtml(bookingState.date_from || "2026-06-26") + '" data-booking-input="date_from"></label>' +
+              '<label class="booking-field">Duration<select name="nights" data-booking-input="nights">' + nightOptions(villa) + '</select></label>' +
+              '</div><div class="booking-help"><span>i</span><p>Minimum stay: ' + escapeHtml((villa.availability && villa.availability.minimumNights) || 3) + ' nights. Check-out is calculated automatically: ' + escapeHtml(formatDate(checkoutDate())) + '.</p></div><div class="booking-actions"><button class="booking-secondary" type="button" data-close-booking>Cancel</button><button class="booking-primary" type="button" data-booking-next>Continue</button></div></div>';
+          }
+
+          if (bookingStep === 2) {
+            return '<div class="booking-pane"><h3>Guests and pets</h3><div class="booking-counter-row">' +
+              renderCounter("adults", "Adults", "Travellers aged 13+", 1, villa.guests) +
+              renderCounter("children", "Children", "Children travelling with adults", 0, Math.max(0, villa.guests - 1)) +
+              renderCounter("pets", "Pets", "On request for selected villas", 0, 4) +
+              '</div><div class="booking-actions"><button class="booking-secondary" type="button" data-booking-prev>Back</button><button class="booking-primary" type="button" data-booking-next>Continue</button></div></div>';
+          }
+
+          if (bookingStep === 3) {
+            return '<div class="booking-pane"><h3>Add Crays services</h3>' + serviceCatalog(villa).map(function (item) {
+              return '<label class="booking-service"><input type="checkbox" data-booking-service="' + item.key + '"' + (bookingState.services[item.key] ? " checked" : "") + '><span><strong>' + escapeHtml(item.title) + '</strong><span>' + escapeHtml(item.text) + '</span></span><em class="booking-service-price">' + (item.price ? money(item.price) : "Included") + '</em></label>';
+            }).join("") + '<div class="booking-actions"><button class="booking-secondary" type="button" data-booking-prev>Back</button><button class="booking-primary" type="button" data-booking-next>Review request</button></div></div>';
+          }
+
+          return '<form class="booking-pane" data-booking-request><h3>Request this villa</h3><div class="booking-field-grid">' +
+            '<label class="booking-field">Name<input type="text" name="name" value="' + escapeHtml(bookingState.name) + '" autocomplete="name" required></label>' +
+            '<label class="booking-field">Email<input type="email" name="email" value="' + escapeHtml(bookingState.email) + '" autocomplete="email" required></label>' +
+            '<label class="booking-field">Phone<input type="tel" name="phone" value="' + escapeHtml(bookingState.phone) + '" autocomplete="tel"></label>' +
+            '<label class="booking-field">Message<textarea name="message" placeholder="Arrival wishes, team setup or special requests">' + escapeHtml(bookingState.message) + '</textarea></label>' +
+            '</div><div class="booking-help"><span>i</span><p>Continue as guest or sign in after the request. The request object is stored for Wish List, Cart and account handoff.</p></div><div class="booking-actions"><button class="booking-secondary" type="button" data-booking-prev>Back</button><button class="booking-primary" type="submit">Request booking</button></div></form>';
+        }
+
+        function renderCounter(key, title, text, min, max) {
+          var value = clamp(bookingState[key], min, max);
+          return '<div class="booking-counter"><span><strong>' + escapeHtml(title) + '</strong><span>' + escapeHtml(text) + '</span></span><div class="booking-counter-controls"><button type="button" data-booking-count="' + key + '" data-delta="-1">-</button><output>' + value + '</output><button type="button" data-booking-count="' + key + '" data-delta="1">+</button></div></div>';
+        }
+
+        function renderBookingFlow(villa) {
+          if (!bookingOpen) return "";
+          return '<div class="booking-flow" role="dialog" aria-modal="true" aria-label="Crays Booking">' +
+            '<div class="booking-flow-panel"><div class="booking-flow-top"><div><p class="kicker">Crays Booking</p><h2>' + escapeHtml(villa.name) + '</h2></div><button class="booking-flow-close" type="button" data-close-booking aria-label="Close booking">x</button></div>' +
+            '<div class="booking-flow-body"><div>' + renderBookingSteps() + renderBookingPane(villa) + '</div>' + renderBookingSummary(villa) + '</div></div>' +
+          '</div>';
+        }
+
+        function render(villa) {
+          currentVilla = villa;
+          currentImages = galleryImages(villa);
+          document.title = villa.name + " | Crays Villas";
+          var description = textBlocks(villa);
+          var amenities = villa.tags.concat(["Local Crays team", "Fund-owned", "Quality-controlled", "Booking backend ready"]);
+
+          root.innerHTML =
+            '<div class="shell">' +
+              '<nav class="crumbs" aria-label="Breadcrumb"><a href="/de/search">Crays Villas</a><span>/</span><span>' + escapeHtml(villa.place) + '</span><span>/</span><strong>' + escapeHtml(villa.name) + '</strong></nav>' +
+              '<div class="property-title-row">' +
+                '<div><p class="kicker">Crays Villa Stay</p><h1>' + escapeHtml(villa.name) + '</h1><div class="property-subline"><span>' + escapeHtml(villa.type) + '</span><span>' + escapeHtml(villa.place) + ', Mallorca</span><span>ID CRY-' + (villa.backendProductId || villa.id) + '</span><span class="rating"><span class="stars">*****</span><strong>' + escapeHtml(ratingText(villa)) + '</strong></span></div></div>' +
+                '<div class="share-row"><button class="ghost-button" type="button" data-save-villa>Save villa</button><button class="ghost-button" type="button" data-copy-link>Copy link</button><a class="ghost-button" href="/de/search">Back to search</a></div>' +
+              '</div>' +
+              renderGallery(villa) +
+            '</div>' +
+            '<nav class="anchor-nav" aria-label="Property navigation"><div class="shell"><a href="#overview">Overview</a><a href="#properties">Properties</a><a href="#all-images">All images</a><a href="#location">Location</a><a href="#information">Holiday home information</a><a href="#reviews">Reviews</a><a href="#policies">House rules</a><a href="#legal">Legal information</a></div></nav>' +
+            '<div class="shell content-grid">' +
+              '<div class="content-main">' +
+                '<div class="fact-strip" id="overview"><div class="fact"><span>Guests</span><strong>' + villa.guests + '</strong></div><div class="fact"><span>Bedrooms</span><strong>' + villa.bedrooms + '</strong></div><div class="fact"><span>Bathrooms</span><strong>' + villa.bathrooms + '</strong></div><div class="fact"><span>Pets</span><strong>' + escapeHtml(String(villa.pets || "On request").replace("Pets ", "")) + '</strong></div></div>' +
+                '<section class="section"><h2>Overview</h2><div class="copy is-collapsed" data-copy>' + description.map(function (text) { return '<p>' + escapeHtml(text) + '</p>'; }).join("") + '</div><button class="text-button" type="button" data-toggle-copy>Show more</button></section>' +
+                '<section class="section" id="properties"><h2>Properties</h2><div class="amenity-grid">' + amenities.map(function (item) { return '<div class="amenity">' + escapeHtml(item) + '</div>'; }).join("") + '</div></section>' +
+                '<section class="section" id="all-images"><h2>All images</h2>' + renderAllImages(villa) + '</section>' +
+                '<section class="section" id="location"><h2>Location</h2><div class="location-panel"><div class="map-visual"><iframe class="google-map-frame" title="' + escapeHtml(villa.name) + ' Google Maps area" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="' + googleMapEmbed(villa) + '"></iframe></div><div class="map-copy"><div><strong>' + escapeHtml(googleMapLabel(villa)) + '</strong><p>Google Maps shows the approximate Crays villa area. Exact arrival details are shared after booking confirmation.</p></div><div class="map-actions"><a class="ghost-button" href="' + googleMapUrl(villa) + '" target="_blank" rel="noreferrer noopener">Open Google Maps</a><a class="ghost-button" href="/de/search?destination=' + encodeURIComponent(villa.place) + '">More villas nearby</a></div></div></div></section>' +
+                '<section class="section" id="information"><h2>Holiday home information</h2>' + renderInfoGroups(villa) + '</section>' +
+                '<section class="section" id="reviews"><h2>Reviews</h2>' + renderReviews(villa) + '</section>' +
+                '<section class="section" id="policies"><h2>Availability and house rules</h2>' + renderPolicies(villa) + '</section>' +
+                '<section class="section" id="legal"><h2>Legal information</h2>' + renderLegal(villa) + '</section>' +
+                '<div class="help-panel"><div><h2>Need help?</h2><p>Crays can support with villa selection, arrival planning and backend availability checks. The next backend step is live calendar and price sync.</p></div><a class="ghost-button" href="/de/contact">Contact Crays</a></div>' +
+              '</div>' +
+              renderBookingCard(villa) +
+            '</div>' +
+            renderBookingFlow(villa);
+
+          var nightsSelect = document.querySelector('[data-booking-input="nights"]');
+          if (nightsSelect) nightsSelect.value = String(bookingState.nights || 7);
+        }
+
+        function openModal(index) {
+          currentImageIndex = Math.max(0, Math.min(index || 0, currentImages.length - 1));
+          modal.classList.add("is-open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("modal-open");
+          updateModal();
+        }
+
+        function closeModal() {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("modal-open");
+        }
+
+        function updateModal() {
+          modalImage.src = currentImages[currentImageIndex];
+          modalImage.alt = currentVilla.name + " image " + (currentImageIndex + 1);
+          modalTitle.textContent = currentVilla.name;
+          modalCount.textContent = (currentImageIndex + 1) + " / " + currentImages.length;
+        }
+
+        function shiftModal(step) {
+          currentImageIndex = (currentImageIndex + step + currentImages.length) % currentImages.length;
+          updateModal();
+        }
+
+        var villa = villas.find(function (item) { return item.slug === currentSlug(); }) || villas.find(function (item) { return item.slug === "andratx"; });
+        fillSearch(villa);
+        initPropertySearchUI();
+        initBookingState();
+        bookingState.nights = clamp(bookingState.nights, (villa.availability && villa.availability.minimumNights) || 1, 60);
+        render(villa);
+
+        searchForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          window.location.href = searchUrl(villa);
+        });
+
+        root.addEventListener("click", function (event) {
+          var galleryTrigger = event.target.closest("[data-open-gallery]");
+          if (galleryTrigger) {
+            openModal(Number(galleryTrigger.getAttribute("data-open-gallery") || 0));
+          }
+
+          if (event.target.matches("[data-toggle-copy]")) {
+            var copy = document.querySelector("[data-copy]");
+            var collapsed = copy.classList.toggle("is-collapsed");
+            event.target.textContent = collapsed ? "Show more" : "Show less";
+          }
+
+          if (event.target.matches("[data-copy-link]")) {
+            navigator.clipboard && navigator.clipboard.writeText(window.location.href);
+            event.target.textContent = "Copied";
+            setTimeout(function () { event.target.textContent = "Copy link"; }, 1200);
+          }
+
+          var saveButton = event.target.closest("[data-save-villa]");
+          if (saveButton) {
+            saveVillaToWishList(villa);
+            saveButton.textContent = "Saved";
+            setTimeout(function () { saveButton.textContent = "Save villa"; }, 1200);
+          }
+
+          var cartButton = event.target.closest("[data-add-cart]");
+          if (cartButton) {
+            addVillaToCart(villa);
+            cartButton.textContent = "Added";
+            setTimeout(function () { cartButton.textContent = "Add to cart"; }, 1200);
+          }
+
+          var openBooking = event.target.closest("[data-open-booking]");
+          if (openBooking) {
+            bookingStep = clamp(openBooking.getAttribute("data-open-booking") || 1, 1, 4);
+            bookingOpen = true;
+            bookingSubmitted = false;
+            render(villa);
+          }
+
+          if (event.target.closest("[data-close-booking]")) {
+            bookingOpen = false;
+            render(villa);
+          }
+
+          var stepButton = event.target.closest("[data-booking-step]");
+          if (stepButton) {
+            bookingStep = clamp(stepButton.getAttribute("data-booking-step"), 1, 4);
+            render(villa);
+          }
+
+          if (event.target.closest("[data-booking-next]")) {
+            bookingState.dateConfirmed = true;
+            syncSearchFromBooking();
+            bookingStep = clamp(bookingStep + 1, 1, 4);
+            render(villa);
+          }
+
+          if (event.target.closest("[data-booking-prev]")) {
+            bookingStep = clamp(bookingStep - 1, 1, 4);
+            render(villa);
+          }
+
+          var counter = event.target.closest("[data-booking-count]");
+          if (counter) {
+            var key = counter.getAttribute("data-booking-count");
+            var delta = Number(counter.getAttribute("data-delta") || 0);
+            var maxGuests = key === "children" ? Math.max(0, villa.guests - 1) : villa.guests;
+            var minGuests = key === "adults" ? 1 : 0;
+            var maxValue = key === "pets" ? 4 : maxGuests;
+            bookingState[key] = clamp(Number(bookingState[key] || 0) + delta, minGuests, maxValue);
+            syncSearchFromBooking();
+            render(villa);
+          }
+        });
+
+        root.addEventListener("submit", function (event) {
+          if (!event.target.matches("[data-booking-request]")) return;
+          event.preventDefault();
+          var data = new FormData(event.target);
+          bookingState.name = data.get("name") || "";
+          bookingState.email = data.get("email") || "";
+          bookingState.phone = data.get("phone") || "";
+          bookingState.message = data.get("message") || "";
+          bookingReference = bookingReferenceFor(villa);
+          bookingSubmitted = true;
+          bookingStep = 4;
+          try {
+            localStorage.setItem("craysBookingRequest:" + bookingReference, JSON.stringify({
+              reference: bookingReference,
+              villa: villa.slug,
+              propertyId: villa.backendProductId || villa.id,
+              dates: { from: bookingState.date_from, to: checkoutDate(), nights: bookingState.nights },
+              guests: { adults: bookingState.adults, children: bookingState.children, pets: bookingState.pets },
+              services: bookingState.services,
+              contact: { name: bookingState.name, email: bookingState.email, phone: bookingState.phone, message: bookingState.message },
+              totals: bookingTotals(villa)
+            }));
+          } catch (error) {}
+          render(villa);
+        });
+
+        root.addEventListener("input", function (event) {
+          if (event.target.matches('[data-booking-input="date_from"]')) {
+            bookingState.date_from = event.target.value || bookingState.date_from;
+            bookingState.dateConfirmed = true;
+            syncSearchFromBooking();
+            render(villa);
+          }
+        });
+
+        root.addEventListener("change", function (event) {
+          if (event.target.matches('[data-booking-input="nights"]')) {
+            bookingState.nights = clamp(event.target.value, (villa.availability && villa.availability.minimumNights) || 1, 60);
+            bookingState.dateConfirmed = true;
+            syncSearchFromBooking();
+            render(villa);
+          }
+
+          var service = event.target.closest("[data-booking-service]");
+          if (service) {
+            bookingState.services[service.getAttribute("data-booking-service")] = service.checked;
+            render(villa);
+          }
+        });
+
+        document.querySelector("[data-modal-close]").addEventListener("click", closeModal);
+        document.querySelector("[data-modal-prev]").addEventListener("click", function () { shiftModal(-1); });
+        document.querySelector("[data-modal-next]").addEventListener("click", function () { shiftModal(1); });
+        modal.addEventListener("click", function (event) {
+          if (event.target === modal) closeModal();
+        });
+        document.addEventListener("keydown", function (event) {
+          if (!modal.classList.contains("is-open")) return;
+          if (event.key === "Escape") closeModal();
+          if (event.key === "ArrowLeft") shiftModal(-1);
+          if (event.key === "ArrowRight") shiftModal(1);
+        });
+      })();
+    </script>
+      <script src="/assets/crays-club/crays-i18n.js?v=crays-i18n-2" defer></script>
+  </body>
+</html>
