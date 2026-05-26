@@ -7,6 +7,7 @@ html body.crays-club-franchise-page main#crays-franchise .crays-franchise-upgrad
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  padding: 0 !important;
   background:
     radial-gradient(circle at 12% 8%, rgba(250, 23, 84, 0.18), transparent 30%),
     radial-gradient(circle at 86% 16%, rgba(10, 166, 154, 0.18), transparent 28%),
@@ -37,11 +38,11 @@ html body.crays-club-franchise-page main#crays-franchise .crays-franchise-upgrad
   grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.62fr);
   gap: clamp(32px, 5vw, 72px);
   align-items: end;
-  padding: clamp(86px, 9vw, 126px) 0 clamp(42px, 5vw, 72px);
+  padding: clamp(42px, 5vw, 64px) 0 clamp(30px, 4vw, 48px);
 }
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-kicker {
-  margin: 0 0 14px;
+  margin: 0 0 24px;
   color: #fa1754;
   font-family: Montserrat, Arial, sans-serif;
   font-size: 0.82rem;
@@ -128,7 +129,7 @@ html body.crays-club-franchise-page main#crays-franchise .crays-franchise-pill s
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-route span,
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-mini span {
   display: block;
-  margin-bottom: 8px;
+  margin: 0 0 12px;
   color: #ffc04d;
   font-size: 0.76rem;
   font-weight: 900;
@@ -200,7 +201,7 @@ html body.crays-club-franchise-page main#crays-franchise .crays-franchise-button
 }
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-tabs {
-  padding: clamp(26px, 4vw, 46px) 0 clamp(88px, 9vw, 132px);
+  padding: clamp(24px, 3vw, 42px) 0 clamp(28px, 3.5vw, 46px);
 }
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-tabs__bar {
@@ -265,6 +266,7 @@ html body.crays-club-franchise-page main#crays-franchise .crays-franchise-panel-
 }
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-panel-grid h3 {
+  margin: 0 0 18px;
   max-width: 760px;
   color: #06111d;
   font-size: clamp(31px, 4vw, 58px);
@@ -272,11 +274,15 @@ html body.crays-club-franchise-page main#crays-franchise .crays-franchise-panel-
 }
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-panel-copy {
-  margin: 18px 0 0;
+  margin: 0;
   color: rgba(6, 17, 29, 0.76);
   font-size: 1.02rem;
   font-weight: 650;
   line-height: 1.72;
+}
+
+html body.crays-club-franchise-page main#crays-franchise .crays-franchise-panel-copy + .crays-franchise-panel-copy {
+  margin-top: 14px;
 }
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-panel-copy strong {
@@ -331,8 +337,8 @@ html body.crays-club-franchise-page main#crays-franchise .crays-franchise-pill {
   border-left: 6px solid #fa1754;
   border-radius: 8px;
   padding: 18px 18px 18px 20px;
-  background: #06111d;
-  color: #ffffff;
+  background: linear-gradient(145deg, rgba(6, 17, 29, 0.98), rgba(8, 36, 58, 0.94)) !important;
+  color: #ffffff !important;
 }
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-pill:nth-child(2) {
@@ -345,15 +351,16 @@ html body.crays-club-franchise-page main#crays-franchise .crays-franchise-pill:n
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-pill strong {
   display: block;
-  color: #ffffff;
+  margin: 0 0 10px;
+  color: #ffffff !important;
   font-size: clamp(22px, 2.6vw, 34px);
   font-weight: 900;
   line-height: 1.04;
 }
 
 html body.crays-club-franchise-page main#crays-franchise .crays-franchise-pill p {
-  margin: 10px 0 0;
-  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.84) !important;
   font-size: 0.94rem;
   font-weight: 650;
   line-height: 1.58;
