@@ -23,7 +23,12 @@ function cleanLong(value) {
 }
 
 function envValue(name) {
-  return String(process.env[name] || "").trim();
+  const value = String(process.env[name] || "").trim();
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+    return value.slice(1, -1).trim();
+  }
+
+  return value;
 }
 
 function firstEnv(names) {
@@ -218,6 +223,7 @@ function smtpConfig(to, fallbackFrom) {
     host: firstEnv(["SMTP_HOST"]) || "smtp.office365.com",
     port: Number(firstEnv(["SMTP_PORT"]) || 587),
     secure: firstEnv(["SMTP_SECURE"]).toLowerCase() === "true",
+    authMethod: firstEnv(["SMTP_AUTH_METHOD"]) || "LOGIN",
     user,
     pass: firstEnv(["SMTP_PASS", "FRANCHISE_SMTP_PASS"]),
     to,
@@ -412,6 +418,7 @@ async function sendWithSmtp(config, application, subject) {
       user: config.user,
       pass: config.pass
     },
+    authMethod: config.authMethod,
     tls: {
       minVersion: "TLSv1.2"
     }
