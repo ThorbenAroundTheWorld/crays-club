@@ -6653,24 +6653,24 @@
             </div>
             <aside class="crays-franchise-pills">
               <article class="crays-franchise-pill">
-                <span>01 / Signal fit</span>
-                <strong>Tell us the market.</strong>
-                <p>Tell us your region, asset situation and why you can operate a Crays Club.</p>
+                <span>Review scope</span>
+                <strong>What we check first.</strong>
+                <p>Market gravity, asset control or access, group capacity, operator setup, budget clarity and a real niche with community demand.</p>
               </article>
               <article class="crays-franchise-pill">
-                <span>02 / Watch the model</span>
-                <strong>Understand the system.</strong>
-                <p>Receive the intro, walkthrough and compact course before booking a call.</p>
+                <span>After submit</span>
+                <strong>You know the next step.</strong>
+                <p>Your application goes to info@crays.org. If the signal is strong, we reply with next questions, model material or a first Association conversation.</p>
               </article>
               <article class="crays-franchise-pill">
-                <span>03 / Book the call</span>
-                <strong>No pressure.</strong>
-                <p>If the model fits, schedule the first non-binding Association conversation.</p>
+                <span>Useful context</span>
+                <strong>Make the opportunity concrete.</strong>
+                <p>A website, listing, photos, rough timeline, capex range, local partners or audience proof helps us review faster.</p>
               </article>
               <article class="crays-franchise-pill">
-                <span>Privacy</span>
-                <strong>Consent first.</strong>
-                <p>The form includes privacy confirmation and clean consent logic before anything is sent.</p>
+                <span>Data use</span>
+                <strong>Review only, no publication.</strong>
+                <p>Your details are used to review this application and contact you about it. Submitting does not publish your project or create an agreement.</p>
               </article>
             </aside>
           </div>
@@ -13231,6 +13231,9 @@
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase {
+    position: relative !important;
+    isolation: isolate !important;
+    overflow: hidden !important;
     min-height: clamp(268px, 19vw, 324px) !important;
     height: 100% !important;
     display: grid !important;
@@ -13238,9 +13241,38 @@
     align-content: start !important;
     gap: 12px !important;
     padding: clamp(21px, 1.9vw, 28px) clamp(20px, 1.9vw, 28px) clamp(22px, 2vw, 30px) clamp(28px, 2.2vw, 34px) !important;
-    background:
-      linear-gradient(145deg, rgba(247, 248, 251, 0.085), rgba(247, 248, 251, 0.038)),
-      linear-gradient(180deg, rgba(3, 7, 12, 0.12), rgba(3, 7, 12, 0.22)) !important;
+    border-color: rgba(255, 255, 255, 0.28) !important;
+    background-image:
+      linear-gradient(145deg, rgba(244, 247, 249, 0.9), rgba(218, 226, 233, 0.85)),
+      var(--crays-process-bg) !important;
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.48), 0 18px 44px rgba(2, 7, 14, 0.12) !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase:nth-child(1) {
+    --crays-process-bg: url("/assets/stock-lifestyle/crays-process-01-fit-check.jpg");
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase:nth-child(2) {
+    --crays-process-bg: url("/assets/stock-lifestyle/crays-process-02-model-walkthrough.jpg");
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase:nth-child(3) {
+    --crays-process-bg: url("/assets/stock-lifestyle/crays-process-03-market-review.jpg");
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase:nth-child(4) {
+    --crays-process-bg: url("/assets/stock-lifestyle/crays-process-04-concept-numbers.jpg");
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase:nth-child(5) {
+    --crays-process-bg: url("/assets/stock-lifestyle/crays-process-05-operating-stack.jpg");
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase:nth-child(6) {
+    --crays-process-bg: url("/assets/stock-lifestyle/crays-process-06-launch-marketing.jpg");
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase > span {
@@ -13261,16 +13293,16 @@
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase h4 {
     margin: 0 !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
+    color: #071827 !important;
+    -webkit-text-fill-color: #071827 !important;
     font-size: clamp(21px, 1.45vw, 27px) !important;
     line-height: 1.12 !important;
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase p {
     margin: 0 !important;
-    color: rgba(255, 255, 255, 0.8) !important;
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.8) !important;
+    color: rgba(7, 24, 39, 0.78) !important;
+    -webkit-text-fill-color: rgba(7, 24, 39, 0.78) !important;
     font-size: clamp(15px, 1.04vw, 17px) !important;
     line-height: 1.56 !important;
   }
@@ -13278,8 +13310,8 @@
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#crays-franchise-system#crays-franchise-system.crays-franchise-upgrade #crays-franchise-panel-process .crays-franchise-process-phase strong {
     display: block !important;
     margin-top: clamp(4px, 0.8vw, 10px) !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
+    color: #071827 !important;
+    -webkit-text-fill-color: #071827 !important;
     font-size: 13px !important;
     font-weight: 900 !important;
     line-height: 1.35 !important;
