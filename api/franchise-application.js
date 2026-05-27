@@ -2,6 +2,11 @@ import nodemailer from "nodemailer";
 
 const DEFAULT_TO = "info@crays.org";
 const MAX_BODY_BYTES = 256 * 1024;
+const PROVIDERS = {
+  RESEND: "resend",
+  GRAPH: "microsoft-graph",
+  SMTP: "smtp"
+};
 
 function sendJson(res, statusCode, payload) {
   res.statusCode = statusCode;
@@ -17,6 +22,19 @@ function cleanLong(value) {
   return String(value || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
 }
 
+function envValue(name) {
+  return String(process.env[name] || "").trim();
+}
+
+function firstEnv(names) {
+  for (const name of names) {
+    const value = envValue(name);
+    if (value) return value;
+  }
+
+  return "";
+}
+
 function escapeHtml(value) {
   return String(value || "")
     .replace(/&/g, "&amp;")
@@ -28,6 +46,22 @@ function escapeHtml(value) {
 
 function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function emailAddressFrom(value) {
+  const text = clean(value);
+  const bracketMatch = text.match(/<([^<>\s@]+@[^<>\s@]+\.[^<>\s@]+)>/);
+  if (bracketMatch) return bracketMatch[1].toLowerCase();
+
+  const emailMatch = text.match(/[^\s<>,;]+@[^\s<>,;]+\.[^\s<>,;]+/);
+  return emailMatch ? emailMatch[0].toLowerCase() : "";
+}
+
+function parseRecipients(value) {
+  return String(value || DEFAULT_TO)
+    .split(/[;,]/)
+    .map((item) => emailAddressFrom(item) || clean(item))
+    .filter(Boolean);
 }
 
 async function readStream(req) {
@@ -169,16 +203,259 @@ function htmlEmail(application) {
   `;
 }
 
-function smtpConfig() {
-  const host = process.env.SMTP_HOST || "smtp.office365.com";
-  const port = Number(process.env.SMTP_PORT || 587);
-  const secure = String(process.env.SMTP_SECURE || "false").toLowerCase() === "true";
-  const user = process.env.SMTP_USER || process.env.FRANCHISE_SMTP_USER || DEFAULT_TO;
-  const pass = process.env.SMTP_PASS || process.env.FRANCHISE_SMTP_PASS;
-  const to = process.env.FRANCHISE_APPLICATION_TO || DEFAULT_TO;
-  const from = process.env.FRANCHISE_APPLICATION_FROM || `Crays Club <${user}>`;
+function normalizeProvider(value) {
+  const provider = clean(value).toLowerCase();
+  if (provider === "graph" || provider === "msgraph" || provider === "microsoft") return PROVIDERS.GRAPH;
+  if (provider === PROVIDERS.RESEND || provider === PROVIDERS.GRAPH || provider === PROVIDERS.SMTP) return provider;
+  return "";
+}
 
-  return { host, port, secure, user, pass, to, from };
+function smtpConfig(to, fallbackFrom) {
+  const user = firstEnv(["SMTP_USER", "FRANCHISE_SMTP_USER"]) || DEFAULT_TO;
+
+  return {
+    provider: PROVIDERS.SMTP,
+    host: firstEnv(["SMTP_HOST"]) || "smtp.office365.com",
+    port: Number(firstEnv(["SMTP_PORT"]) || 587),
+    secure: firstEnv(["SMTP_SECURE"]).toLowerCase() === "true",
+    user,
+    pass: firstEnv(["SMTP_PASS", "FRANCHISE_SMTP_PASS"]),
+    to,
+    recipients: parseRecipients(to),
+    from: fallbackFrom || `Crays Club <${user}>`
+  };
+}
+
+function mailConfig() {
+  const to = firstEnv(["FRANCHISE_APPLICATION_TO"]) || DEFAULT_TO;
+  const fallbackFrom = firstEnv(["FRANCHISE_APPLICATION_FROM"]);
+  const graphFrom = firstEnv([
+    "MS_GRAPH_FROM",
+    "MICROSOFT_GRAPH_FROM",
+    "GRAPH_FROM",
+    "FRANCHISE_GRAPH_FROM",
+    "SMTP_USER",
+    "FRANCHISE_SMTP_USER"
+  ]);
+
+  const config = {
+    providerPreference: normalizeProvider(firstEnv(["FRANCHISE_MAIL_PROVIDER", "MAIL_PROVIDER"])),
+    to,
+    providers: {
+      [PROVIDERS.RESEND]: {
+        provider: PROVIDERS.RESEND,
+        apiKey: firstEnv(["RESEND_API_KEY", "FRANCHISE_RESEND_API_KEY"]),
+        to,
+        recipients: parseRecipients(to),
+        from: firstEnv(["RESEND_FROM", "FRANCHISE_RESEND_FROM"]) || fallbackFrom || `Crays Club <${DEFAULT_TO}>`
+      },
+      [PROVIDERS.GRAPH]: {
+        provider: PROVIDERS.GRAPH,
+        tenantId: firstEnv(["MS_GRAPH_TENANT_ID", "MICROSOFT_GRAPH_TENANT_ID", "GRAPH_TENANT_ID"]),
+        clientId: firstEnv(["MS_GRAPH_CLIENT_ID", "MICROSOFT_GRAPH_CLIENT_ID", "GRAPH_CLIENT_ID"]),
+        clientSecret: firstEnv(["MS_GRAPH_CLIENT_SECRET", "MICROSOFT_GRAPH_CLIENT_SECRET", "GRAPH_CLIENT_SECRET"]),
+        mailbox: firstEnv(["MS_GRAPH_MAILBOX", "MICROSOFT_GRAPH_MAILBOX", "GRAPH_MAILBOX"]) || emailAddressFrom(graphFrom) || DEFAULT_TO,
+        to,
+        recipients: parseRecipients(to)
+      }
+    }
+  };
+
+  config.providers[PROVIDERS.SMTP] = smtpConfig(to, fallbackFrom);
+  return config;
+}
+
+function isProviderConfigured(providerConfig) {
+  if (!providerConfig) return false;
+  if (providerConfig.provider === PROVIDERS.RESEND) return Boolean(providerConfig.apiKey && providerConfig.from && providerConfig.recipients.length);
+  if (providerConfig.provider === PROVIDERS.GRAPH) {
+    return Boolean(
+      providerConfig.tenantId &&
+      providerConfig.clientId &&
+      providerConfig.clientSecret &&
+      providerConfig.mailbox &&
+      providerConfig.recipients.length
+    );
+  }
+  if (providerConfig.provider === PROVIDERS.SMTP) return Boolean(providerConfig.user && providerConfig.pass && providerConfig.recipients.length);
+  return false;
+}
+
+function providerStatus(config) {
+  return Object.fromEntries(
+    Object.entries(config.providers).map(([provider, providerConfig]) => [provider, isProviderConfigured(providerConfig)])
+  );
+}
+
+function orderedProviders(config) {
+  if (config.providerPreference) {
+    return [config.providers[config.providerPreference]].filter(Boolean);
+  }
+
+  return [config.providers[PROVIDERS.RESEND], config.providers[PROVIDERS.GRAPH], config.providers[PROVIDERS.SMTP]];
+}
+
+function activeProvider(config) {
+  return orderedProviders(config).find(isProviderConfigured) || null;
+}
+
+function createSubject(application) {
+  const market = application.targetCountry || "new market";
+  return `Crays Club Brand as a Service application - ${application.fullName} - ${market}`;
+}
+
+async function responseText(response) {
+  const text = await response.text().catch(() => "");
+  return text.replace(/\s+/g, " ").trim().slice(0, 800);
+}
+
+function deliveryError(message, statusCode = 502) {
+  return Object.assign(new Error(message), { statusCode });
+}
+
+async function sendWithResend(config, application, subject) {
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${config.apiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      from: config.from,
+      to: config.recipients,
+      reply_to: `${application.fullName} <${application.email}>`,
+      subject,
+      text: textEmail(application),
+      html: htmlEmail(application)
+    })
+  });
+
+  if (!response.ok) {
+    throw deliveryError(`Resend API returned ${response.status}: ${await responseText(response)}`);
+  }
+
+  const payload = await response.json().catch(() => ({}));
+  return { provider: PROVIDERS.RESEND, id: payload.id || null };
+}
+
+async function getGraphToken(config) {
+  const params = new URLSearchParams({
+    client_id: config.clientId,
+    client_secret: config.clientSecret,
+    scope: "https://graph.microsoft.com/.default",
+    grant_type: "client_credentials"
+  });
+
+  const response = await fetch(`https://login.microsoftonline.com/${encodeURIComponent(config.tenantId)}/oauth2/v2.0/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params
+  });
+
+  if (!response.ok) {
+    throw deliveryError(`Microsoft Graph token request returned ${response.status}: ${await responseText(response)}`);
+  }
+
+  const payload = await response.json();
+  if (!payload.access_token) {
+    throw deliveryError("Microsoft Graph token response did not include an access token.");
+  }
+
+  return payload.access_token;
+}
+
+async function sendWithGraph(config, application, subject) {
+  const token = await getGraphToken(config);
+  const response = await fetch(`https://graph.microsoft.com/v1.0/users/${encodeURIComponent(config.mailbox)}/sendMail`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: {
+        subject,
+        body: {
+          contentType: "HTML",
+          content: htmlEmail(application)
+        },
+        toRecipients: config.recipients.map((address) => ({
+          emailAddress: { address }
+        })),
+        replyTo: [
+          {
+            emailAddress: {
+              address: application.email,
+              name: application.fullName
+            }
+          }
+        ]
+      },
+      saveToSentItems: true
+    })
+  });
+
+  if (!response.ok) {
+    throw deliveryError(`Microsoft Graph sendMail returned ${response.status}: ${await responseText(response)}`);
+  }
+
+  return { provider: PROVIDERS.GRAPH, id: null };
+}
+
+async function sendWithSmtp(config, application, subject) {
+  const transporter = nodemailer.createTransport({
+    host: config.host,
+    port: config.port,
+    secure: config.secure,
+    requireTLS: !config.secure,
+    auth: {
+      user: config.user,
+      pass: config.pass
+    },
+    tls: {
+      minVersion: "TLSv1.2"
+    }
+  });
+
+  const result = await transporter.sendMail({
+    from: config.from,
+    to: config.recipients,
+    replyTo: `${application.fullName} <${application.email}>`,
+    subject,
+    text: textEmail(application),
+    html: htmlEmail(application)
+  });
+
+  return { provider: PROVIDERS.SMTP, id: result.messageId || null };
+}
+
+async function sendApplicationMail(config, application) {
+  const subject = createSubject(application);
+  const candidates = orderedProviders(config);
+  const errors = [];
+
+  for (const candidate of candidates) {
+    if (!isProviderConfigured(candidate)) {
+      errors.push(`${candidate.provider} is not fully configured`);
+      continue;
+    }
+
+    try {
+      if (candidate.provider === PROVIDERS.RESEND) return await sendWithResend(candidate, application, subject);
+      if (candidate.provider === PROVIDERS.GRAPH) return await sendWithGraph(candidate, application, subject);
+      if (candidate.provider === PROVIDERS.SMTP) return await sendWithSmtp(candidate, application, subject);
+    } catch (error) {
+      errors.push(`${candidate.provider}: ${error.message}`);
+      console.error(`[franchise-application] ${candidate.provider} delivery failed:`, error.message);
+
+      if (config.providerPreference) {
+        break;
+      }
+    }
+  }
+
+  const statusCode = errors.every((message) => message.includes("not fully configured")) ? 503 : 502;
+  throw deliveryError(`Mail delivery failed. ${errors.join("; ")}`, statusCode);
 }
 
 export default async function handler(req, res) {
@@ -193,12 +470,15 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const config = smtpConfig();
+    const config = mailConfig();
+    const provider = activeProvider(config);
     sendJson(res, 200, {
       ok: true,
       service: "crays-franchise-application",
       recipient: config.to,
-      configured: Boolean(config.user && config.pass)
+      provider: provider ? provider.provider : null,
+      configured: Boolean(provider),
+      providers: providerStatus(config)
     });
     return;
   }
@@ -227,43 +507,21 @@ export default async function handler(req, res) {
       return;
     }
 
-    const config = smtpConfig();
-    if (!config.user || !config.pass) {
+    const config = mailConfig();
+    if (!activeProvider(config)) {
       sendJson(res, 503, { ok: false, error: "Mail delivery is not configured yet." });
       return;
     }
 
-    const transporter = nodemailer.createTransport({
-      host: config.host,
-      port: config.port,
-      secure: config.secure,
-      requireTLS: !config.secure,
-      auth: {
-        user: config.user,
-        pass: config.pass
-      },
-      tls: {
-        minVersion: "TLSv1.2"
-      }
-    });
-
-    const market = application.targetCountry || "new market";
-    const subject = `Crays Club Brand as a Service application - ${application.fullName} - ${market}`;
-
-    await transporter.sendMail({
-      from: config.from,
-      to: config.to,
-      replyTo: `${application.fullName} <${application.email}>`,
-      subject,
-      text: textEmail(application),
-      html: htmlEmail(application)
-    });
+    const delivery = await sendApplicationMail(config, application);
 
     sendJson(res, 200, {
       ok: true,
-      message: `Application sent to ${config.to}.`
+      message: `Application sent to ${config.to}.`,
+      provider: delivery.provider
     });
   } catch (error) {
+    console.error("[franchise-application] request failed:", error.message);
     sendJson(res, error.statusCode || 500, {
       ok: false,
       error: error.statusCode === 413 ? error.message : "Application could not be sent. Please try again or email info@crays.org directly."
