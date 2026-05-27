@@ -5,7 +5,8 @@ const MAX_BODY_BYTES = 256 * 1024;
 const PROVIDERS = {
   RESEND: "resend",
   GRAPH: "microsoft-graph",
-  SMTP: "smtp"
+  SMTP: "smtp",
+  FORM_SUBMIT: "formsubmit"
 };
 
 function sendJson(res, statusCode, payload) {
@@ -67,6 +68,10 @@ function parseRecipients(value) {
     .split(/[;,]/)
     .map((item) => emailAddressFrom(item) || clean(item))
     .filter(Boolean);
+}
+
+function firstRecipient(value) {
+  return parseRecipients(value)[0] || DEFAULT_TO;
 }
 
 async function readStream(req) {
@@ -263,6 +268,12 @@ function mailConfig() {
         mailbox: firstEnv(["MS_GRAPH_MAILBOX", "MICROSOFT_GRAPH_MAILBOX", "GRAPH_MAILBOX"]) || emailAddressFrom(graphFrom) || DEFAULT_TO,
         to,
         recipients: parseRecipients(to)
+      },
+      [PROVIDERS.FORM_SUBMIT]: {
+        provider: PROVIDERS.FORM_SUBMIT,
+        to,
+        recipient: firstRecipient(to),
+        endpoint: firstEnv(["FORM_SUBMIT_ENDPOINT", "FORMSUBMIT_ENDPOINT"])
       }
     }
   };
@@ -284,6 +295,7 @@ function isProviderConfigured(providerConfig) {
     );
   }
   if (providerConfig.provider === PROVIDERS.SMTP) return Boolean(providerConfig.user && providerConfig.pass && providerConfig.recipients.length);
+  if (providerConfig.provider === PROVIDERS.FORM_SUBMIT) return Boolean(providerConfig.recipient);
   return false;
 }
 
@@ -298,7 +310,12 @@ function orderedProviders(config) {
     return [config.providers[config.providerPreference]].filter(Boolean);
   }
 
-  return [config.providers[PROVIDERS.RESEND], config.providers[PROVIDERS.GRAPH], config.providers[PROVIDERS.SMTP]];
+  return [
+    config.providers[PROVIDERS.RESEND],
+    config.providers[PROVIDERS.GRAPH],
+    config.providers[PROVIDERS.SMTP],
+    config.providers[PROVIDERS.FORM_SUBMIT]
+  ];
 }
 
 function activeProvider(config) {
@@ -436,6 +453,64 @@ async function sendWithSmtp(config, application, subject) {
   return { provider: PROVIDERS.SMTP, id: result.messageId || null };
 }
 
+function formSubmitEndpoint(config) {
+  return config.endpoint || `https://formsubmit.co/ajax/${encodeURIComponent(config.recipient)}`;
+}
+
+function originFrom(application) {
+  try {
+    return new URL(application.sourceUrl).origin;
+  } catch {
+    return "https://www.craysclub.com";
+  }
+}
+
+async function sendWithFormSubmit(config, application, subject) {
+  const origin = originFrom(application);
+  const response = await fetch(formSubmitEndpoint(config), {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Origin: origin,
+      Referer: application.sourceUrl || `${origin}/en/franchise/`
+    },
+    body: JSON.stringify({
+      name: application.fullName,
+      email: application.email,
+      phone: application.phone || "-",
+      targetCountry: application.targetCountry,
+      targetGroup: application.targetGroup,
+      propertyType: application.propertyType,
+      website: application.website || "-",
+      formLocation: application.formLocation || "-",
+      sourceUrl: application.sourceUrl || "-",
+      submittedAt: application.submittedAt,
+      userAgent: application.userAgent || "-",
+      message: application.message,
+      _replyto: application.email,
+      _subject: subject,
+      _template: "table",
+      _captcha: "false"
+    })
+  });
+
+  const text = await responseText(response);
+  let payload = {};
+
+  try {
+    payload = text ? JSON.parse(text) : {};
+  } catch {
+    payload = {};
+  }
+
+  if (!response.ok || String(payload.success || "").toLowerCase() === "false") {
+    throw deliveryError(`FormSubmit returned ${response.status}: ${payload.message || text}`);
+  }
+
+  return { provider: PROVIDERS.FORM_SUBMIT, id: null };
+}
+
 async function sendApplicationMail(config, application) {
   const subject = createSubject(application);
   const candidates = orderedProviders(config);
@@ -451,6 +526,7 @@ async function sendApplicationMail(config, application) {
       if (candidate.provider === PROVIDERS.RESEND) return await sendWithResend(candidate, application, subject);
       if (candidate.provider === PROVIDERS.GRAPH) return await sendWithGraph(candidate, application, subject);
       if (candidate.provider === PROVIDERS.SMTP) return await sendWithSmtp(candidate, application, subject);
+      if (candidate.provider === PROVIDERS.FORM_SUBMIT) return await sendWithFormSubmit(candidate, application, subject);
     } catch (error) {
       errors.push(`${candidate.provider}: ${error.message}`);
       console.error(`[franchise-application] ${candidate.provider} delivery failed:`, error.message);
