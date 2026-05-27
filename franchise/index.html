@@ -6294,7 +6294,7 @@
         <p class="crays-franchise-eyebrow">The Crays Clubs Advantages</p>
         <h2 id="crays-owner-system-title">Crays Brand as a Service saves you up to 50% in costs. No franchise fees. No hidden royalty trap.</h2>
         <div class="crays-franchise-stack-head__rule" aria-hidden="true"></div>
-        <p class="crays-franchise-stack-head__copy">The &ldquo;Brand as a Service&rdquo; model isn't just a logo on the wall &mdash; it's a full operating stack for independent owners who want stronger demand and sharper execution. Brand management lives inside the Association. Booking and sales run through a cooperative. You keep your independence, we bring the infrastructure.</p>
+        <p class="crays-franchise-stack-head__copy">The Crays &ldquo;Brand as a Service&rdquo; model isn't just a logo on the wall &mdash; it's a full operating stack for independent owners who want stronger demand and sharper execution. Brand management lives inside the Association. Booking and sales run through our Cooperative. You stay independent while we build the community together.</p>
       </div>
       <div class="crays-franchise-stack-grid">
         <article>
@@ -6836,6 +6836,7 @@
           <button class="crays-join-fit-tabs-v1__tab" type="button" id="join-fit-tab-1" role="tab" aria-selected="false" aria-controls="join-fit-panel-1" tabindex="-1" data-join-fit-tab="1"><span>02</span><strong>What to bring</strong></button>
           <button class="crays-join-fit-tabs-v1__tab" type="button" id="join-fit-tab-3" role="tab" aria-selected="false" aria-controls="join-fit-panel-3" tabindex="-1" data-join-fit-tab="3"><span>03</span><strong>The Network</strong></button>
           <button class="crays-join-fit-tabs-v1__tab" type="button" id="join-fit-tab-0" role="tab" aria-selected="false" aria-controls="join-fit-panel-0" tabindex="-1" data-join-fit-tab="0"><span>04</span><strong>Who fits</strong></button>
+          <button class="crays-join-fit-tabs-v1__tab" type="button" id="join-fit-tab-4" role="tab" aria-selected="false" aria-controls="join-fit-panel-4" tabindex="-1" data-join-fit-tab="4"><span>05</span><strong>Application</strong></button>
         </div>
 
         <div class="crays-join-fit-tabs-v1__panels">
@@ -6883,14 +6884,6 @@
                 <h4>Local community leaders</h4>
                 <p>People who can anchor Crays in a city, venue, industry, network or member group.</p>
               </article>
-            </div>
-            <div class="crays-join-fit-tabs-v1__application">
-              <div class="crays-join-fit-tabs-v1__application-copy">
-                <span class="crays-join-fit-tabs-v1__kicker">Apply as a target group</span>
-                <h3>Send the fit signal directly from this tab.</h3>
-                <p>Whether you are a hospitality operator, asset owner, community builder, capital partner or technology partner, this form goes straight to info@crays.org.</p>
-              </div>
-              <div class="crays-franchise-form-preview crays-franchise-form-preview--embedded" data-crays-application-mount data-crays-form-location="Project fit - Who fits application"></div>
             </div>
           </article>
 
@@ -6964,6 +6957,17 @@
               <article><img src="https://www.crays.org/assets/stock-lifestyle/crays-home-project-tribe-award-cultural-event.jpg" alt="Crays Tribe Award cultural event" loading="lazy" decoding="async"><span>Crays Events and Award</span><h4>Recognition, culture and shared moments</h4><p>Events and awards make the community visible through music, fashion, art, film, media, entrepreneurship and local scenes.</p></article>
               <article><img src="https://www.crays.org/assets/stock-lifestyle/crays-finance-tools-wallets-mobile.jpg" alt="Mobile wallets and payment utility" loading="lazy" decoding="async"><span>Crays Coin</span><h4>Payment and liquidity utility</h4><p>A future ecosystem coin concept connects payments, access, rewards, tokenized participation and real-world economic flow.</p></article>
               <article><img src="https://www.crays.org/assets/stock-lifestyle/crays-hospitality-ref-pool-lifestyle.jpg" alt="Hospitality spaces where digital community turns physical" loading="lazy" decoding="async"><span>Hospitality Spaces</span><h4>Where digital community turns physical</h4><p>Clubs, hotels, beach lounges, airports, retreats, rooftops and cultural venues become real places to meet.</p></article>
+            </div>
+          </article>
+
+          <article class="crays-join-fit-tabs-v1__panel" id="join-fit-panel-4" role="tabpanel" aria-labelledby="join-fit-tab-4" tabindex="0" hidden>
+            <div class="crays-join-fit-tabs-v1__application crays-join-fit-tabs-v1__application--standalone">
+              <div class="crays-join-fit-tabs-v1__application-copy">
+                <span class="crays-join-fit-tabs-v1__kicker">Application</span>
+                <h3>Apply as an owner, operator, builder or partner.</h3>
+                <p>Use this form if one of the target groups fits you. Your application goes directly to info@crays.org with your market, asset or contribution signal.</p>
+              </div>
+              <div class="crays-franchise-form-preview crays-franchise-form-preview--embedded" data-crays-application-mount data-crays-form-location="Project fit - Application tab"></div>
             </div>
           </article>
         </div>
@@ -13368,16 +13372,104 @@
     line-height: 1.55 !important;
   }
 
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit .crays-join-fit-tabs-v1__tabs {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise :is(#owner-alliance-panel-5, #join-fit-panel-0, #join-fit-panel-4, #crays-franchise-panel-application) .crays-franchise-form-preview.crays-franchise-form-preview,
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise :is(#owner-alliance-panel-5, #join-fit-panel-0, #join-fit-panel-4, #crays-franchise-panel-application) .crays-franchise-form-preview.crays-franchise-form-preview[data-crays-application-ready="true"] {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    background: rgba(6, 17, 29, 0.9) !important;
+    background-color: rgba(6, 17, 29, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    border-left: 6px solid #ff1f57 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: initial !important;
+    box-shadow: none !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#owner-operating-system#owner-operating-system #owner-alliance-panel-5 .crays-owner-alliance-tabs-v1__panel-grid--application {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: clamp(24px, 3vw, 36px) !important;
+    align-items: start !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#owner-operating-system#owner-operating-system #owner-alliance-panel-5 .crays-owner-alliance-tabs-v1__panel-copy,
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#owner-operating-system#owner-operating-system #owner-alliance-panel-5 .crays-franchise-form-preview {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#owner-operating-system#owner-operating-system #owner-alliance-panel-5 .crays-owner-alliance-tabs-v1__panel-copy h3 {
+    max-width: 940px !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#owner-operating-system#owner-operating-system #owner-alliance-panel-5 .crays-owner-alliance-tabs-v1__panel-copy p {
+    max-width: 980px !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit #join-fit-panel-4 .crays-join-fit-tabs-v1__application--standalone {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: clamp(24px, 3vw, 36px) !important;
+    align-items: start !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit #join-fit-panel-4 .crays-join-fit-tabs-v1__application-copy,
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit #join-fit-panel-4 .crays-franchise-form-preview {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit #join-fit-panel-4 .crays-join-fit-tabs-v1__application-copy h3 {
+    max-width: 980px !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit #join-fit-panel-4 .crays-join-fit-tabs-v1__application-copy p {
+    max-width: 1040px !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit :is(.crays-join-fit-tabs-v1__card, .crays-join-fit-tabs-v1__image-card, .crays-join-fit-tabs-v1__route-grid article, .crays-join-fit-tabs-v1__product-grid article)::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    background:
+      linear-gradient(180deg, rgba(226, 233, 238, 0.2) 0%, rgba(226, 233, 238, 0.16) 34%, rgba(6, 17, 29, 0.68) 72%, rgba(6, 17, 29, 0.94) 100%) !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit :is(.crays-join-fit-tabs-v1__card img, .crays-join-fit-tabs-v1__image-card img, .crays-join-fit-tabs-v1__route-grid img, .crays-join-fit-tabs-v1__product-grid img) {
+    filter: grayscale(0.08) saturate(0.82) contrast(0.94) brightness(0.78) !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise :is(#owner-alliance-panel-5, #join-fit-panel-0, #join-fit-panel-4) .crays-franchise-application-form {
+    grid-template-columns: repeat(2, minmax(170px, 1fr)) !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit #join-fit-panel-4 .crays-join-fit-tabs-v1__application {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: 0 !important;
+  }
+
   @media (max-width: 1120px) {
     html body.crays-club-franchise-page main#crays-franchise #crays-franchise-panel-application .crays-franchise-panel-grid,
     html body.crays-club-franchise-page main#crays-franchise .crays-owner-alliance-tabs-v1__panel-grid--application,
-    html body.crays-club-franchise-page main#crays-franchise .crays-join-fit-tabs-v1__application {
+    html body.crays-club-franchise-page main#crays-franchise .crays-join-fit-tabs-v1__application,
+    html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#owner-operating-system#owner-operating-system #owner-alliance-panel-5 .crays-owner-alliance-tabs-v1__panel-grid--application,
+    html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#project-fit#project-fit #join-fit-panel-4 .crays-join-fit-tabs-v1__application--standalone {
       grid-template-columns: 1fr !important;
     }
   }
 
   @media (max-width: 700px) {
-    html body.crays-club-franchise-page main#crays-franchise .crays-franchise-application-form {
+    html body.crays-club-franchise-page main#crays-franchise .crays-franchise-application-form,
+    html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise :is(#owner-alliance-panel-5, #join-fit-panel-0, #join-fit-panel-4) .crays-franchise-application-form {
       grid-template-columns: 1fr !important;
     }
 
