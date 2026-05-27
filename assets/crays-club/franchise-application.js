@@ -1,5 +1,6 @@
 (function () {
   var APPLICATION_ENDPOINT = "/api/franchise-application";
+  var FORM_SUBMIT_ENDPOINT = "https://formsubmit.co/ajax/info@crays.org";
 
   function escapeHtml(value) {
     return String(value || "")
@@ -101,6 +102,74 @@
     status.textContent = message;
   }
 
+  function applicationSubject(data) {
+    var name = [data.firstName, data.lastName].filter(Boolean).join(" ").trim() || "New applicant";
+    var market = data.targetCountry || "new market";
+    return "Crays Club Brand as a Service application - " + name + " - " + market;
+  }
+
+  async function sendWithFormSubmit(data) {
+    var response = await fetch(FORM_SUBMIT_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: [data.firstName, data.lastName].filter(Boolean).join(" ").trim(),
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone || "-",
+        targetCountry: data.targetCountry,
+        targetGroup: data.targetGroup,
+        propertyType: data.propertyType,
+        website: data.website || "-",
+        formLocation: data.formLocation || "-",
+        sourceUrl: data.sourceUrl || window.location.href,
+        privacyAccepted: data.privacyAccepted ? "yes" : "no",
+        message: data.message,
+        _replyto: data.email,
+        _subject: applicationSubject(data),
+        _template: "table",
+        _captcha: "false"
+      })
+    });
+    var payload = await response.json().catch(function () { return {}; });
+
+    if (!response.ok || String(payload.success || "").toLowerCase() === "false") {
+      throw new Error(payload.message || "Application could not be sent.");
+    }
+
+    return {
+      ok: true,
+      message: "Application sent to info@crays.org."
+    };
+  }
+
+  async function sendWithCraysApi(data) {
+    var response = await fetch(APPLICATION_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    var payload = await response.json().catch(function () { return {}; });
+
+    if (!response.ok || !payload.ok) {
+      throw new Error(payload.error || "Application could not be sent.");
+    }
+
+    return payload;
+  }
+
+  async function sendApplication(data) {
+    try {
+      return await sendWithFormSubmit(data);
+    } catch (formSubmitError) {
+      return sendWithCraysApi(data);
+    }
+  }
+
   async function submitForm(form) {
     var submit = form.querySelector("button[type='submit']");
     var data = Object.fromEntries(new FormData(form).entries());
@@ -114,17 +183,13 @@
     setStatus(form, "", "Sending your application to info@crays.org...");
 
     try {
-      var response = await fetch(APPLICATION_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-      var payload = await response.json().catch(function () { return {}; });
-
-      if (!response.ok || !payload.ok) {
-        throw new Error(payload.error || "Application could not be sent.");
+      if (data.companyWebsite) {
+        form.reset();
+        setStatus(form, "success", "Application sent. We will review it and reply from info@crays.org.");
+        return;
       }
 
+      var payload = await sendApplication(data);
       form.reset();
       setStatus(form, "success", payload.message || "Application sent. We will review it and reply from info@crays.org.");
     } catch (error) {
