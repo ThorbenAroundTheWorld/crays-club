@@ -42,6 +42,8 @@
       var next = slider.querySelector("[data-crays-advantages-next]");
       var activeIndex = 0;
       var programmaticUntil = 0;
+      var autoplayDelay = 4600;
+      var autoplayTimer = null;
       var ticking = false;
 
       function targetOffset(index) {
@@ -97,21 +99,37 @@
         track.scrollTo({ left: targetOffset(target), behavior: "smooth" });
       }
 
+      function startAutoplay() {
+        if (slides.length < 2) {
+          return;
+        }
+
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = window.setInterval(function () {
+          if (!document.hidden) {
+            goTo(activeIndex + 1);
+          }
+        }, autoplayDelay);
+      }
+
       dots.forEach(function (dot, index) {
         dot.addEventListener("click", function () {
           goTo(index);
+          startAutoplay();
         });
       });
 
       if (previous) {
         previous.addEventListener("click", function () {
           goTo(activeIndex - 1);
+          startAutoplay();
         });
       }
 
       if (next) {
         next.addEventListener("click", function () {
           goTo(activeIndex + 1);
+          startAutoplay();
         });
       }
 
@@ -119,10 +137,12 @@
         if (event.key === "ArrowLeft") {
           event.preventDefault();
           goTo(activeIndex - 1);
+          startAutoplay();
         }
         if (event.key === "ArrowRight") {
           event.preventDefault();
           goTo(activeIndex + 1);
+          startAutoplay();
         }
       });
 
@@ -141,7 +161,16 @@
         goTo(activeIndex);
       });
 
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          window.clearInterval(autoplayTimer);
+        } else {
+          startAutoplay();
+        }
+      });
+
       sync();
+      startAutoplay();
     });
   }
 

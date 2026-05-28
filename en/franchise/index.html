@@ -12427,7 +12427,7 @@
     background-size: auto, auto, cover !important;
   }
 </style>
-<script src="/assets/crays-club/franchise-upgrade.js?v=20260528-2"></script>
+<script src="/assets/crays-club/franchise-upgrade.js?v=20260528-4"></script>
 <script src="/assets/crays-club/franchise-application.js?v=20260527-4"></script>
 <style id="crays-franchise-clean-backgrounds-final-v2">
   html body.body.body.body.crays-mirror.route-join-us.route-franchise.route-craysworld-franchise.route-new-projects main#crays-franchise#crays-franchise.crays-join-page.crays-franchise.crays-franchise-v18.crays-projects-page > section:is(#franchise-model, #crays-franchise-system, #owner-operating-system, #hospitality-alliance, #project-fit, #apply)::before,
@@ -13749,7 +13749,7 @@
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide {
-    --crays-advantage-image: url("/assets/stock-lifestyle/crays-advantage-brand-network.jpg");
+    --crays-advantage-image: url("/assets/stock-lifestyle/crays-advantage-brand-hospitality.jpg");
     position: relative !important;
     flex: 0 0 clamp(500px, calc((100% - 32px) / 1.98), 780px) !important;
     min-width: 0 !important;
@@ -13760,8 +13760,7 @@
     padding: clamp(28px, 2.6vw, 38px) !important;
     overflow: hidden !important;
     scroll-snap-align: start !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-left: 0 !important;
+    border: 0 !important;
     border-radius: 8px !important;
     background-color: #06131f !important;
     background-image:
@@ -13771,7 +13770,8 @@
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
-    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.32) !important;
+    box-shadow: none !important;
+    outline: 0 !important;
     opacity: 0.62 !important;
     transition: opacity 220ms ease, border-color 220ms ease, box-shadow 220ms ease !important;
   }
@@ -13781,8 +13781,7 @@
       linear-gradient(180deg, rgba(2, 7, 14, 0) 0%, rgba(2, 7, 14, 0.1) 48%, rgba(2, 7, 14, 0.82) 100%),
       linear-gradient(90deg, rgba(6, 24, 39, 0.28) 0%, rgba(6, 24, 39, 0.16) 48%, rgba(6, 24, 39, 0.04) 100%),
       var(--crays-advantage-image) !important;
-    border-color: rgba(255, 255, 255, 0.26) !important;
-    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.28) !important;
+    box-shadow: none !important;
     opacity: 1 !important;
   }
 
@@ -13797,7 +13796,7 @@
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide--brand {
-    --crays-advantage-image: url("/assets/stock-lifestyle/crays-advantage-brand-network.jpg");
+    --crays-advantage-image: url("/assets/stock-lifestyle/crays-advantage-brand-hospitality.jpg");
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide--demand {
@@ -13932,7 +13931,7 @@
   @media (min-width: 1121px) {
     html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-advantages-slider {
       --crays-fitomat-shell-offset: max(24px, calc((100vw - 1320px) / 2));
-      --crays-fitomat-slider-inset: 40px;
+      --crays-fitomat-slider-inset: 0px;
       width: calc(100vw - var(--crays-fitomat-shell-offset) - var(--crays-fitomat-slider-inset)) !important;
       max-width: none !important;
       margin-left: var(--crays-fitomat-slider-inset) !important;
