@@ -29,6 +29,92 @@
         activate(root, tabs[0].getAttribute("data-crays-franchise-tab"));
       }
     });
+
+    document.querySelectorAll("[data-crays-advantages-slider]").forEach(function (slider) {
+      var track = slider.querySelector("[data-crays-advantages-track]");
+      if (!track) {
+        return;
+      }
+
+      var slides = Array.prototype.slice.call(track.querySelectorAll("article"));
+      var dots = Array.prototype.slice.call(slider.querySelectorAll("[data-crays-advantages-dot]"));
+      var previous = slider.querySelector("[data-crays-advantages-prev]");
+      var next = slider.querySelector("[data-crays-advantages-next]");
+      var ticking = false;
+
+      function currentIndex() {
+        var closest = 0;
+        var distance = Infinity;
+        slides.forEach(function (slide, index) {
+          var offset = Math.abs(slide.offsetLeft - track.scrollLeft);
+          if (offset < distance) {
+            distance = offset;
+            closest = index;
+          }
+        });
+        return closest;
+      }
+
+      function sync() {
+        var active = currentIndex();
+        dots.forEach(function (dot, index) {
+          var isActive = index === active;
+          dot.classList.toggle("is-active", isActive);
+          dot.setAttribute("aria-current", isActive ? "true" : "false");
+        });
+      }
+
+      function goTo(index) {
+        if (!slides.length) {
+          return;
+        }
+
+        var target = (index + slides.length) % slides.length;
+        track.scrollTo({ left: slides[target].offsetLeft, behavior: "smooth" });
+      }
+
+      dots.forEach(function (dot, index) {
+        dot.addEventListener("click", function () {
+          goTo(index);
+        });
+      });
+
+      if (previous) {
+        previous.addEventListener("click", function () {
+          goTo(currentIndex() - 1);
+        });
+      }
+
+      if (next) {
+        next.addEventListener("click", function () {
+          goTo(currentIndex() + 1);
+        });
+      }
+
+      track.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          goTo(currentIndex() - 1);
+        }
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          goTo(currentIndex() + 1);
+        }
+      });
+
+      track.addEventListener("scroll", function () {
+        if (ticking) {
+          return;
+        }
+        ticking = true;
+        window.requestAnimationFrame(function () {
+          ticking = false;
+          sync();
+        });
+      }, { passive: true });
+
+      sync();
+    });
   }
 
   if (document.readyState === "loading") {
