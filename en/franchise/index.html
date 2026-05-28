@@ -14837,6 +14837,154 @@
     }
   }
 </style>
+<script id="crays-franchise-advantages-manual-slider-v1">
+(function () {
+  function initAdvantagesSlider() {
+    var slider = document.querySelector("[data-crays-advantages-slider]");
+    if (!slider) return;
+
+    var track = slider.querySelector("[data-crays-advantages-track]");
+    if (!track) return;
+
+    var slides = Array.prototype.slice.call(track.querySelectorAll(".crays-franchise-advantage-slide"));
+    var dots = Array.prototype.slice.call(slider.querySelectorAll("[data-crays-advantages-dot]"));
+    var prev = slider.querySelector("[data-crays-advantages-prev]");
+    var next = slider.querySelector("[data-crays-advantages-next]");
+    if (!slides.length) return;
+
+    var activeIndex = 0;
+    var ticking = false;
+    var manualUntil = 0;
+    var ownedScroll = false;
+    var nativeScrollTo = track.scrollTo.bind(track);
+
+    track.style.setProperty("scroll-snap-type", "none", "important");
+    track.style.setProperty("scroll-behavior", "auto", "important");
+
+    function clampIndex(index) {
+      return (index + slides.length) % slides.length;
+    }
+
+    function markManual() {
+      manualUntil = Date.now() + 1800;
+    }
+
+    function expectedLeft(index) {
+      var target = slides[clampIndex(index)];
+      return target ? Math.max(0, target.offsetLeft - track.offsetLeft) : 0;
+    }
+
+    function setActive(index) {
+      activeIndex = clampIndex(index);
+      slides.forEach(function (slide, slideIndex) {
+        slide.classList.toggle("is-active-slide", slideIndex === activeIndex);
+      });
+      dots.forEach(function (dot, dotIndex) {
+        var active = dotIndex === activeIndex;
+        dot.classList.toggle("is-active", active);
+        if (active) {
+          dot.setAttribute("aria-current", "true");
+        } else {
+          dot.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    function scrollToIndex(index, behavior) {
+      ownedScroll = true;
+      nativeScrollTo({
+        left: expectedLeft(index),
+        behavior: behavior || "smooth"
+      });
+      window.setTimeout(function () {
+        ownedScroll = false;
+      }, behavior === "smooth" ? 720 : 80);
+    }
+
+    function goTo(index, behavior) {
+      var targetIndex = clampIndex(index);
+      setActive(targetIndex);
+      scrollToIndex(targetIndex, behavior || "smooth");
+    }
+
+    function nearestSlideIndex() {
+      var trackLeft = track.getBoundingClientRect().left;
+      var nearestIndex = 0;
+      var nearestDistance = Infinity;
+      slides.forEach(function (slide, slideIndex) {
+        var distance = Math.abs(slide.getBoundingClientRect().left - trackLeft);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = slideIndex;
+        }
+      });
+      return nearestIndex;
+    }
+
+    dots.forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        var index = Number(dot.getAttribute("data-crays-advantages-dot"));
+        if (!Number.isNaN(index)) {
+          markManual();
+          goTo(index, "smooth");
+        }
+      });
+    });
+
+    if (prev) {
+      prev.addEventListener("click", function () {
+        markManual();
+        goTo(activeIndex - 1, "smooth");
+      });
+    }
+
+    if (next) {
+      next.addEventListener("click", function () {
+        markManual();
+        goTo(activeIndex + 1, "smooth");
+      });
+    }
+
+    ["wheel", "pointerdown", "touchstart"].forEach(function (eventName) {
+      track.addEventListener(eventName, markManual, { passive: true });
+    });
+
+    track.addEventListener("keydown", function (event) {
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        markManual();
+        goTo(activeIndex + 1, "smooth");
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        markManual();
+        goTo(activeIndex - 1, "smooth");
+      }
+    });
+
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        if (!ownedScroll && Date.now() > manualUntil && Math.abs(track.scrollLeft - expectedLeft(activeIndex)) > 4) {
+          scrollToIndex(activeIndex, "auto");
+        } else {
+          setActive(nearestSlideIndex());
+        }
+        ticking = false;
+      });
+    }, { passive: true });
+
+    goTo(0, "auto");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAdvantagesSlider, { once: true });
+  } else {
+    initAdvantagesSlider();
+  }
+})();
+</script>
 <style id="crays-franchise-hero-vertical-balance-v12">
   @media (min-width: 1121px) and (max-height: 980px) {
     html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#join-us-start#join-us-start.crays-franchise-hero.crays-join-start-hero .crays-franchise-shell.crays-franchise-hero__inner {
