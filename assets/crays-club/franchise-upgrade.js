@@ -44,11 +44,16 @@
       var programmaticUntil = 0;
       var ticking = false;
 
+      function targetOffset(index) {
+        var maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+        return Math.min(slides[index].offsetLeft, maxScroll);
+      }
+
       function currentIndex() {
         var closest = 0;
         var distance = Infinity;
         slides.forEach(function (slide, index) {
-          var offset = Math.abs(slide.offsetLeft - track.scrollLeft);
+          var offset = Math.abs(targetOffset(index) - track.scrollLeft);
           if (offset < distance) {
             distance = offset;
             closest = index;
@@ -89,7 +94,7 @@
           slide.classList.toggle("is-active-slide", slideIndex === target);
         });
         track.scrollTo({ left: track.scrollLeft, behavior: "auto" });
-        track.scrollTo({ left: slides[target].offsetLeft, behavior: "smooth" });
+        track.scrollTo({ left: targetOffset(target), behavior: "smooth" });
       }
 
       dots.forEach(function (dot, index) {
@@ -131,6 +136,10 @@
           sync();
         });
       }, { passive: true });
+
+      window.addEventListener("resize", function () {
+        goTo(activeIndex);
+      });
 
       sync();
     });
