@@ -13731,7 +13731,7 @@
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid {
     display: flex !important;
     grid-template-columns: none !important;
-    gap: clamp(16px, 2vw, 28px) !important;
+    gap: clamp(20px, 2vw, 32px) !important;
     width: 100% !important;
     margin: 0 !important;
     padding: 0 0 6px !important;
@@ -13751,13 +13751,13 @@
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide {
     --crays-advantage-image: url("/assets/stock-lifestyle/crays-advantage-brand-network.jpg");
     position: relative !important;
-    flex: 0 0 clamp(600px, 62vw, 850px) !important;
+    flex: 0 0 clamp(500px, calc((100% - 32px) / 1.98), 780px) !important;
     min-width: 0 !important;
-    min-height: clamp(430px, 40vw, 570px) !important;
+    min-height: clamp(410px, 36vw, 545px) !important;
     display: grid !important;
     align-content: end !important;
-    gap: clamp(14px, 1.5vw, 20px) !important;
-    padding: clamp(30px, 3.3vw, 50px) !important;
+    gap: clamp(8px, 1vw, 12px) !important;
+    padding: clamp(28px, 2.6vw, 38px) !important;
     overflow: hidden !important;
     scroll-snap-align: start !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -13765,13 +13765,25 @@
     border-radius: 8px !important;
     background-color: #06131f !important;
     background-image:
-      linear-gradient(180deg, rgba(2, 7, 14, 0.06) 0%, rgba(2, 7, 14, 0.58) 48%, rgba(2, 7, 14, 0.94) 100%),
-      linear-gradient(90deg, rgba(3, 7, 12, 0.88) 0%, rgba(6, 24, 39, 0.74) 48%, rgba(6, 24, 39, 0.22) 100%),
+      linear-gradient(180deg, rgba(2, 7, 14, 0.12) 0%, rgba(2, 7, 14, 0.26) 50%, rgba(2, 7, 14, 0.86) 100%),
+      linear-gradient(90deg, rgba(6, 24, 39, 0.72) 0%, rgba(6, 24, 39, 0.46) 48%, rgba(6, 24, 39, 0.18) 100%),
       var(--crays-advantage-image) !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
     box-shadow: 0 26px 70px rgba(0, 0, 0, 0.32) !important;
+    opacity: 0.62 !important;
+    transition: opacity 220ms ease, border-color 220ms ease, box-shadow 220ms ease !important;
+  }
+
+  html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide.is-active-slide {
+    background-image:
+      linear-gradient(180deg, rgba(2, 7, 14, 0) 0%, rgba(2, 7, 14, 0.1) 48%, rgba(2, 7, 14, 0.82) 100%),
+      linear-gradient(90deg, rgba(6, 24, 39, 0.28) 0%, rgba(6, 24, 39, 0.16) 48%, rgba(6, 24, 39, 0.04) 100%),
+      var(--crays-advantage-image) !important;
+    border-color: rgba(255, 255, 255, 0.26) !important;
+    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.28) !important;
+    opacity: 1 !important;
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide::before {
@@ -13780,7 +13792,7 @@
     inset: 0 !important;
     z-index: 0 !important;
     border-left: 5px solid #ff1f57 !important;
-    background: radial-gradient(circle at 22% 86%, rgba(255, 31, 87, 0.24), rgba(255, 31, 87, 0) 36%) !important;
+    background: linear-gradient(180deg, rgba(255, 31, 87, 0), rgba(255, 31, 87, 0.12)) !important;
     pointer-events: none !important;
   }
 
@@ -13815,36 +13827,38 @@
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide > span {
     width: fit-content !important;
-    padding: 8px 10px !important;
-    border: 1px solid rgba(255, 31, 87, 0.42) !important;
+    padding: 0 !important;
+    border: 0 !important;
     border-radius: 999px !important;
-    background: rgba(3, 7, 12, 0.58) !important;
-    color: #ff1f57 !important;
-    -webkit-text-fill-color: #ff1f57 !important;
-    font-size: 11px !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-size: clamp(15px, 1.15vw, 18px) !important;
     font-weight: 900 !important;
-    line-height: 1 !important;
+    line-height: 1.08 !important;
     letter-spacing: 0 !important;
     text-transform: uppercase !important;
+    text-shadow: 0 12px 30px rgba(0, 0, 0, 0.78) !important;
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide h3 {
-    max-width: 650px !important;
+    max-width: 760px !important;
     margin: 0 !important;
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
-    font-size: clamp(34px, 3.2vw, 54px) !important;
-    line-height: 1.02 !important;
+    font-size: clamp(24px, 1.8vw, 30px) !important;
+    line-height: 1.06 !important;
+    text-transform: uppercase !important;
     text-shadow: 0 18px 46px rgba(0, 0, 0, 0.68) !important;
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide p {
-    max-width: 720px !important;
+    max-width: 760px !important;
     margin: 0 !important;
     color: rgba(255, 255, 255, 0.9) !important;
     -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
-    font-size: clamp(16px, 1.13vw, 20px) !important;
-    line-height: 1.5 !important;
+    font-size: clamp(15px, 1.08vw, 18px) !important;
+    line-height: 1.42 !important;
     text-shadow: 0 12px 30px rgba(0, 0, 0, 0.72) !important;
   }
 
@@ -13853,7 +13867,7 @@
     align-items: center !important;
     justify-content: space-between !important;
     gap: 18px !important;
-    margin-top: clamp(18px, 2vw, 28px) !important;
+    margin-top: clamp(34px, 3.4vw, 58px) !important;
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-advantages-slider__dots,
@@ -13874,8 +13888,8 @@
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-advantages-slider__dots button {
-    width: 9px !important;
-    height: 9px !important;
+    width: 8px !important;
+    height: 8px !important;
     padding: 0 !important;
     border: 0 !important;
     border-radius: 999px !important;
@@ -13883,7 +13897,7 @@
   }
 
   html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-advantages-slider__dots button.is-active {
-    width: 26px !important;
+    width: 8px !important;
     background: #ff1f57 !important;
   }
 
@@ -13910,8 +13924,8 @@
 
   @media (max-width: 980px) {
     html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide {
-      flex-basis: min(82vw, 720px) !important;
-      min-height: 520px !important;
+      flex-basis: clamp(420px, calc((100% - 24px) / 1.45), 600px) !important;
+      min-height: 500px !important;
     }
   }
 
@@ -13922,12 +13936,12 @@
 
     html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide {
       flex-basis: calc(100vw - 42px) !important;
-      min-height: 570px !important;
+      min-height: 520px !important;
       padding: 24px 21px !important;
     }
 
     html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide h3 {
-      font-size: clamp(27px, 8vw, 36px) !important;
+      font-size: clamp(23px, 6.8vw, 30px) !important;
     }
 
     html body.crays-club-franchise-page.crays-club-franchise-page main#crays-franchise#crays-franchise section#franchise-model#franchise-model.crays-franchise-owner-stack-v2 .crays-franchise-stack-grid.crays-franchise-stack-grid article.crays-franchise-advantage-slide p {

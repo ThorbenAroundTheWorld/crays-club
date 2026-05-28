@@ -40,6 +40,8 @@
       var dots = Array.prototype.slice.call(slider.querySelectorAll("[data-crays-advantages-dot]"));
       var previous = slider.querySelector("[data-crays-advantages-prev]");
       var next = slider.querySelector("[data-crays-advantages-next]");
+      var activeIndex = 0;
+      var programmaticUntil = 0;
       var ticking = false;
 
       function currentIndex() {
@@ -56,7 +58,13 @@
       }
 
       function sync() {
-        var active = currentIndex();
+        var active = Date.now() < programmaticUntil ? activeIndex : currentIndex();
+        if (Date.now() >= programmaticUntil) {
+          activeIndex = active;
+        }
+        slides.forEach(function (slide, index) {
+          slide.classList.toggle("is-active-slide", index === active);
+        });
         dots.forEach(function (dot, index) {
           var isActive = index === active;
           dot.classList.toggle("is-active", isActive);
@@ -70,6 +78,17 @@
         }
 
         var target = (index + slides.length) % slides.length;
+        activeIndex = target;
+        programmaticUntil = Date.now() + 1200;
+        dots.forEach(function (dot, dotIndex) {
+          var isActive = dotIndex === target;
+          dot.classList.toggle("is-active", isActive);
+          dot.setAttribute("aria-current", isActive ? "true" : "false");
+        });
+        slides.forEach(function (slide, slideIndex) {
+          slide.classList.toggle("is-active-slide", slideIndex === target);
+        });
+        track.scrollTo({ left: track.scrollLeft, behavior: "auto" });
         track.scrollTo({ left: slides[target].offsetLeft, behavior: "smooth" });
       }
 
@@ -81,24 +100,24 @@
 
       if (previous) {
         previous.addEventListener("click", function () {
-          goTo(currentIndex() - 1);
+          goTo(activeIndex - 1);
         });
       }
 
       if (next) {
         next.addEventListener("click", function () {
-          goTo(currentIndex() + 1);
+          goTo(activeIndex + 1);
         });
       }
 
       track.addEventListener("keydown", function (event) {
         if (event.key === "ArrowLeft") {
           event.preventDefault();
-          goTo(currentIndex() - 1);
+          goTo(activeIndex - 1);
         }
         if (event.key === "ArrowRight") {
           event.preventDefault();
-          goTo(currentIndex() + 1);
+          goTo(activeIndex + 1);
         }
       });
 
